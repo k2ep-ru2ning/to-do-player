@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { IoPlayCircleSharp, IoRefreshCircleSharp, IoStopCircleSharp } from "react-icons/io5";
 import TimeDisplay from "./TimeDisplay";
 
 export default function Timer({ initialTimeInSecond = 0 }) {
@@ -65,19 +66,25 @@ export default function Timer({ initialTimeInSecond = 0 }) {
   }, [canReset, validatedInitialTimeInSecond]);
 
   return (
-    <section>
-      <header>Timer</header>
+    <section className="p-4 flex flex-col gap-y-12 items-center">
+      <header className="text-2xl font-bold">Timer</header>
       <TimeDisplay timeInSecond={remainingTimeInSecond} />
-      <div>
-        <button disabled={!canStart} onClick={handleStartButtonClick}>
-          Start
-        </button>
-        <button disabled={!canStop} onClick={handleStopButtonClick}>
-          Stop
-        </button>
-        <button disabled={!canReset} onClick={handleResetButtonClick}>
-          Reset
-        </button>
+      <div className="flex gap-x-4 text-4xl text-indigo-500">
+        {canStart ? (
+          <button onClick={handleStartButtonClick}>
+            <IoPlayCircleSharp />
+          </button>
+        ) : null}
+        {canStop ? (
+          <button onClick={handleStopButtonClick}>
+            <IoStopCircleSharp />
+          </button>
+        ) : null}
+        {canReset ? (
+          <button onClick={handleResetButtonClick}>
+            <IoRefreshCircleSharp />
+          </button>
+        ) : null}
       </div>
     </section>
   );
