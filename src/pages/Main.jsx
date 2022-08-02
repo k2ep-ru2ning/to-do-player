@@ -4,7 +4,7 @@ export default function Main() {
   return (
     <>
       <div>Main Page</div>
-      <Timer initialTimeInSecond={10} />
+      <Timer initialTimeInSecond={3600} />
     </>
   );
 }

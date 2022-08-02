@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import TimeDisplay from "./TimeDisplay";
 
 export default function Timer({ initialTimeInSecond = 0 }) {
   const validatedInitialTimeInSecond = initialTimeInSecond < 0 ? 0 : initialTimeInSecond;
@@ -66,7 +67,7 @@ export default function Timer({ initialTimeInSecond = 0 }) {
   return (
     <section>
       <header>Timer</header>
-      <div>{remainingTimeInSecond}</div>
+      <TimeDisplay timeInSecond={remainingTimeInSecond} />
       <div>
         <button disabled={!canStart} onClick={handleStartButtonClick}>
           Start
