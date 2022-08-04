@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
+import FormErrorMessage from "./FormErrorMessage";
 
 export default function NewTodoAddForm({ onSubmit }) {
   const {
@@ -27,9 +28,7 @@ export default function NewTodoAddForm({ onSubmit }) {
             required: "할 일을 입력해주세요.",
           })}
         />
-        {errors[newTodoAddFormFieldName.NAME] ? (
-          <div>{errors[newTodoAddFormFieldName.NAME].message}</div>
-        ) : null}
+        <FormErrorMessage errorMessage={errors[newTodoAddFormFieldName.NAME]?.message} />
       </div>
       <fieldset>
         <legend>계획 시간</legend>
@@ -85,15 +84,9 @@ export default function NewTodoAddForm({ onSubmit }) {
             },
           })}
         />
-        {errors[newTodoAddFormFieldName.HOUR] ? (
-          <div>{errors[newTodoAddFormFieldName.HOUR].message}</div>
-        ) : null}
-        {errors[newTodoAddFormFieldName.MINUTE] ? (
-          <div>{errors[newTodoAddFormFieldName.MINUTE].message}</div>
-        ) : null}
-        {errors[newTodoAddFormFieldName.SECOND] ? (
-          <div>{errors[newTodoAddFormFieldName.SECOND].message}</div>
-        ) : null}
+        <FormErrorMessage errorMessage={errors[newTodoAddFormFieldName.HOUR]?.message} />
+        <FormErrorMessage errorMessage={errors[newTodoAddFormFieldName.MINUTE]?.message} />
+        <FormErrorMessage errorMessage={errors[newTodoAddFormFieldName.SECOND]?.message} />
       </fieldset>
       <button type="submit">할 일 추가</button>
     </form>
