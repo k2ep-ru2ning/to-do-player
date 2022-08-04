@@ -93,6 +93,10 @@ const newTodoAddFormFieldValidation = {
     },
   },
   [newTodoAddFormFieldName.HOUR]: {
+    required: {
+      value: true,
+      message: "시간을 입력해주세요.",
+    },
     min: {
       value: 0,
       message: "시간을 0~2 사이로 입력해주세요. 3시간이 넘는 계획은 무리한 계획일 수 있습니다.",
@@ -103,6 +107,10 @@ const newTodoAddFormFieldValidation = {
     },
   },
   [newTodoAddFormFieldName.MINUTE]: {
+    required: {
+      value: true,
+      message: "분을 입력해주세요.",
+    },
     min: {
       value: 0,
       message: "분은 0~59 사이 값이여야 합니다.",
@@ -113,6 +121,10 @@ const newTodoAddFormFieldValidation = {
     },
   },
   [newTodoAddFormFieldName.SECOND]: {
+    required: {
+      value: true,
+      message: "초를 입력해주세요.",
+    },
     min: {
       value: 0,
       message: "초는 0~59 사이 값이여야 합니다.",
