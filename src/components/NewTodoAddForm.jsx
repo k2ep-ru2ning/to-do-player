@@ -24,9 +24,10 @@ export default function NewTodoAddForm({ onSubmit }) {
           id="todo-name"
           type="text"
           placeholder="할 일을 추가하세요. 예를 들면, 프로그래밍 공부하기"
-          {...register(newTodoAddFormFieldName.NAME, {
-            required: "할 일을 입력해주세요.",
-          })}
+          {...register(
+            newTodoAddFormFieldName.NAME,
+            newTodoAddFormFieldValidation[newTodoAddFormFieldName.NAME],
+          )}
         />
         <FormErrorMessage errorMessage={errors[newTodoAddFormFieldName.NAME]?.message} />
       </div>
@@ -35,54 +36,34 @@ export default function NewTodoAddForm({ onSubmit }) {
         <input
           id="todo-time-hour"
           type="number"
-          min={0}
-          max={2}
-          {...register(newTodoAddFormFieldName.HOUR, {
-            min: {
-              value: 0,
-              message:
-                "시간을 0~2 사이로 입력해주세요. 3시간이 넘는 계획은 무리한 계획일 수 있습니다.",
-            },
-            max: {
-              value: 2,
-              message:
-                "시간을 0~2 사이로 입력해주세요. 3시간이 넘는 계획은 무리한 계획일 수 있습니다.",
-            },
-          })}
+          min={newTodoAddFormFieldValidation[newTodoAddFormFieldName.HOUR].min.value}
+          max={newTodoAddFormFieldValidation[newTodoAddFormFieldName.HOUR].max.value}
+          {...register(
+            newTodoAddFormFieldName.HOUR,
+            newTodoAddFormFieldValidation[newTodoAddFormFieldName.HOUR],
+          )}
         />
         <span>:</span>
         <input
           id="todo-time-minute"
           type="number"
-          min={0}
-          max={59}
-          {...register(newTodoAddFormFieldName.MINUTE, {
-            min: {
-              value: 0,
-              message: "분은 0~59 사이 값이여야 합니다.",
-            },
-            max: {
-              value: 59,
-              message: "분은 0~59 사이 값이여야 합니다.",
-            },
-          })}
+          min={newTodoAddFormFieldValidation[newTodoAddFormFieldName.MINUTE].min.value}
+          max={newTodoAddFormFieldValidation[newTodoAddFormFieldName.MINUTE].max.value}
+          {...register(
+            newTodoAddFormFieldName.MINUTE,
+            newTodoAddFormFieldValidation[newTodoAddFormFieldName.MINUTE],
+          )}
         />
         <span>:</span>
         <input
           id="todo-time-second"
           type="number"
-          min={0}
-          max={59}
-          {...register(newTodoAddFormFieldName.SECOND, {
-            min: {
-              value: 0,
-              message: "초는 0~59 사이 값이여야 합니다.",
-            },
-            max: {
-              value: 59,
-              message: "초는 0~59 사이 값이여야 합니다.",
-            },
-          })}
+          min={newTodoAddFormFieldValidation[newTodoAddFormFieldName.SECOND].min.value}
+          max={newTodoAddFormFieldValidation[newTodoAddFormFieldName.SECOND].max.value}
+          {...register(
+            newTodoAddFormFieldName.SECOND,
+            newTodoAddFormFieldValidation[newTodoAddFormFieldName.SECOND],
+          )}
         />
         <FormErrorMessage errorMessage={errors[newTodoAddFormFieldName.HOUR]?.message} />
         <FormErrorMessage errorMessage={errors[newTodoAddFormFieldName.MINUTE]?.message} />
@@ -103,3 +84,42 @@ const newTodoAddFormFieldName = Object.freeze({
   MINUTE: "todoTimeMinute",
   SECOND: "todoTimeSecond",
 });
+
+const newTodoAddFormFieldValidation = {
+  [newTodoAddFormFieldName.NAME]: {
+    required: {
+      value: true,
+      message: "할 일을 입력해주세요.",
+    },
+  },
+  [newTodoAddFormFieldName.HOUR]: {
+    min: {
+      value: 0,
+      message: "시간을 0~2 사이로 입력해주세요. 3시간이 넘는 계획은 무리한 계획일 수 있습니다.",
+    },
+    max: {
+      value: 2,
+      message: "시간을 0~2 사이로 입력해주세요. 3시간이 넘는 계획은 무리한 계획일 수 있습니다.",
+    },
+  },
+  [newTodoAddFormFieldName.MINUTE]: {
+    min: {
+      value: 0,
+      message: "분은 0~59 사이 값이여야 합니다.",
+    },
+    max: {
+      value: 59,
+      message: "분은 0~59 사이 값이여야 합니다.",
+    },
+  },
+  [newTodoAddFormFieldName.SECOND]: {
+    min: {
+      value: 0,
+      message: "초는 0~59 사이 값이여야 합니다.",
+    },
+    max: {
+      value: 59,
+      message: "초는 0~59 사이 값이여야 합니다.",
+    },
+  },
+};
