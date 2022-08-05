@@ -1,14 +1,15 @@
 import PropTypes from "prop-types";
 import { convertTimeFromSecondToHourMinuteSecond } from "../utils/timeConvertor";
+import { formatTime } from "../utils/timeFormatter";
 
 export default function TodoItem({ todo }) {
   const { name, scheduledTimeInSecond, remainingTimeInSecond } = todo;
 
-  const formattedScheduledTime = timeFormat(
+  const formattedScheduledTime = formatTime(
     convertTimeFromSecondToHourMinuteSecond(scheduledTimeInSecond),
   );
 
-  const formattedRemainingTime = timeFormat(
+  const formattedRemainingTime = formatTime(
     convertTimeFromSecondToHourMinuteSecond(remainingTimeInSecond),
   );
 
@@ -21,19 +22,6 @@ export default function TodoItem({ todo }) {
       </div>
     </li>
   );
-}
-
-function timeFormat({ hour = -1, minute = -1, second = -1 }) {
-  if (hour < 0 || minute < 0 || second < 0) {
-    throw new Error("time is invalid.");
-  }
-
-  const prefix = "0";
-  const hh = hour < 10 ? prefix + hour : "" + hour;
-  const mm = minute < 10 ? prefix + minute : "" + minute;
-  const ss = second < 10 ? prefix + second : "" + second;
-
-  return `${hh}:${mm}:${ss}`;
 }
 
 TodoItem.propTypes = {

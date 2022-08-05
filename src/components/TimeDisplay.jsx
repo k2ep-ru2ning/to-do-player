@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import { convertTimeFromSecondToHourMinuteSecond } from "../utils/timeConvertor";
+import { formatTimeUnit } from "../utils/timeFormatter";
 import TimeUnitDisplay from "./TimeUnitDisplay";
 
 export default function TimeDisplay({ timeInSecond = 0 }) {
@@ -18,11 +19,6 @@ export default function TimeDisplay({ timeInSecond = 0 }) {
       <TimeUnitDisplay timeUnit={SS} />
     </div>
   );
-}
-
-function formatTimeUnit(unit) {
-  const prefix = unit < 10 ? "0" : "";
-  return prefix + unit;
 }
 
 TimeDisplay.propTypes = {
