@@ -7,6 +7,7 @@ export default function NewTodoAddForm({ onSubmit }) {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
     defaultValues: {
       [newTodoAddFormFieldName.NAME]: "",
@@ -16,8 +17,13 @@ export default function NewTodoAddForm({ onSubmit }) {
     },
   });
 
+  const handleValidFormSubmit = (data) => {
+    reset();
+    onSubmit(data);
+  };
+
   return (
-    <form noValidate onSubmit={handleSubmit(onSubmit)}>
+    <form noValidate onSubmit={handleSubmit(handleValidFormSubmit)}>
       <div>
         <label htmlFor="todo-name">할 일</label>
         <input

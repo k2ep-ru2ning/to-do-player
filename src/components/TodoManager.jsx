@@ -1,24 +1,50 @@
-import { useState } from "react";
+import { useCallback, useReducer } from "react";
 import { nanoid } from "nanoid";
 import TodoList from "./TodoList";
-
-const dummyData = [
-  {
-    id: nanoid(),
-    name: "React Study",
-    scheduledTimeInSecond: 4000,
-    remainingTimeInSecond: 3200,
-  },
-  {
-    id: nanoid(),
-    name: "TypeScript Study",
-    scheduledTimeInSecond: 3600,
-    remainingTimeInSecond: 2000,
-  },
-];
+import NewTodoAddForm from "./NewTodoAddForm";
+import { convertTimeFromHourMinuteSecondToSecond } from "../utils/timeConvertor";
 
 export default function TodoManager() {
-  const [todoList] = useState(dummyData);
+  const [todoList, dispatch] = useReducer(todoReducer, []);
 
-  return <TodoList todoList={todoList} />;
+  const handleNewTodoAddFormSubmit = useCallback(
+    ({ todoName, todoTimeHour, todoTimeMinute, todoTimeSecond }) => {
+      const inputTimeInSecond = convertTimeFromHourMinuteSecondToSecond({
+        hour: Number(todoTimeHour),
+        minute: Number(todoTimeMinute),
+        second: Number(todoTimeSecond),
+      });
+
+      const payload = {
+        id: nanoid(),
+        name: todoName,
+        scheduledTimeInSecond: inputTimeInSecond,
+        remainingTimeInSecond: inputTimeInSecond,
+      };
+
+      dispatch({
+        type: "added",
+        payload,
+      });
+    },
+    [],
+  );
+
+  return (
+    <>
+      <NewTodoAddForm onSubmit={handleNewTodoAddFormSubmit} />
+      <TodoList todoList={todoList} />
+    </>
+  );
+}
+
+function todoReducer(state, action) {
+  switch (action.type) {
+    case "added": {
+      return [...state, action.payload];
+    }
+    default: {
+      throw new Error(`Unknown action: ${action.type}`);
+    }
+  }
 }
