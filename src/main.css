@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .input-box {
+    @apply py-1 px-2 bg-transparent border border-gray-300 focus:border-indigo-500 rounded-md outline-none;
+  }
+  .primary-btn {
+    @apply bg-indigo-50 py-1 px-2 rounded-lg border border-indigo-400 text-indigo-800 hover:bg-indigo-100;
+  }
+}
+
 :root {
   font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue",
     "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji",

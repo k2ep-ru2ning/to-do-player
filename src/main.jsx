@@ -3,6 +3,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
+import ReactModal from "react-modal";
 
 const root = createRoot(document.getElementById("root"));
 root.render(
@@ -12,3 +13,5 @@ root.render(
     </BrowserRouter>
   </StrictMode>,
 );
+
+ReactModal.setAppElement("#root");

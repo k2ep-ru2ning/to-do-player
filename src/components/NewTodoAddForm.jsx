@@ -23,59 +23,73 @@ export default function NewTodoAddForm({ onSubmit }) {
   };
 
   return (
-    <form noValidate onSubmit={handleSubmit(handleValidFormSubmit)}>
-      <div>
-        <label htmlFor="todo-name">할 일</label>
+    <form
+      noValidate
+      onSubmit={handleSubmit(handleValidFormSubmit)}
+      className="flex flex-col gap-y-4 p-2"
+    >
+      <div className="flex flex-col gap-y-1">
+        <label htmlFor="todo-name" className="text-sm">
+          할 일
+        </label>
         <input
           id="todo-name"
           type="text"
-          placeholder="할 일을 추가하세요. 예를 들면, 프로그래밍 공부하기"
+          placeholder="할 일을 추가하세요."
           {...register(
             newTodoAddFormFieldName.NAME,
             newTodoAddFormFieldValidation[newTodoAddFormFieldName.NAME],
           )}
+          className="input-box"
         />
         <FormErrorMessage errorMessage={errors[newTodoAddFormFieldName.NAME]?.message} />
       </div>
-      <fieldset>
-        <legend>계획 시간</legend>
-        <input
-          id="todo-time-hour"
-          type="number"
-          min={newTodoAddFormFieldValidation[newTodoAddFormFieldName.HOUR].min.value}
-          max={newTodoAddFormFieldValidation[newTodoAddFormFieldName.HOUR].max.value}
-          {...register(
-            newTodoAddFormFieldName.HOUR,
-            newTodoAddFormFieldValidation[newTodoAddFormFieldName.HOUR],
-          )}
-        />
-        <span>:</span>
-        <input
-          id="todo-time-minute"
-          type="number"
-          min={newTodoAddFormFieldValidation[newTodoAddFormFieldName.MINUTE].min.value}
-          max={newTodoAddFormFieldValidation[newTodoAddFormFieldName.MINUTE].max.value}
-          {...register(
-            newTodoAddFormFieldName.MINUTE,
-            newTodoAddFormFieldValidation[newTodoAddFormFieldName.MINUTE],
-          )}
-        />
-        <span>:</span>
-        <input
-          id="todo-time-second"
-          type="number"
-          min={newTodoAddFormFieldValidation[newTodoAddFormFieldName.SECOND].min.value}
-          max={newTodoAddFormFieldValidation[newTodoAddFormFieldName.SECOND].max.value}
-          {...register(
-            newTodoAddFormFieldName.SECOND,
-            newTodoAddFormFieldValidation[newTodoAddFormFieldName.SECOND],
-          )}
-        />
+      <fieldset className="space-y-1">
+        <legend className="text-sm">계획 시간</legend>
+        <div className="flex items-center gap-x-2">
+          <input
+            id="todo-time-hour"
+            type="number"
+            min={newTodoAddFormFieldValidation[newTodoAddFormFieldName.HOUR].min.value}
+            max={newTodoAddFormFieldValidation[newTodoAddFormFieldName.HOUR].max.value}
+            {...register(
+              newTodoAddFormFieldName.HOUR,
+              newTodoAddFormFieldValidation[newTodoAddFormFieldName.HOUR],
+            )}
+            className="input-box"
+          />
+          <span>:</span>
+          <input
+            id="todo-time-minute"
+            type="number"
+            min={newTodoAddFormFieldValidation[newTodoAddFormFieldName.MINUTE].min.value}
+            max={newTodoAddFormFieldValidation[newTodoAddFormFieldName.MINUTE].max.value}
+            {...register(
+              newTodoAddFormFieldName.MINUTE,
+              newTodoAddFormFieldValidation[newTodoAddFormFieldName.MINUTE],
+            )}
+            className="input-box"
+          />
+          <span>:</span>
+          <input
+            id="todo-time-second"
+            type="number"
+            min={newTodoAddFormFieldValidation[newTodoAddFormFieldName.SECOND].min.value}
+            max={newTodoAddFormFieldValidation[newTodoAddFormFieldName.SECOND].max.value}
+            {...register(
+              newTodoAddFormFieldName.SECOND,
+              newTodoAddFormFieldValidation[newTodoAddFormFieldName.SECOND],
+            )}
+            className="input-box"
+          />
+        </div>
         <FormErrorMessage errorMessage={errors[newTodoAddFormFieldName.HOUR]?.message} />
         <FormErrorMessage errorMessage={errors[newTodoAddFormFieldName.MINUTE]?.message} />
         <FormErrorMessage errorMessage={errors[newTodoAddFormFieldName.SECOND]?.message} />
       </fieldset>
-      <button type="submit">할 일 추가</button>
+      <button type="submit" className="primary-btn">
+        할 일 추가
+      </button>
     </form>
   );
 }
