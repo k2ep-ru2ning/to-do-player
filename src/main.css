@@ -3,11 +3,17 @@
 @tailwind utilities;
 
 @layer components {
-  .input-box {
+  .form-input {
     @apply py-1 px-2 bg-transparent border border-gray-300 focus:border-indigo-500 rounded-md outline-none;
   }
+  .form-label-text {
+    @apply text-sm text-gray-900 font-bold;
+  }
+  .btn {
+    @apply py-1 px-2 rounded-lg;
+  }
   .primary-btn {
-    @apply bg-indigo-50 py-1 px-2 rounded-lg border border-indigo-400 text-indigo-800 hover:bg-indigo-100;
+    @apply bg-indigo-50 border border-indigo-400 text-indigo-800 hover:bg-indigo-100;
   }
 }
 

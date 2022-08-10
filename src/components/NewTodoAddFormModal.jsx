@@ -13,12 +13,12 @@ export default function NewTodoAddFormModal({ isOpen, onClose, onSubmit }) {
           backgroundColor: `rgba(0, 0, 0, 0.5)`,
         },
       }}
-      className="absolute left-2/4 top-2/4 -translate-x-2/4 -translate-y-2/4 p-4 rounded-lg bg-gray-100"
+      className="absolute left-2/4 top-2/4 -translate-x-2/4 -translate-y-2/4"
     >
-      <section className="flex flex-col gap-y-4">
+      <section className="bg-gray-50 rounded-lg p-4 md:p-6 flex flex-col gap-y-4 w-72 md:w-96">
         <div className="flex justify-end">
           <button onClick={onClose}>
-            <IoCloseSharp />
+            <IoCloseSharp size={20} />
           </button>
         </div>
         <header className="text-center p-2">

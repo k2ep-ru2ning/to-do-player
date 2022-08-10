@@ -37,7 +37,7 @@ export default function TodoManager() {
 
   return (
     <div className="relative">
-      <button className="absolute top-0 right-0 primary-btn text-sm" onClick={openModal}>
+      <button className="absolute top-0 right-0 btn primary-btn text-sm" onClick={openModal}>
         할 일 추가하기
       </button>
       <TodoList todoList={todoList} />
