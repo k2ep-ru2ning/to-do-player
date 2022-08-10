@@ -7,7 +7,6 @@ export default function NewTodoAddForm({ onSubmit }) {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm({
     defaultValues: {
       [newTodoAddFormFieldName.NAME]: "",
@@ -17,17 +16,8 @@ export default function NewTodoAddForm({ onSubmit }) {
     },
   });
 
-  const handleValidFormSubmit = (data) => {
-    reset();
-    onSubmit(data);
-  };
-
   return (
-    <form
-      noValidate
-      onSubmit={handleSubmit(handleValidFormSubmit)}
-      className="flex flex-col gap-y-4"
-    >
+    <form noValidate onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-y-4">
       <div className="space-y-1">
         <label className="flex flex-col gap-y-1">
           <span className="form-label-text">할 일</span>
