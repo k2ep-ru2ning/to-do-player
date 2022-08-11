@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
 import FormErrorMessage from "./FormErrorMessage";
+import TimeUnitInput from "./TimeUnitInput";
 
 export default function NewTodoAddForm({ onSubmit }) {
   const {
@@ -37,45 +38,30 @@ export default function NewTodoAddForm({ onSubmit }) {
         <fieldset className="space-y-1">
           <legend className="form-label-text">계획 시간</legend>
           <div className="flex flex-col md:flex-row gap-2">
-            <label className="flex items-center gap-2">
-              <input
-                type="number"
-                min={newTodoAddFormFieldValidation[newTodoAddFormFieldName.HOUR].min.value}
-                max={newTodoAddFormFieldValidation[newTodoAddFormFieldName.HOUR].max.value}
-                {...register(
-                  newTodoAddFormFieldName.HOUR,
-                  newTodoAddFormFieldValidation[newTodoAddFormFieldName.HOUR],
-                )}
-                className="form-input text-right w-20"
-              />
-              <span className="form-label-text">시간</span>
-            </label>
-            <label className="flex items-center gap-2">
-              <input
-                type="number"
-                min={newTodoAddFormFieldValidation[newTodoAddFormFieldName.MINUTE].min.value}
-                max={newTodoAddFormFieldValidation[newTodoAddFormFieldName.MINUTE].max.value}
-                {...register(
-                  newTodoAddFormFieldName.MINUTE,
-                  newTodoAddFormFieldValidation[newTodoAddFormFieldName.MINUTE],
-                )}
-                className="form-input text-right w-20"
-              />
-              <span className="form-label-text">분</span>
-            </label>
-            <label className="flex items-center gap-2">
-              <input
-                type="number"
-                min={newTodoAddFormFieldValidation[newTodoAddFormFieldName.SECOND].min.value}
-                max={newTodoAddFormFieldValidation[newTodoAddFormFieldName.SECOND].max.value}
-                {...register(
-                  newTodoAddFormFieldName.SECOND,
-                  newTodoAddFormFieldValidation[newTodoAddFormFieldName.SECOND],
-                )}
-                className="form-input text-right w-20"
-              />
-              <span className="form-label-text">초</span>
-            </label>
+            <TimeUnitInput
+              register={register}
+              labelText="시간"
+              name={newTodoAddFormFieldName.HOUR}
+              min={newTodoAddFormFieldValidation[newTodoAddFormFieldName.HOUR].min.value}
+              max={newTodoAddFormFieldValidation[newTodoAddFormFieldName.HOUR].max.value}
+              validation={newTodoAddFormFieldValidation[newTodoAddFormFieldName.HOUR]}
+            />
+            <TimeUnitInput
+              register={register}
+              labelText="분"
+              name={newTodoAddFormFieldName.MINUTE}
+              min={newTodoAddFormFieldValidation[newTodoAddFormFieldName.MINUTE].min.value}
+              max={newTodoAddFormFieldValidation[newTodoAddFormFieldName.MINUTE].max.value}
+              validation={newTodoAddFormFieldValidation[newTodoAddFormFieldName.MINUTE]}
+            />
+            <TimeUnitInput
+              register={register}
+              labelText="초"
+              name={newTodoAddFormFieldName.SECOND}
+              min={newTodoAddFormFieldValidation[newTodoAddFormFieldName.SECOND].min.value}
+              max={newTodoAddFormFieldValidation[newTodoAddFormFieldName.SECOND].max.value}
+              validation={newTodoAddFormFieldValidation[newTodoAddFormFieldName.SECOND]}
+            />
           </div>
         </fieldset>
         <FormErrorMessage errorMessage={errors[newTodoAddFormFieldName.HOUR]?.message} />
