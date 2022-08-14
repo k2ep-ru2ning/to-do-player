@@ -45,6 +45,23 @@ function tasksReducer(tasks, action) {
         ],
       };
     }
+    case "updated": {
+      const { id, name, hour, minute, second } = action.payload.task;
+      const inputTimeInSecond = convertTimeFromHourMinuteSecondToSecond({ hour, minute, second });
+      return {
+        ...tasks,
+        items: tasks.items.map((item) =>
+          item.id === id
+            ? {
+                ...item,
+                name,
+                scheduledTimeInSecond: inputTimeInSecond,
+                remainingTimeInSecond: inputTimeInSecond,
+              }
+            : item,
+        ),
+      };
+    }
     default: {
       throw new Error(`Unknown action: ${action.type}`);
     }
