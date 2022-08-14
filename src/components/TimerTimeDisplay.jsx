@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { convertTimeFromSecondToHourMinuteSecond } from "../utils/timeConvertor";
 import { formatTimeUnit } from "../utils/timeFormatter";
-import TimeUnitDisplay from "./TimeUnitDisplay";
+import TimerTimeUnitDisplay from "./TimerTimeUnitDisplay";
 
 export default function TimerTimeDisplay({ timeInSecond = 0 }) {
   const { hour, minute, second } = convertTimeFromSecondToHourMinuteSecond(timeInSecond);
@@ -12,11 +12,11 @@ export default function TimerTimeDisplay({ timeInSecond = 0 }) {
 
   return (
     <div className="flex gap-x-3">
-      <TimeUnitDisplay timeUnit={HH} />
-      <TimeUnitDisplay timeUnit={":"} />
-      <TimeUnitDisplay timeUnit={MM} />
-      <TimeUnitDisplay timeUnit={":"} />
-      <TimeUnitDisplay timeUnit={SS} />
+      <TimerTimeUnitDisplay timeUnit={HH} />
+      <TimerTimeUnitDisplay timeUnit={":"} />
+      <TimerTimeUnitDisplay timeUnit={MM} />
+      <TimerTimeUnitDisplay timeUnit={":"} />
+      <TimerTimeUnitDisplay timeUnit={SS} />
     </div>
   );
 }
