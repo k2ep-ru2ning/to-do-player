@@ -1,26 +1,26 @@
 import { useCallback, useReducer } from "react";
 import { nanoid } from "nanoid";
-import TodoList from "./TodoList";
+import TaskList from "./TaskList";
 import { convertTimeFromHourMinuteSecondToSecond } from "../utils/timeConvertor";
 import useModal from "../hooks/useModal";
-import NewTodoAddFormModal from "./NewTodoAddFormModal";
+import TaskAddFormModal from "./TaskAddFormModal";
 
-export default function TodoManager() {
-  const [todoList, dispatch] = useReducer(todoReducer, []);
+export default function TasksManager() {
+  const [tasks, dispatch] = useReducer(tasksReducer, []);
 
   const { isModalOpen, openModal, closeModal } = useModal();
 
-  const handleNewTodoAddFormSubmit = useCallback(
-    ({ todoName, todoTimeHour, todoTimeMinute, todoTimeSecond }) => {
+  const handleTaskAddFormSubmit = useCallback(
+    ({ taskName, taskTimeHour, taskTimeMinute, taskTimeSecond }) => {
       const inputTimeInSecond = convertTimeFromHourMinuteSecondToSecond({
-        hour: Number(todoTimeHour),
-        minute: Number(todoTimeMinute),
-        second: Number(todoTimeSecond),
+        hour: Number(taskTimeHour),
+        minute: Number(taskTimeMinute),
+        second: Number(taskTimeSecond),
       });
 
       const payload = {
         id: nanoid(),
-        name: todoName,
+        name: taskName,
         scheduledTimeInSecond: inputTimeInSecond,
         remainingTimeInSecond: inputTimeInSecond,
       };
@@ -40,17 +40,17 @@ export default function TodoManager() {
       <button className="absolute top-0 right-0 btn primary-btn text-sm" onClick={openModal}>
         할 일 추가하기
       </button>
-      <TodoList todoList={todoList} />
-      <NewTodoAddFormModal
+      <TaskList tasks={tasks} />
+      <TaskAddFormModal
         isOpen={isModalOpen}
         onClose={closeModal}
-        onSubmit={handleNewTodoAddFormSubmit}
+        onSubmit={handleTaskAddFormSubmit}
       />
     </div>
   );
 }
 
-function todoReducer(state, action) {
+function tasksReducer(state, action) {
   switch (action.type) {
     case "added": {
       return [...state, action.payload];

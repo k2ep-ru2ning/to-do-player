@@ -3,17 +3,17 @@ import PropTypes from "prop-types";
 import FormErrorMessage from "./FormErrorMessage";
 import TimeUnitInput from "./TimeUnitInput";
 
-export default function NewTodoAddForm({ onSubmit }) {
+export default function TaskAddForm({ onSubmit }) {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      [newTodoAddFormFieldName.NAME]: "",
-      [newTodoAddFormFieldName.HOUR]: "0",
-      [newTodoAddFormFieldName.MINUTE]: "0",
-      [newTodoAddFormFieldName.SECOND]: "0",
+      [taskAddFormFieldName.NAME]: "",
+      [taskAddFormFieldName.HOUR]: "0",
+      [taskAddFormFieldName.MINUTE]: "0",
+      [taskAddFormFieldName.SECOND]: "0",
     },
   });
 
@@ -25,14 +25,11 @@ export default function NewTodoAddForm({ onSubmit }) {
           <input
             type="text"
             placeholder="할 일을 추가하세요."
-            {...register(
-              newTodoAddFormFieldName.NAME,
-              newTodoAddFormFieldValidation[newTodoAddFormFieldName.NAME],
-            )}
+            {...register(taskAddFormFieldName.NAME, validation[taskAddFormFieldName.NAME])}
             className="form-input"
           />
         </label>
-        <FormErrorMessage errorMessage={errors[newTodoAddFormFieldName.NAME]?.message} />
+        <FormErrorMessage errorMessage={errors[taskAddFormFieldName.NAME]?.message} />
       </div>
       <div className="space-y-1">
         <fieldset className="space-y-1">
@@ -41,32 +38,32 @@ export default function NewTodoAddForm({ onSubmit }) {
             <TimeUnitInput
               register={register}
               labelText="시간"
-              name={newTodoAddFormFieldName.HOUR}
-              min={newTodoAddFormFieldValidation[newTodoAddFormFieldName.HOUR].min.value}
-              max={newTodoAddFormFieldValidation[newTodoAddFormFieldName.HOUR].max.value}
-              validation={newTodoAddFormFieldValidation[newTodoAddFormFieldName.HOUR]}
+              name={taskAddFormFieldName.HOUR}
+              min={validation[taskAddFormFieldName.HOUR].min.value}
+              max={validation[taskAddFormFieldName.HOUR].max.value}
+              validation={validation[taskAddFormFieldName.HOUR]}
             />
             <TimeUnitInput
               register={register}
               labelText="분"
-              name={newTodoAddFormFieldName.MINUTE}
-              min={newTodoAddFormFieldValidation[newTodoAddFormFieldName.MINUTE].min.value}
-              max={newTodoAddFormFieldValidation[newTodoAddFormFieldName.MINUTE].max.value}
-              validation={newTodoAddFormFieldValidation[newTodoAddFormFieldName.MINUTE]}
+              name={taskAddFormFieldName.MINUTE}
+              min={validation[taskAddFormFieldName.MINUTE].min.value}
+              max={validation[taskAddFormFieldName.MINUTE].max.value}
+              validation={validation[taskAddFormFieldName.MINUTE]}
             />
             <TimeUnitInput
               register={register}
               labelText="초"
-              name={newTodoAddFormFieldName.SECOND}
-              min={newTodoAddFormFieldValidation[newTodoAddFormFieldName.SECOND].min.value}
-              max={newTodoAddFormFieldValidation[newTodoAddFormFieldName.SECOND].max.value}
-              validation={newTodoAddFormFieldValidation[newTodoAddFormFieldName.SECOND]}
+              name={taskAddFormFieldName.SECOND}
+              min={validation[taskAddFormFieldName.SECOND].min.value}
+              max={validation[taskAddFormFieldName.SECOND].max.value}
+              validation={validation[taskAddFormFieldName.SECOND]}
             />
           </div>
         </fieldset>
-        <FormErrorMessage errorMessage={errors[newTodoAddFormFieldName.HOUR]?.message} />
-        <FormErrorMessage errorMessage={errors[newTodoAddFormFieldName.MINUTE]?.message} />
-        <FormErrorMessage errorMessage={errors[newTodoAddFormFieldName.SECOND]?.message} />
+        <FormErrorMessage errorMessage={errors[taskAddFormFieldName.HOUR]?.message} />
+        <FormErrorMessage errorMessage={errors[taskAddFormFieldName.MINUTE]?.message} />
+        <FormErrorMessage errorMessage={errors[taskAddFormFieldName.SECOND]?.message} />
       </div>
       <button type="submit" className="btn primary-btn">
         할 일 추가
@@ -75,25 +72,25 @@ export default function NewTodoAddForm({ onSubmit }) {
   );
 }
 
-NewTodoAddForm.propTypes = {
+TaskAddForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
 };
 
-const newTodoAddFormFieldName = Object.freeze({
-  NAME: "todoName",
-  HOUR: "todoTimeHour",
-  MINUTE: "todoTimeMinute",
-  SECOND: "todoTimeSecond",
+const taskAddFormFieldName = Object.freeze({
+  NAME: "taskName",
+  HOUR: "taskTimeHour",
+  MINUTE: "taskTimeMinute",
+  SECOND: "taskTimeSecond",
 });
 
-const newTodoAddFormFieldValidation = {
-  [newTodoAddFormFieldName.NAME]: {
+const validation = {
+  [taskAddFormFieldName.NAME]: {
     required: {
       value: true,
       message: "할 일을 입력해주세요.",
     },
   },
-  [newTodoAddFormFieldName.HOUR]: {
+  [taskAddFormFieldName.HOUR]: {
     required: {
       value: true,
       message: "시간을 입력해주세요.",
@@ -107,7 +104,7 @@ const newTodoAddFormFieldValidation = {
       message: "시간을 0~2 사이로 입력해주세요. 3시간이 넘는 계획은 무리한 계획일 수 있습니다.",
     },
   },
-  [newTodoAddFormFieldName.MINUTE]: {
+  [taskAddFormFieldName.MINUTE]: {
     required: {
       value: true,
       message: "분을 입력해주세요.",
@@ -121,7 +118,7 @@ const newTodoAddFormFieldValidation = {
       message: "분은 0~59 사이 값이여야 합니다.",
     },
   },
-  [newTodoAddFormFieldName.SECOND]: {
+  [taskAddFormFieldName.SECOND]: {
     required: {
       value: true,
       message: "초를 입력해주세요.",

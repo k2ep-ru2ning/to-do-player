@@ -1,4 +1,4 @@
-import TodoManager from "../components/TodoManager";
+import TasksManager from "../components/TasksManager";
 import Timer from "../components/Timer";
 
 export default function Main() {
@@ -6,7 +6,7 @@ export default function Main() {
     <>
       <div>Main Page</div>
       <Timer initialTimeInSecond={3600} />
-      <TodoManager />
+      <TasksManager />
     </>
   );
 }

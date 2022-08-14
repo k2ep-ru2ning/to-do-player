@@ -2,8 +2,8 @@ import PropTypes from "prop-types";
 import { convertTimeFromSecondToHourMinuteSecond } from "../utils/timeConvertor";
 import { formatTime } from "../utils/timeFormatter";
 
-export default function TodoItem({ todo }) {
-  const { name, scheduledTimeInSecond, remainingTimeInSecond } = todo;
+export default function TaskListItem({ task }) {
+  const { name, scheduledTimeInSecond, remainingTimeInSecond } = task;
 
   const formattedScheduledTime = formatTime(
     convertTimeFromSecondToHourMinuteSecond(scheduledTimeInSecond),
@@ -24,8 +24,8 @@ export default function TodoItem({ todo }) {
   );
 }
 
-TodoItem.propTypes = {
-  todo: PropTypes.shape({
+TaskListItem.propTypes = {
+  task: PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     scheduledTimeInSecond: PropTypes.number.isRequired,
