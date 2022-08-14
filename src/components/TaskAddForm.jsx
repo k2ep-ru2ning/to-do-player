@@ -76,7 +76,7 @@ TaskAddForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
 };
 
-const taskAddFormFieldName = Object.freeze({
+export const taskAddFormFieldName = Object.freeze({
   NAME: "taskName",
   HOUR: "taskTimeHour",
   MINUTE: "taskTimeMinute",
