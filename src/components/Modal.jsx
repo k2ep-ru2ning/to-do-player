@@ -6,11 +6,7 @@ export default function Modal({ isOpen, children }) {
     <ReactModal
       isOpen={isOpen}
       bodyOpenClassName="overflow-hidden"
-      style={{
-        overlay: {
-          backgroundColor: `rgba(0, 0, 0, 0.5)`,
-        },
-      }}
+      overlayClassName="fixed inset-0 bg-black/50"
       className="absolute left-2/4 top-2/4 -translate-x-2/4 -translate-y-2/4"
     >
       {children}
