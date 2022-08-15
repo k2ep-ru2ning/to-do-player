@@ -62,6 +62,13 @@ function tasksReducer(tasks, action) {
         ),
       };
     }
+    case "removed": {
+      const { id } = action.payload.task;
+      return {
+        ...tasks,
+        items: tasks.items.filter((item) => item.id !== id),
+      };
+    }
     default: {
       throw new Error(`Unknown action: ${action.type}`);
     }

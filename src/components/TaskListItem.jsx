@@ -37,6 +37,17 @@ export default function TaskListItem({ task }) {
     [id],
   );
 
+  const handleTaskRemoveButtonClick = useCallback(() => {
+    dispatch({
+      type: "removed",
+      payload: {
+        task: {
+          id,
+        },
+      },
+    });
+  }, [id]);
+
   const formattedScheduledTime = formatTime(
     convertTimeFromSecondToHourMinuteSecond(scheduledTimeInSecond),
   );
@@ -54,9 +65,12 @@ export default function TaskListItem({ task }) {
         <div>계획 시간: {formattedScheduledTime}</div>
         <div>남은 시간: {formattedRemainingTime}</div>
       </div>
-      <div className="ml-auto">
+      <div className="ml-auto flex gap-x-2">
         <button onClick={openTaskUpdateFormModal} className="btn primary-btn text-sm">
           수정하기
+        </button>
+        <button onClick={handleTaskRemoveButtonClick} className="btn primary-btn text-sm">
+          삭제하기
         </button>
       </div>
       <TaskUpdateFormModal
