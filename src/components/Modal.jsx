@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import ReactModal from "react-modal";
 
-export default function LayoutModal({ isOpen, children }) {
+export default function Modal({ isOpen, children }) {
   return (
     <ReactModal
       isOpen={isOpen}
@@ -18,7 +18,7 @@ export default function LayoutModal({ isOpen, children }) {
   );
 }
 
-LayoutModal.propTypes = {
+Modal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired,
 };
