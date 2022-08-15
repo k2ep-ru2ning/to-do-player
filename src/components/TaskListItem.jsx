@@ -1,15 +1,13 @@
 import PropTypes from "prop-types";
 import { convertTimeFromSecondToHourMinuteSecond } from "../utils/timeConvertor";
-import { formatTime } from "../utils/timeFormatter";
 import useModal from "../hooks/useModal";
 import TaskUpdateFormModal from "./TaskUpdateFormModal";
 import { useCallback } from "react";
 import { taskUpdateFormFieldName } from "./TaskUpdateForm";
 import { useTasksDispatch } from "../context/TasksContext";
+import FormattedTimeDisplay from "./FormattedTimeDisplay";
 
 export default function TaskListItem({ task }) {
-  const { id, name, scheduledTimeInSecond, remainingTimeInSecond } = task;
-
   const {
     isModalOpen: isTaskUpdateFormModalOpen,
     openModal: openTaskUpdateFormModal,
@@ -24,7 +22,7 @@ export default function TaskListItem({ task }) {
         type: "updated",
         payload: {
           task: {
-            id,
+            id: task.id,
             name: taskUpdateFormInput[taskUpdateFormFieldName.NAME],
             hour: Number(taskUpdateFormInput[taskUpdateFormFieldName.HOUR]),
             minute: Number(taskUpdateFormInput[taskUpdateFormFieldName.MINUTE]),
@@ -34,7 +32,7 @@ export default function TaskListItem({ task }) {
       });
       closeTaskUpdateFormModal();
     },
-    [id],
+    [task.id],
   );
 
   const handleTaskRemoveButtonClick = useCallback(() => {
@@ -42,28 +40,20 @@ export default function TaskListItem({ task }) {
       type: "removed",
       payload: {
         task: {
-          id,
+          id: task.id,
         },
       },
     });
-  }, [id]);
-
-  const formattedScheduledTime = formatTime(
-    convertTimeFromSecondToHourMinuteSecond(scheduledTimeInSecond),
-  );
-
-  const formattedRemainingTime = formatTime(
-    convertTimeFromSecondToHourMinuteSecond(remainingTimeInSecond),
-  );
+  }, [task.id]);
 
   const taskUpdateFormDefaultValues = convertTaskToTaskUpdateFormDefaultValues(task);
 
   return (
     <li className="flex items-center px-4 py-3 bg-gray-100 rounded-lg">
-      <div className="w-1/4">{name}</div>
+      <div className="w-1/4">{task.name}</div>
       <div className="space-y-1">
-        <div>계획 시간: {formattedScheduledTime}</div>
-        <div>남은 시간: {formattedRemainingTime}</div>
+        <FormattedTimeDisplay prefix="계획 시간" timeInSecond={task.scheduledTimeInSecond} />
+        <FormattedTimeDisplay prefix="남은 시간" timeInSecond={task.remainingTimeInSecond} />
       </div>
       <div className="ml-auto flex gap-x-2">
         <button onClick={openTaskUpdateFormModal} className="btn primary-btn text-sm">
