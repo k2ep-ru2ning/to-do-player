@@ -1,41 +1,26 @@
 import PropTypes from "prop-types";
-import { convertTimeFromSecondToHourMinuteSecond } from "../utils/timeConvertor";
 import useModal from "../hooks/useModal";
 import TaskUpdateFormModal from "./TaskUpdateFormModal";
-import { useCallback } from "react";
-import { taskUpdateFormFieldName } from "./TaskUpdateForm";
-import { useTasksDispatch } from "../context/TasksContext";
 import FormattedTimeDisplay from "./FormattedTimeDisplay";
+import { useCallback } from "react";
 
-export default function TaskListItem({ task }) {
+export default function TaskListItem({ task, dispatch }) {
   const {
     isModalOpen: isTaskUpdateFormModalOpen,
     openModal: openTaskUpdateFormModal,
     closeModal: closeTaskUpdateFormModal,
   } = useModal();
 
-  const dispatch = useTasksDispatch();
+  const handleUpdateTask = useCallback(({ id, name, hour, minute, second }) => {
+    dispatch({
+      type: "updated",
+      payload: {
+        task: { id, name, hour, minute, second },
+      },
+    });
+  }, []);
 
-  const handleTaskUpdateFormSubmit = useCallback(
-    (taskUpdateFormInput) => {
-      dispatch({
-        type: "updated",
-        payload: {
-          task: {
-            id: task.id,
-            name: taskUpdateFormInput[taskUpdateFormFieldName.NAME],
-            hour: Number(taskUpdateFormInput[taskUpdateFormFieldName.HOUR]),
-            minute: Number(taskUpdateFormInput[taskUpdateFormFieldName.MINUTE]),
-            second: Number(taskUpdateFormInput[taskUpdateFormFieldName.SECOND]),
-          },
-        },
-      });
-      closeTaskUpdateFormModal();
-    },
-    [task.id],
-  );
-
-  const handleTaskRemoveButtonClick = useCallback(() => {
+  const handleRemoveTask = useCallback(() => {
     dispatch({
       type: "removed",
       payload: {
@@ -45,8 +30,6 @@ export default function TaskListItem({ task }) {
       },
     });
   }, [task.id]);
-
-  const taskUpdateFormDefaultValues = convertTaskToTaskUpdateFormDefaultValues(task);
 
   return (
     <li className="flex items-center px-4 py-3 bg-gray-100 rounded-lg">
@@ -59,30 +42,18 @@ export default function TaskListItem({ task }) {
         <button onClick={openTaskUpdateFormModal} className="btn primary-btn text-sm">
           수정하기
         </button>
-        <button onClick={handleTaskRemoveButtonClick} className="btn primary-btn text-sm">
+        <button onClick={handleRemoveTask} className="btn primary-btn text-sm">
           삭제하기
         </button>
       </div>
       <TaskUpdateFormModal
         isOpen={isTaskUpdateFormModalOpen}
         onClose={closeTaskUpdateFormModal}
-        onSubmit={handleTaskUpdateFormSubmit}
-        defaultValues={taskUpdateFormDefaultValues}
+        onSubmit={handleUpdateTask}
+        task={task}
       />
     </li>
   );
-}
-
-function convertTaskToTaskUpdateFormDefaultValues(task) {
-  const { name, scheduledTimeInSecond } = task;
-  const { hour, minute, second } = convertTimeFromSecondToHourMinuteSecond(scheduledTimeInSecond);
-
-  return {
-    [taskUpdateFormFieldName.NAME]: name,
-    [taskUpdateFormFieldName.HOUR]: hour,
-    [taskUpdateFormFieldName.MINUTE]: minute,
-    [taskUpdateFormFieldName.SECOND]: second,
-  };
 }
 
 TaskListItem.propTypes = {
@@ -92,4 +63,5 @@ TaskListItem.propTypes = {
     scheduledTimeInSecond: PropTypes.number.isRequired,
     remainingTimeInSecond: PropTypes.number.isRequired,
   }).isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
