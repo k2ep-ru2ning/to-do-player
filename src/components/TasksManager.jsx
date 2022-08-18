@@ -7,7 +7,7 @@ import { nanoid } from "nanoid";
 import TaskDetail from "./TaskDetail";
 
 export default function TasksManager() {
-  const [tasks, dispatch] = useReducer(tasksReducer, { items: [] });
+  const [state, dispatch] = useReducer(tasksReducer, { tasks: [] });
 
   const {
     isModalOpen: isTaskAddFormModalOpen,
@@ -40,7 +40,7 @@ export default function TasksManager() {
         >
           할 일 추가하기
         </button>
-        <TaskList tasks={tasks} dispatch={dispatch} />
+        <TaskList tasks={state.tasks} dispatch={dispatch} />
         <TaskAddFormModal
           isOpen={isTaskAddFormModalOpen}
           onClose={closeTaskAddFormModal}
@@ -51,15 +51,15 @@ export default function TasksManager() {
   );
 }
 
-function tasksReducer(tasks, action) {
+function tasksReducer(state, action) {
   switch (action.type) {
     case "added": {
       const { id, name, hour, minute, second } = action.payload.task;
       const inputTimeInSecond = convertTimeFromHourMinuteSecondToSecond({ hour, minute, second });
       return {
-        ...tasks,
-        items: [
-          ...tasks.items,
+        ...state,
+        tasks: [
+          ...state.tasks,
           {
             id,
             name,
@@ -73,24 +73,24 @@ function tasksReducer(tasks, action) {
       const { id, name, hour, minute, second } = action.payload.task;
       const inputTimeInSecond = convertTimeFromHourMinuteSecondToSecond({ hour, minute, second });
       return {
-        ...tasks,
-        items: tasks.items.map((item) =>
-          item.id === id
+        ...state,
+        tasks: state.tasks.map((task) =>
+          task.id === id
             ? {
-                ...item,
+                ...task,
                 name,
                 scheduledTimeInSecond: inputTimeInSecond,
                 remainingTimeInSecond: inputTimeInSecond,
               }
-            : item,
+            : task,
         ),
       };
     }
     case "removed": {
       const { id } = action.payload.task;
       return {
-        ...tasks,
-        items: tasks.items.filter((item) => item.id !== id),
+        ...state,
+        tasks: state.tasks.filter((task) => task.id !== id),
       };
     }
     default: {
