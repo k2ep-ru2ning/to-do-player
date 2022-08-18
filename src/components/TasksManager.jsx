@@ -4,6 +4,7 @@ import TaskAddFormModal from "./TaskAddFormModal";
 import { useCallback, useReducer } from "react";
 import { convertTimeFromHourMinuteSecondToSecond } from "../utils/timeConvertor";
 import { nanoid } from "nanoid";
+import TaskDetail from "./TaskDetail";
 
 export default function TasksManager() {
   const [tasks, dispatch] = useReducer(tasksReducer, { items: [] });
@@ -30,19 +31,22 @@ export default function TasksManager() {
   }, []);
 
   return (
-    <div className="relative">
-      <button
-        className="absolute top-0 right-0 btn primary-btn text-sm"
-        onClick={openTaskAddFormModal}
-      >
-        할 일 추가하기
-      </button>
-      <TaskList tasks={tasks} dispatch={dispatch} />
-      <TaskAddFormModal
-        isOpen={isTaskAddFormModalOpen}
-        onClose={closeTaskAddFormModal}
-        onSubmit={handleAddTask}
-      />
+    <div>
+      <TaskDetail />
+      <div className="relative">
+        <button
+          className="absolute top-0 right-0 btn primary-btn text-sm"
+          onClick={openTaskAddFormModal}
+        >
+          할 일 추가하기
+        </button>
+        <TaskList tasks={tasks} dispatch={dispatch} />
+        <TaskAddFormModal
+          isOpen={isTaskAddFormModalOpen}
+          onClose={closeTaskAddFormModal}
+          onSubmit={handleAddTask}
+        />
+      </div>
     </div>
   );
 }
