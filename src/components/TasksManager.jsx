@@ -1,10 +1,10 @@
-import TaskList from "./TaskList";
 import useModal from "../hooks/useModal";
 import TaskAddFormModal from "./TaskAddFormModal";
 import { useCallback, useReducer } from "react";
 import { convertTimeFromHourMinuteSecondToSecond } from "../utils/timeConvertor";
 import { nanoid } from "nanoid";
 import TaskDetail from "./TaskDetail";
+import ScheduledTasks from "./ScheduledTasks";
 
 export default function TasksManager() {
   const [state, dispatch] = useReducer(tasksReducer, { tasks: [] });
@@ -40,7 +40,7 @@ export default function TasksManager() {
         >
           할 일 추가하기
         </button>
-        <TaskList tasks={state.tasks} dispatch={dispatch} />
+        <ScheduledTasks tasks={state.tasks} dispatch={dispatch} />
         <TaskAddFormModal
           isOpen={isTaskAddFormModalOpen}
           onClose={closeTaskAddFormModal}

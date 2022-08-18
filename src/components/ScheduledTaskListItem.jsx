@@ -4,7 +4,7 @@ import TaskUpdateFormModal from "./TaskUpdateFormModal";
 import { useCallback } from "react";
 import FormattedTime from "./FormattedTime";
 
-export default function TaskListItem({ task, dispatch }) {
+export default function ScheduledTaskListItem({ task, dispatch }) {
   const {
     isModalOpen: isTaskUpdateFormModalOpen,
     openModal: openTaskUpdateFormModal,
@@ -56,7 +56,7 @@ export default function TaskListItem({ task, dispatch }) {
   );
 }
 
-TaskListItem.propTypes = {
+ScheduledTaskListItem.propTypes = {
   task: PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
