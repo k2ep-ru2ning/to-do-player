@@ -1,12 +1,12 @@
 import { memo } from "react";
 import PropTypes from "prop-types";
 
-function TimerTimeUnitDisplay({ timeUnit }) {
+function TimerTimeUnit({ timeUnit }) {
   return <div className="text-4xl font-bold text-center">{timeUnit}</div>;
 }
 
-TimerTimeUnitDisplay.propTypes = {
+TimerTimeUnit.propTypes = {
   timeUnit: PropTypes.string.isRequired,
 };
 
-export default memo(TimerTimeUnitDisplay);
+export default memo(TimerTimeUnit);
