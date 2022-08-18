@@ -3,7 +3,7 @@ import { memo } from "react";
 import { convertTimeFromSecondToHourMinuteSecond } from "../utils/timeConvertor";
 import { formatTime } from "../utils/timeFormatter";
 
-function FormattedTimeDisplay({ prefix, timeInSecond }) {
+function FormattedTime({ prefix, timeInSecond }) {
   const formattedTime = formatTime(convertTimeFromSecondToHourMinuteSecond(Number(timeInSecond)));
 
   return (
@@ -14,9 +14,9 @@ function FormattedTimeDisplay({ prefix, timeInSecond }) {
   );
 }
 
-FormattedTimeDisplay.propTypes = {
+FormattedTime.propTypes = {
   prefix: PropTypes.string,
   timeInSecond: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 };
 
-export default memo(FormattedTimeDisplay);
+export default memo(FormattedTime);

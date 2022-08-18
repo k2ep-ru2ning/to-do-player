@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 import useModal from "../hooks/useModal";
 import TaskUpdateFormModal from "./TaskUpdateFormModal";
-import FormattedTimeDisplay from "./FormattedTimeDisplay";
 import { useCallback } from "react";
+import FormattedTime from "./FormattedTime";
 
 export default function TaskListItem({ task, dispatch }) {
   const {
@@ -35,8 +35,8 @@ export default function TaskListItem({ task, dispatch }) {
     <li className="flex items-center px-4 py-3 bg-gray-100 rounded-lg">
       <div className="w-1/4">{task.name}</div>
       <div className="space-y-1">
-        <FormattedTimeDisplay prefix="계획 시간" timeInSecond={task.scheduledTimeInSecond} />
-        <FormattedTimeDisplay prefix="남은 시간" timeInSecond={task.remainingTimeInSecond} />
+        <FormattedTime prefix="계획 시간" timeInSecond={task.scheduledTimeInSecond} />
+        <FormattedTime prefix="남은 시간" timeInSecond={task.remainingTimeInSecond} />
       </div>
       <div className="ml-auto flex gap-x-2">
         <button onClick={openTaskUpdateFormModal} className="btn primary-btn text-sm">
