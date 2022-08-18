@@ -3,7 +3,7 @@ import { convertTimeFromSecondToHourMinuteSecond } from "../utils/timeConvertor"
 import { formatTimeUnit } from "../utils/timeFormatter";
 import TimerTimeUnit from "./TimerTimeUnit";
 
-export default function TimerTimeDisplay({ timeInSecond = 0 }) {
+export default function TimerTime({ timeInSecond = 0 }) {
   const { hour, minute, second } = convertTimeFromSecondToHourMinuteSecond(timeInSecond);
 
   const HH = formatTimeUnit(hour);
@@ -21,6 +21,6 @@ export default function TimerTimeDisplay({ timeInSecond = 0 }) {
   );
 }
 
-TimerTimeDisplay.propTypes = {
+TimerTime.propTypes = {
   timeInSecond: PropTypes.number,
 };
