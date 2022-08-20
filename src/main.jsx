@@ -4,12 +4,13 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import ReactModal from "react-modal";
 import { ChakraProvider } from "@chakra-ui/react";
+import customTheme from "./customTheme";
 
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>
     <BrowserRouter>
-      <ChakraProvider>
+      <ChakraProvider theme={customTheme}>
         <App />
       </ChakraProvider>
     </BrowserRouter>
