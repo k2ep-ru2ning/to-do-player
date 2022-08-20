@@ -53,11 +53,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [
-          isDevelopment ? "style-loader" : MiniCssExtractPlugin.loader,
-          "css-loader",
-          "postcss-loader",
-        ],
+        use: [isDevelopment ? "style-loader" : MiniCssExtractPlugin.loader, "css-loader"],
       },
     ],
   },
