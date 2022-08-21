@@ -1,20 +1,38 @@
-import { Link } from "react-router-dom";
+import { Flex, Link } from "@chakra-ui/react";
+import { Link as ReactRouterLink } from "react-router-dom";
 
 export default function HeaderBar() {
   return (
-    <header className="h-16 flex justify-between items-center">
-      <Link to="/" className="text-2xl font-bold">
-        FPS
-      </Link>
-      <nav>
-        <ul className="flex gap-x-4">
-          {navMenuList.map((menu) => (
-            <li key={menu.link}>
-              <Link to={menu.link}>{menu.name}</Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
+    <header>
+      <Flex height="16" justifyContent="space-between" alignItems="center">
+        <Link
+          as={ReactRouterLink}
+          to="/"
+          color="main.500"
+          fontSize="3xl"
+          fontWeight="bold"
+          _hover={{
+            textDecoration: "none",
+          }}
+        >
+          FPS
+        </Link>
+        <nav>
+          <Flex columnGap="4">
+            {navMenuList.map((menu) => (
+              <Link
+                key={menu.link}
+                as={ReactRouterLink}
+                to={menu.link}
+                fontWeight="bold"
+                _hover={{ textDecoration: "none", color: "main.500" }}
+              >
+                {menu.name}
+              </Link>
+            ))}
+          </Flex>
+        </nav>
+      </Flex>
     </header>
   );
 }
