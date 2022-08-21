@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import LayoutWithHeaderBar from "./layouts/LayoutWithHeaderBar";
+import LayoutWithHeaderBar from "./components/LayoutWithHeaderBar";
 import History from "./pages/History";
 import Home from "./pages/Home";
 import Main from "./pages/Main";

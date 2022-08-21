@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import HeaderBar from "../components/HeaderBar";
+import HeaderBar from "./HeaderBar";
 
 export default function LayoutWithHeaderBar() {
   return (
