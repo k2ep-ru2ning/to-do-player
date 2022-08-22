@@ -1,3 +1,4 @@
+import { HStack } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { convertTimeFromSecondToHourMinuteSecond } from "../utils/timeConvertor";
 import { formatTimeUnit } from "../utils/timeFormatter";
@@ -11,13 +12,13 @@ export default function TimerTime({ timeInSecond = 0 }) {
   const SS = formatTimeUnit(second);
 
   return (
-    <div className="flex gap-x-3">
+    <HStack>
       <TimerTimeUnit timeUnit={HH} />
       <TimerTimeUnit timeUnit={":"} />
       <TimerTimeUnit timeUnit={MM} />
       <TimerTimeUnit timeUnit={":"} />
       <TimerTimeUnit timeUnit={SS} />
-    </div>
+    </HStack>
   );
 }
 

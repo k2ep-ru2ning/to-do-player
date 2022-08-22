@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { IoPlayCircleSharp, IoRefreshCircleSharp, IoStopCircleSharp } from "react-icons/io5";
+import { IoPlaySharp, IoRefreshSharp, IoStopSharp } from "react-icons/io5";
 import TimerTime from "./TimerTime";
+import { ButtonGroup, IconButton, VStack } from "@chakra-ui/react";
 
 export default function Timer({ initialTimeInSecond = 0 }) {
   const validatedInitialTimeInSecond = initialTimeInSecond < 0 ? 0 : initialTimeInSecond;
@@ -66,27 +67,35 @@ export default function Timer({ initialTimeInSecond = 0 }) {
   }, [canReset, validatedInitialTimeInSecond]);
 
   return (
-    <section className="p-4 flex flex-col gap-y-12 items-center">
-      <header className="text-2xl font-bold">Timer</header>
+    <VStack spacing="8" p="2">
       <TimerTime timeInSecond={remainingTimeInSecond} />
-      <div className="flex gap-x-4 text-4xl text-indigo-500">
+      <ButtonGroup colorScheme="main" spacing="4" size="sm">
         {canStart ? (
-          <button onClick={handleStartButtonClick}>
-            <IoPlayCircleSharp />
-          </button>
+          <IconButton
+            rounded="full"
+            aria-label="Start Timer"
+            icon={<IoPlaySharp />}
+            onClick={handleStartButtonClick}
+          />
         ) : null}
         {canStop ? (
-          <button onClick={handleStopButtonClick}>
-            <IoStopCircleSharp />
-          </button>
+          <IconButton
+            rounded="full"
+            aria-label="Stop Timer"
+            icon={<IoStopSharp />}
+            onClick={handleStopButtonClick}
+          />
         ) : null}
         {canReset ? (
-          <button onClick={handleResetButtonClick}>
-            <IoRefreshCircleSharp />
-          </button>
+          <IconButton
+            rounded="full"
+            aria-label="Reset Timer"
+            icon={<IoRefreshSharp />}
+            onClick={handleResetButtonClick}
+          />
         ) : null}
-      </div>
-    </section>
+      </ButtonGroup>
+    </VStack>
   );
 }
 
