@@ -1,7 +1,14 @@
 import PropTypes from "prop-types";
 import TaskAddForm, { taskAddFormFieldName } from "./TaskAddForm";
-import Modal from "./Modal";
 import { useCallback } from "react";
+import {
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+} from "@chakra-ui/react";
 
 export default function TaskAddFormModal({ isOpen, onClose, onSubmit }) {
   const handleSubmit = useCallback((formInput) => {
@@ -15,13 +22,15 @@ export default function TaskAddFormModal({ isOpen, onClose, onSubmit }) {
   }, []);
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
-      <section className="flex flex-col gap-y-4 w-72 md:w-96">
-        <header className="text-center p-2">
-          <h1 className="text-xl font-bold">새 할 일 추가하기</h1>
-        </header>
-        <TaskAddForm onSubmit={handleSubmit} />
-      </section>
+    <Modal isOpen={isOpen} onClose={onClose} size={{ base: "sm", md: "md" }}>
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>새 할 일 추가하기</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          <TaskAddForm onSubmit={handleSubmit} />
+        </ModalBody>
+      </ModalContent>
     </Modal>
   );
 }
