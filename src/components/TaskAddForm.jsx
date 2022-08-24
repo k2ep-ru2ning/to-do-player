@@ -1,13 +1,23 @@
 import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
-import FormErrorMessage from "./FormErrorMessage";
-import TimeUnitInput from "./TimeUnitInput";
+import {
+  Button,
+  Flex,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
+import TimeUnitFormControl from "./TimeUnitFormControl";
 
 export default function TaskAddForm({ onSubmit }) {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    control,
   } = useForm({
     defaultValues: {
       [taskAddFormFieldName.NAME]: "",
@@ -18,56 +28,55 @@ export default function TaskAddForm({ onSubmit }) {
   });
 
   return (
-    <form noValidate onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-y-4">
-      <div className="space-y-1">
-        <label className="flex flex-col gap-y-1">
-          <span className="form-label-text">할 일</span>
-          <input
+    <form noValidate onSubmit={handleSubmit(onSubmit)}>
+      <Flex direction="column" rowGap={4} py={4}>
+        <FormControl isRequired isInvalid={Boolean(errors[taskAddFormFieldName.NAME])}>
+          <FormLabel>할 일</FormLabel>
+          <Input
             type="text"
             placeholder="할 일을 추가하세요."
             {...register(taskAddFormFieldName.NAME, validation[taskAddFormFieldName.NAME])}
-            className="form-input"
           />
-        </label>
-        <FormErrorMessage errorMessage={errors[taskAddFormFieldName.NAME]?.message} />
-      </div>
-      <div className="space-y-1">
-        <fieldset className="space-y-1">
-          <legend className="form-label-text">계획 시간</legend>
-          <div className="flex flex-col md:flex-row gap-2">
-            <TimeUnitInput
-              register={register}
+          <FormErrorMessage>{errors[taskAddFormFieldName.NAME]?.message}</FormErrorMessage>
+        </FormControl>
+        <fieldset>
+          <Text as="legend" fontWeight="medium" mb="2">
+            계획 시간
+          </Text>
+          <VStack space={2}>
+            <TimeUnitFormControl
+              control={control}
               labelText="시간"
               name={taskAddFormFieldName.HOUR}
               min={validation[taskAddFormFieldName.HOUR].min.value}
               max={validation[taskAddFormFieldName.HOUR].max.value}
+              errorMessage={errors[taskAddFormFieldName.HOUR]?.message}
               validation={validation[taskAddFormFieldName.HOUR]}
             />
-            <TimeUnitInput
-              register={register}
+            <TimeUnitFormControl
+              control={control}
               labelText="분"
               name={taskAddFormFieldName.MINUTE}
               min={validation[taskAddFormFieldName.MINUTE].min.value}
               max={validation[taskAddFormFieldName.MINUTE].max.value}
+              errorMessage={errors[taskAddFormFieldName.MINUTE]?.message}
               validation={validation[taskAddFormFieldName.MINUTE]}
             />
-            <TimeUnitInput
-              register={register}
+            <TimeUnitFormControl
+              control={control}
               labelText="초"
               name={taskAddFormFieldName.SECOND}
               min={validation[taskAddFormFieldName.SECOND].min.value}
               max={validation[taskAddFormFieldName.SECOND].max.value}
+              errorMessage={errors[taskAddFormFieldName.SECOND]?.message}
               validation={validation[taskAddFormFieldName.SECOND]}
             />
-          </div>
+          </VStack>
         </fieldset>
-        <FormErrorMessage errorMessage={errors[taskAddFormFieldName.HOUR]?.message} />
-        <FormErrorMessage errorMessage={errors[taskAddFormFieldName.MINUTE]?.message} />
-        <FormErrorMessage errorMessage={errors[taskAddFormFieldName.SECOND]?.message} />
-      </div>
-      <button type="submit" className="btn primary-btn">
-        할 일 추가
-      </button>
+        <Button colorScheme="main" variant="outline" type="submit">
+          할 일 추가
+        </Button>
+      </Flex>
     </form>
   );
 }
