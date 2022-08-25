@@ -1,66 +1,75 @@
 import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
-import FormErrorMessage from "./FormErrorMessage";
-import TimeUnitInput from "./TimeUnitInput";
+import {
+  Button,
+  Flex,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
+import TimeUnitFormControl from "./TimeUnitFormControl";
 
 export default function TaskUpdateForm({ onSubmit, defaultValues }) {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    control,
   } = useForm({ defaultValues });
 
   return (
-    <form noValidate onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-y-4">
-      <div className="space-y-1">
-        <label className="flex flex-col gap-y-1">
-          <span className="form-label-text">할 일</span>
-          <input
+    <form noValidate onSubmit={handleSubmit(onSubmit)}>
+      <Flex direction="column" rowGap={4} py={4}>
+        <FormControl isRequired isInvalid={Boolean(errors[taskUpdateFormFieldName.NAME])}>
+          <FormLabel>할 일</FormLabel>
+          <Input
             type="text"
             placeholder="할 일을 수정하세요."
             {...register(taskUpdateFormFieldName.NAME, validation[taskUpdateFormFieldName.NAME])}
-            className="form-input"
           />
-        </label>
-        <FormErrorMessage errorMessage={errors[taskUpdateFormFieldName.NAME]?.message} />
-      </div>
-      <div className="space-y-1">
-        <fieldset className="space-y-1">
-          <legend className="form-label-text">계획 시간</legend>
-          <div className="flex flex-col md:flex-row gap-2">
-            <TimeUnitInput
-              register={register}
+          <FormErrorMessage>{errors[taskUpdateFormFieldName.NAME]?.message}</FormErrorMessage>
+        </FormControl>
+        <fieldset>
+          <Text as="legend" fontWeight="medium" mb={2}>
+            계획 시간
+          </Text>
+          <VStack space={2}>
+            <TimeUnitFormControl
+              control={control}
               labelText="시간"
               name={taskUpdateFormFieldName.HOUR}
               min={validation[taskUpdateFormFieldName.HOUR].min.value}
               max={validation[taskUpdateFormFieldName.HOUR].max.value}
+              errorMessage={errors[taskUpdateFormFieldName.HOUR]?.message}
               validation={validation[taskUpdateFormFieldName.HOUR]}
             />
-            <TimeUnitInput
-              register={register}
+            <TimeUnitFormControl
+              control={control}
               labelText="분"
               name={taskUpdateFormFieldName.MINUTE}
               min={validation[taskUpdateFormFieldName.MINUTE].min.value}
               max={validation[taskUpdateFormFieldName.MINUTE].max.value}
+              errorMessage={errors[taskUpdateFormFieldName.MINUTE]?.message}
               validation={validation[taskUpdateFormFieldName.MINUTE]}
             />
-            <TimeUnitInput
-              register={register}
+            <TimeUnitFormControl
+              control={control}
               labelText="초"
               name={taskUpdateFormFieldName.SECOND}
               min={validation[taskUpdateFormFieldName.SECOND].min.value}
               max={validation[taskUpdateFormFieldName.SECOND].max.value}
+              errorMessage={errors[taskUpdateFormFieldName.SECOND]?.message}
               validation={validation[taskUpdateFormFieldName.SECOND]}
             />
-          </div>
+          </VStack>
         </fieldset>
-        <FormErrorMessage errorMessage={errors[taskUpdateFormFieldName.HOUR]?.message} />
-        <FormErrorMessage errorMessage={errors[taskUpdateFormFieldName.MINUTE]?.message} />
-        <FormErrorMessage errorMessage={errors[taskUpdateFormFieldName.SECOND]?.message} />
-      </div>
-      <button type="submit" className="btn primary-btn">
-        수정하기
-      </button>
+        <Button type="submit" colorScheme="main" variant="outline">
+          수정하기
+        </Button>
+      </Flex>
     </form>
   );
 }
@@ -89,7 +98,7 @@ const validation = {
   [taskUpdateFormFieldName.NAME]: {
     required: {
       value: true,
-      message: "수정할 할 일 이름을 입력해주세요.",
+      message: "할 일의 새 이름을 입력해주세요.",
     },
   },
   [taskUpdateFormFieldName.HOUR]: {
