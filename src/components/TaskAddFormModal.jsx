@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import TaskAddForm, { taskAddFormFieldName } from "./TaskAddForm";
+import TaskAddForm from "./TaskAddForm";
 import { useCallback } from "react";
 import {
   Modal,
@@ -11,12 +11,12 @@ import {
 } from "@chakra-ui/react";
 
 export default function TaskAddFormModal({ isOpen, onClose, onSubmit }) {
-  const handleSubmit = useCallback((formInput) => {
+  const handleSubmit = useCallback(({ name, time: [hour, minute, second] }) => {
     onSubmit({
-      name: formInput[taskAddFormFieldName.NAME],
-      hour: Number(formInput[taskAddFormFieldName.HOUR]),
-      minute: Number(formInput[taskAddFormFieldName.MINUTE]),
-      second: Number(formInput[taskAddFormFieldName.SECOND]),
+      name,
+      hour: Number(hour),
+      minute: Number(minute),
+      second: Number(second),
     });
     onClose();
   }, []);

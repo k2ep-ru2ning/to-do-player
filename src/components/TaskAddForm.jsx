@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import PropTypes from "prop-types";
 import {
   Button,
@@ -7,10 +7,10 @@ import {
   FormErrorMessage,
   FormLabel,
   Input,
-  Text,
   VStack,
 } from "@chakra-ui/react";
 import TimeUnitFormControl from "./TimeUnitFormControl";
+import { useEffect } from "react";
 
 export default function TaskAddForm({ onSubmit }) {
   const {
@@ -18,61 +18,61 @@ export default function TaskAddForm({ onSubmit }) {
     handleSubmit,
     formState: { errors },
     control,
+    watch,
+    trigger,
   } = useForm({
     defaultValues: {
-      [taskAddFormFieldName.NAME]: "",
-      [taskAddFormFieldName.HOUR]: "0",
-      [taskAddFormFieldName.MINUTE]: "0",
-      [taskAddFormFieldName.SECOND]: "0",
+      name: "",
+      time: ["0", "30", "0"],
+    },
+    mode: "onChange",
+  });
+
+  const { fields: timeFields } = useFieldArray({
+    control,
+    name: "time",
+    rules: {
+      validate: {
+        notZeroTime: (time) =>
+          time.some((timeUnit) => timeUnit != "0") || "계획 시간은 0시간 0분 0초 일 수 없습니다.",
+      },
     },
   });
+
+  useEffect(() => {
+    trigger("time");
+  }, [...watch("time")]);
 
   return (
     <form noValidate onSubmit={handleSubmit(onSubmit)}>
       <Flex direction="column" rowGap={4} py={4}>
-        <FormControl isRequired isInvalid={Boolean(errors[taskAddFormFieldName.NAME])}>
+        <FormControl isRequired isInvalid={Boolean(errors.name)}>
           <FormLabel>할 일</FormLabel>
           <Input
             type="text"
             placeholder="할 일을 추가하세요."
-            {...register(taskAddFormFieldName.NAME, validation[taskAddFormFieldName.NAME])}
+            {...register("name", fieldValidation.name)}
           />
-          <FormErrorMessage>{errors[taskAddFormFieldName.NAME]?.message}</FormErrorMessage>
+          <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
         </FormControl>
-        <fieldset>
-          <Text as="legend" fontWeight="medium" mb="2">
-            계획 시간
-          </Text>
+        <FormControl as="fieldset" isInvalid={Boolean(errors.time)}>
+          <FormLabel as="legend">계획 시간</FormLabel>
           <VStack space={2}>
-            <TimeUnitFormControl
-              control={control}
-              labelText="시간"
-              name={taskAddFormFieldName.HOUR}
-              min={validation[taskAddFormFieldName.HOUR].min.value}
-              max={validation[taskAddFormFieldName.HOUR].max.value}
-              errorMessage={errors[taskAddFormFieldName.HOUR]?.message}
-              validation={validation[taskAddFormFieldName.HOUR]}
-            />
-            <TimeUnitFormControl
-              control={control}
-              labelText="분"
-              name={taskAddFormFieldName.MINUTE}
-              min={validation[taskAddFormFieldName.MINUTE].min.value}
-              max={validation[taskAddFormFieldName.MINUTE].max.value}
-              errorMessage={errors[taskAddFormFieldName.MINUTE]?.message}
-              validation={validation[taskAddFormFieldName.MINUTE]}
-            />
-            <TimeUnitFormControl
-              control={control}
-              labelText="초"
-              name={taskAddFormFieldName.SECOND}
-              min={validation[taskAddFormFieldName.SECOND].min.value}
-              max={validation[taskAddFormFieldName.SECOND].max.value}
-              errorMessage={errors[taskAddFormFieldName.SECOND]?.message}
-              validation={validation[taskAddFormFieldName.SECOND]}
-            />
+            {timeFields.map((field, index) => (
+              <TimeUnitFormControl
+                key={field.id}
+                control={control}
+                name={`time.${index}`}
+                labelText={timeFieldLabels[index]}
+                min={fieldValidation.time[index].min.value}
+                max={fieldValidation.time[index].max.value}
+                validation={fieldValidation.time[index]}
+                errorMessage={errors.time?.[index]?.message}
+              />
+            ))}
           </VStack>
-        </fieldset>
+          <FormErrorMessage>{errors.time?.root?.message}</FormErrorMessage>
+        </FormControl>
         <Button colorScheme="main" variant="outline" type="submit">
           할 일 추가
         </Button>
@@ -85,60 +85,57 @@ TaskAddForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
 };
 
-export const taskAddFormFieldName = Object.freeze({
-  NAME: "taskName",
-  HOUR: "taskTimeHour",
-  MINUTE: "taskTimeMinute",
-  SECOND: "taskTimeSecond",
-});
+const timeFieldLabels = ["시간", "분", "초"];
 
-const validation = {
-  [taskAddFormFieldName.NAME]: {
+const fieldValidation = {
+  name: {
     required: {
       value: true,
       message: "할 일을 입력해주세요.",
     },
   },
-  [taskAddFormFieldName.HOUR]: {
-    required: {
-      value: true,
-      message: "시간을 입력해주세요.",
+  time: [
+    {
+      required: {
+        value: true,
+        message: "시간을 입력해주세요.",
+      },
+      min: {
+        value: 0,
+        message: "시간을 0~2 사이로 입력해주세요. 3시간이 넘는 계획은 무리한 계획일 수 있습니다.",
+      },
+      max: {
+        value: 2,
+        message: "시간을 0~2 사이로 입력해주세요. 3시간이 넘는 계획은 무리한 계획일 수 있습니다.",
+      },
     },
-    min: {
-      value: 0,
-      message: "시간을 0~2 사이로 입력해주세요. 3시간이 넘는 계획은 무리한 계획일 수 있습니다.",
+    {
+      required: {
+        value: true,
+        message: "분을 입력해주세요.",
+      },
+      min: {
+        value: 0,
+        message: "분은 0~59 사이 값이여야 합니다.",
+      },
+      max: {
+        value: 59,
+        message: "분은 0~59 사이 값이여야 합니다.",
+      },
     },
-    max: {
-      value: 2,
-      message: "시간을 0~2 사이로 입력해주세요. 3시간이 넘는 계획은 무리한 계획일 수 있습니다.",
+    {
+      required: {
+        value: true,
+        message: "초를 입력해주세요.",
+      },
+      min: {
+        value: 0,
+        message: "초는 0~59 사이 값이여야 합니다.",
+      },
+      max: {
+        value: 59,
+        message: "초는 0~59 사이 값이여야 합니다.",
+      },
     },
-  },
-  [taskAddFormFieldName.MINUTE]: {
-    required: {
-      value: true,
-      message: "분을 입력해주세요.",
-    },
-    min: {
-      value: 0,
-      message: "분은 0~59 사이 값이여야 합니다.",
-    },
-    max: {
-      value: 59,
-      message: "분은 0~59 사이 값이여야 합니다.",
-    },
-  },
-  [taskAddFormFieldName.SECOND]: {
-    required: {
-      value: true,
-      message: "초를 입력해주세요.",
-    },
-    min: {
-      value: 0,
-      message: "초는 0~59 사이 값이여야 합니다.",
-    },
-    max: {
-      value: 59,
-      message: "초는 0~59 사이 값이여야 합니다.",
-    },
-  },
+  ],
 };
