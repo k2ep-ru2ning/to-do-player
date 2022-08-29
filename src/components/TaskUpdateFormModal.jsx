@@ -9,17 +9,17 @@ import {
 import PropTypes from "prop-types";
 import { useCallback } from "react";
 import { convertTimeFromSecondToHourMinuteSecond } from "../utils/timeConvertor";
-import TaskUpdateForm, { taskUpdateFormFieldName } from "./TaskUpdateForm";
+import TaskUpdateForm from "./TaskUpdateForm";
 
 export default function TaskUpdateFormModal({ isOpen, onClose, onSubmit, task }) {
   const handleSubmit = useCallback(
-    (formInput) => {
+    ({ name, time: [hour, minute, second] }) => {
       onSubmit({
         id: task.id,
-        name: formInput[taskUpdateFormFieldName.NAME],
-        hour: Number(formInput[taskUpdateFormFieldName.HOUR]),
-        minute: Number(formInput[taskUpdateFormFieldName.MINUTE]),
-        second: Number(formInput[taskUpdateFormFieldName.SECOND]),
+        name,
+        hour: Number(hour),
+        minute: Number(minute),
+        second: Number(second),
       });
       onClose();
     },
@@ -59,9 +59,7 @@ function convertTaskToTaskUpdateFormDefaultValues(task) {
   const { hour, minute, second } = convertTimeFromSecondToHourMinuteSecond(scheduledTimeInSecond);
 
   return {
-    [taskUpdateFormFieldName.NAME]: name,
-    [taskUpdateFormFieldName.HOUR]: hour,
-    [taskUpdateFormFieldName.MINUTE]: minute,
-    [taskUpdateFormFieldName.SECOND]: second,
+    name,
+    time: [hour, minute, second].map(String),
   };
 }
