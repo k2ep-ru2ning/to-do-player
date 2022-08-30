@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
-import TaskUpdateFormModal from "./TaskUpdateFormModal";
 import { useCallback } from "react";
 import FormattedTime from "./FormattedTime";
 import { useDisclosure } from "@chakra-ui/react";
+import UpdateTaskFormModal from "./UpdateTaskFormModal";
 
 export default function ScheduledTaskListItem({ task, dispatch }) {
   const {
@@ -46,7 +46,7 @@ export default function ScheduledTaskListItem({ task, dispatch }) {
           삭제하기
         </button>
       </div>
-      <TaskUpdateFormModal
+      <UpdateTaskFormModal
         isOpen={isTaskUpdateFormModalOpen}
         onClose={onCloseTaskUpdateFormModal}
         onSubmit={handleUpdateTask}
