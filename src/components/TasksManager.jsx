@@ -1,8 +1,8 @@
 import { useReducer } from "react";
 import { convertTimeFromHourMinuteSecondToSecond } from "../utils/timeConvertor";
 import TaskDetail from "./TaskDetail";
-import ScheduledTasks from "./ScheduledTasks";
 import OpenAddTaskFormModalButton from "./OpenAddTaskFormModalButton";
+import WaitingTasks from "./WaitingTasks";
 
 export default function TasksManager() {
   const [state, dispatch] = useReducer(tasksReducer, { tasks: [] });
@@ -11,7 +11,7 @@ export default function TasksManager() {
     <>
       <TaskDetail />
       <OpenAddTaskFormModalButton dispatch={dispatch} />
-      <ScheduledTasks tasks={state.tasks} dispatch={dispatch} />
+      <WaitingTasks tasks={state.tasks} dispatch={dispatch} />
     </>
   );
 }

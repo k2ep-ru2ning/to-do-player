@@ -4,7 +4,7 @@ import FormattedTime from "./FormattedTime";
 import { useDisclosure } from "@chakra-ui/react";
 import UpdateTaskFormModal from "./UpdateTaskFormModal";
 
-export default function ScheduledTaskListItem({ task, dispatch }) {
+export default function WaitingTaskListItem({ task, dispatch }) {
   const {
     isOpen: isTaskUpdateFormModalOpen,
     onOpen: onOpenTaskUpdateFormModal,
@@ -56,7 +56,7 @@ export default function ScheduledTaskListItem({ task, dispatch }) {
   );
 }
 
-ScheduledTaskListItem.propTypes = {
+WaitingTaskListItem.propTypes = {
   task: PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
