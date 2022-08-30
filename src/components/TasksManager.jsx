@@ -1,53 +1,18 @@
-import { useCallback, useReducer } from "react";
+import { useReducer } from "react";
 import { convertTimeFromHourMinuteSecondToSecond } from "../utils/timeConvertor";
-import { nanoid } from "nanoid";
 import TaskDetail from "./TaskDetail";
 import ScheduledTasks from "./ScheduledTasks";
-import { useDisclosure } from "@chakra-ui/react";
-import AddTaskFormModal from "./AddTaskFormModal";
+import OpenAddTaskFormModalButton from "./OpenAddTaskFormModalButton";
 
 export default function TasksManager() {
   const [state, dispatch] = useReducer(tasksReducer, { tasks: [] });
 
-  const {
-    isOpen: isTaskAddFormModalOpen,
-    onOpen: onOpenTaskAddFormModal,
-    onClose: onCloseTaskAddFormModal,
-  } = useDisclosure();
-
-  const handleAddTask = useCallback(({ name, hour, minute, second }) => {
-    dispatch({
-      type: "added",
-      payload: {
-        task: {
-          id: nanoid(),
-          name,
-          hour,
-          minute,
-          second,
-        },
-      },
-    });
-  }, []);
-
   return (
-    <div>
+    <>
       <TaskDetail />
-      <div className="relative">
-        <button
-          className="absolute top-0 right-0 btn primary-btn text-sm"
-          onClick={onOpenTaskAddFormModal}
-        >
-          할 일 추가하기
-        </button>
-        <ScheduledTasks tasks={state.tasks} dispatch={dispatch} />
-        <AddTaskFormModal
-          isOpen={isTaskAddFormModalOpen}
-          onClose={onCloseTaskAddFormModal}
-          onSubmit={handleAddTask}
-        />
-      </div>
-    </div>
+      <OpenAddTaskFormModalButton dispatch={dispatch} />
+      <ScheduledTasks tasks={state.tasks} dispatch={dispatch} />
+    </>
   );
 }
 
