@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import AddTaskForm from "./AddTaskForm";
 
-export default function TaskAddFormModal({ isOpen, onClose, onSubmit }) {
+export default function AddTaskFormModal({ isOpen, onClose, onSubmit }) {
   const handleSubmit = useCallback(({ name, time: [hour, minute, second] }) => {
     onSubmit({
       name,
@@ -35,7 +35,7 @@ export default function TaskAddFormModal({ isOpen, onClose, onSubmit }) {
   );
 }
 
-TaskAddFormModal.propTypes = {
+AddTaskFormModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
