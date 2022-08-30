@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import TaskAddForm from "./TaskAddForm";
 import { useCallback } from "react";
 import {
   Modal,
@@ -9,6 +8,7 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
+import AddTaskForm from "./AddTaskForm";
 
 export default function TaskAddFormModal({ isOpen, onClose, onSubmit }) {
   const handleSubmit = useCallback(({ name, time: [hour, minute, second] }) => {
@@ -28,7 +28,7 @@ export default function TaskAddFormModal({ isOpen, onClose, onSubmit }) {
         <ModalHeader>새 할 일 추가하기</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <TaskAddForm onSubmit={handleSubmit} />
+          <AddTaskForm onSubmit={handleSubmit} />
         </ModalBody>
       </ModalContent>
     </Modal>

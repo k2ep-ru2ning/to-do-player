@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Button, Flex, FormControl, FormErrorMessage, FormLabel, Input } from "@chakra-ui/react";
 import HourMinuteSecondTimeFieldArrayFormControl from "./HourMinuteSecondTimeFieldArrayFormControl";
 
-export default function TaskAddForm({ onSubmit }) {
+export default function AddTaskForm({ onSubmit }) {
   const {
     register,
     handleSubmit,
@@ -45,6 +45,6 @@ export default function TaskAddForm({ onSubmit }) {
   );
 }
 
-TaskAddForm.propTypes = {
+AddTaskForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
 };
