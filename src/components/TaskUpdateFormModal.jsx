@@ -9,7 +9,7 @@ import {
 import PropTypes from "prop-types";
 import { useCallback } from "react";
 import { convertTimeFromSecondToHourMinuteSecond } from "../utils/timeConvertor";
-import TaskUpdateForm from "./TaskUpdateForm";
+import UpdateTaskForm from "./UpdateTaskForm";
 
 export default function TaskUpdateFormModal({ isOpen, onClose, onSubmit, task }) {
   const handleSubmit = useCallback(
@@ -35,7 +35,7 @@ export default function TaskUpdateFormModal({ isOpen, onClose, onSubmit, task })
         <ModalHeader>할 일 수정하기</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <TaskUpdateForm onSubmit={handleSubmit} defaultValues={defaultValues} />
+          <UpdateTaskForm onSubmit={handleSubmit} defaultValues={defaultValues} />
         </ModalBody>
       </ModalContent>
     </Modal>
