@@ -1,5 +1,6 @@
-import { Flex, Heading, List, Text } from "@chakra-ui/react";
+import { Flex, Heading, List } from "@chakra-ui/react";
 import PropTypes from "prop-types";
+import DefaultMessage from "./DefaultMessage";
 import WaitingTaskListItem from "./WaitingTaskListItem";
 
 export default function WaitingTasks({ tasks, dispatch }) {
@@ -13,9 +14,7 @@ export default function WaitingTasks({ tasks, dispatch }) {
         </Heading>
       </header>
       {waitingTasks.length === 0 ? (
-        <Text fontSize="lg" color="gray.700" px={2} py={4} textAlign="center">
-          할 일 추가하기 버튼을 눌러 할 일을 추가하세요.
-        </Text>
+        <DefaultMessage>할 일 추가하기 버튼을 눌러 할 일을 추가하세요.</DefaultMessage>
       ) : (
         <List spacing={4}>
           {waitingTasks.map((task) => (

@@ -1,4 +1,5 @@
-import { Flex, Text } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
+import DefaultMessage from "./DefaultMessage";
 
 export default function TaskDetail() {
   return (
@@ -10,9 +11,7 @@ export default function TaskDetail() {
       borderWidth="1px"
       borderRadius="lg"
     >
-      <Text fontSize="lg" color="gray.700" px={2} py={4} textAlign="center">
-        할 일 목록에서 할 일을 선택하세요.
-      </Text>
+      <DefaultMessage>할 일 목록에서 할 일을 선택하세요.</DefaultMessage>
     </Flex>
   );
 }
