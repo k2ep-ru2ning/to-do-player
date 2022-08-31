@@ -4,7 +4,7 @@ import FormattedTime from "./FormattedTime";
 import { Button, ButtonGroup, Flex, Text, useDisclosure, VStack } from "@chakra-ui/react";
 import UpdateTaskFormModal from "./UpdateTaskFormModal";
 
-export default function WaitingTaskListItem({ task, dispatch }) {
+export default function WaitingTask({ task, dispatch }) {
   const {
     isOpen: isTaskUpdateFormModalOpen,
     onOpen: onOpenTaskUpdateFormModal,
@@ -62,7 +62,7 @@ export default function WaitingTaskListItem({ task, dispatch }) {
   );
 }
 
-WaitingTaskListItem.propTypes = {
+WaitingTask.propTypes = {
   task: PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,

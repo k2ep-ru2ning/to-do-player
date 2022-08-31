@@ -1,7 +1,7 @@
 import { Flex, Heading, StackDivider, VStack } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import DefaultMessage from "./DefaultMessage";
-import WaitingTaskListItem from "./WaitingTaskListItem";
+import WaitingTask from "./WaitingTask";
 
 export default function WaitingTasks({ tasks, dispatch }) {
   const waitingTasks = tasks.filter((task) => task.remainingTimeInSecond > 0);
@@ -18,7 +18,7 @@ export default function WaitingTasks({ tasks, dispatch }) {
       ) : (
         <VStack divider={<StackDivider borderColor="gray.400" />} align="stretch" spacing={4}>
           {waitingTasks.map((task) => (
-            <WaitingTaskListItem key={task.id} task={task} dispatch={dispatch} />
+            <WaitingTask key={task.id} task={task} dispatch={dispatch} />
           ))}
         </VStack>
       )}
