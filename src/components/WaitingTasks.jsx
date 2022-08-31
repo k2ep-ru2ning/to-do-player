@@ -1,4 +1,4 @@
-import { Flex, Heading, StackDivider, VStack } from "@chakra-ui/react";
+import { Box, Center, Flex, Heading, StackDivider, VStack } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import DefaultMessage from "./DefaultMessage";
 import WaitingTask from "./WaitingTask";
@@ -13,15 +13,19 @@ export default function WaitingTasks({ tasks, dispatch }) {
           할 일 목록
         </Heading>
       </header>
-      {waitingTasks.length === 0 ? (
-        <DefaultMessage>할 일 추가하기 버튼을 눌러 할 일을 추가하세요.</DefaultMessage>
-      ) : (
-        <VStack divider={<StackDivider borderColor="gray.400" />} align="stretch" spacing={4}>
-          {waitingTasks.map((task) => (
-            <WaitingTask key={task.id} task={task} dispatch={dispatch} />
-          ))}
-        </VStack>
-      )}
+      <Box h={96} overflowY="auto" borderWidth={1} borderRadius="md">
+        {waitingTasks.length === 0 ? (
+          <Center h="full">
+            <DefaultMessage>할 일 추가하기 버튼을 눌러 할 일을 추가하세요.</DefaultMessage>
+          </Center>
+        ) : (
+          <VStack divider={<StackDivider />} align="stretch" spacing={0}>
+            {waitingTasks.map((task) => (
+              <WaitingTask key={task.id} task={task} dispatch={dispatch} />
+            ))}
+          </VStack>
+        )}
+      </Box>
     </Flex>
   );
 }
