@@ -3,15 +3,21 @@ import { convertTimeFromHourMinuteSecondToSecond } from "../utils/timeConvertor"
 import TaskDetail from "./TaskDetail";
 import OpenAddTaskFormModalButton from "./OpenAddTaskFormModalButton";
 import WaitingTasks from "./WaitingTasks";
+import FinishedTasks from "./FinishedTasks";
 
 export default function TasksManager() {
   const [state, dispatch] = useReducer(tasksReducer, { tasks: [] });
+
+  const { tasks } = state;
+
+  const finishedTasks = tasks.filter((task) => task.remainingTimeInSecond === 0);
 
   return (
     <>
       <TaskDetail />
       <OpenAddTaskFormModalButton dispatch={dispatch} />
       <WaitingTasks tasks={state.tasks} dispatch={dispatch} />
+      <FinishedTasks finishedTasks={finishedTasks} />
     </>
   );
 }
