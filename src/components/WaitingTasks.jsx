@@ -3,9 +3,7 @@ import PropTypes from "prop-types";
 import DefaultMessage from "./DefaultMessage";
 import WaitingTask from "./WaitingTask";
 
-export default function WaitingTasks({ tasks, dispatch }) {
-  const waitingTasks = tasks.filter((task) => task.remainingTimeInSecond > 0);
-
+export default function WaitingTasks({ waitingTasks, dispatch }) {
   return (
     <Flex as="section" direction="column" rowGap={4}>
       <header>
@@ -31,7 +29,7 @@ export default function WaitingTasks({ tasks, dispatch }) {
 }
 
 WaitingTasks.propTypes = {
-  tasks: PropTypes.arrayOf(
+  waitingTasks: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,

@@ -10,13 +10,15 @@ export default function TasksManager() {
 
   const { tasks } = state;
 
+  const waitingTasks = tasks.filter((task) => task.remainingTimeInSecond > 0);
+
   const finishedTasks = tasks.filter((task) => task.remainingTimeInSecond === 0);
 
   return (
     <>
       <TaskDetail />
       <OpenAddTaskFormModalButton dispatch={dispatch} />
-      <WaitingTasks tasks={state.tasks} dispatch={dispatch} />
+      <WaitingTasks waitingTasks={waitingTasks} dispatch={dispatch} />
       <FinishedTasks finishedTasks={finishedTasks} />
     </>
   );
