@@ -1,3 +1,4 @@
+import { Flex, Text } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { memo } from "react";
 import { convertTimeFromSecondToHourMinuteSecond } from "../utils/timeConvertor";
@@ -7,10 +8,10 @@ function FormattedTime({ prefix, timeInSecond }) {
   const formattedTime = formatTime(convertTimeFromSecondToHourMinuteSecond(Number(timeInSecond)));
 
   return (
-    <div className="flex gap-2">
-      {prefix ? <span>{prefix}</span> : null}
-      {formattedTime}
-    </div>
+    <Flex alignItems="center" columnGap={2}>
+      {prefix ? <Text>{prefix}</Text> : null}
+      <Text>{formattedTime}</Text>
+    </Flex>
   );
 }
 
