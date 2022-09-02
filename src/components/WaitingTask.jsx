@@ -1,28 +1,12 @@
 import PropTypes from "prop-types";
-import { useCallback } from "react";
+import { memo, useCallback } from "react";
 import FormattedTime from "./FormattedTime";
-import { Button, ButtonGroup, Flex, Text, useDisclosure, VStack } from "@chakra-ui/react";
-import UpdateTaskFormModal from "./UpdateTaskFormModal";
+import { Flex, Text, VStack } from "@chakra-ui/react";
 
-export default function WaitingTask({ task, dispatch }) {
-  const {
-    isOpen: isTaskUpdateFormModalOpen,
-    onOpen: onOpenTaskUpdateFormModal,
-    onClose: onCloseTaskUpdateFormModal,
-  } = useDisclosure();
-
-  const handleUpdateTask = useCallback(({ id, name, hour, minute, second }) => {
+function WaitingTask({ task, dispatch }) {
+  const handleClickTask = useCallback(() => {
     dispatch({
-      type: "updated",
-      payload: {
-        task: { id, name, hour, minute, second },
-      },
-    });
-  }, []);
-
-  const handleRemoveTask = useCallback(() => {
-    dispatch({
-      type: "removed",
+      type: "selected",
       payload: {
         task: {
           id: task.id,
@@ -32,33 +16,21 @@ export default function WaitingTask({ task, dispatch }) {
   }, [task.id]);
 
   return (
-    <>
-      <Flex
-        _hover={{ backgroundColor: "gray.100" }}
-        px={4}
-        py={2}
-        columnGap={4}
-        alignItems="center"
-      >
-        <Text flexGrow={1} flexShrink={0} fontWeight="bold">
-          {task.name}
-        </Text>
-        <VStack spacing={1}>
-          <FormattedTime prefix="계획 시간" timeInSecond={task.scheduledTimeInSecond} />
-          <FormattedTime prefix="남은 시간" timeInSecond={task.remainingTimeInSecond} />
-        </VStack>
-        <ButtonGroup size="sm" colorScheme="main" variant="ghost">
-          <Button onClick={onOpenTaskUpdateFormModal}>수정하기</Button>
-          <Button onClick={handleRemoveTask}>삭제하기</Button>
-        </ButtonGroup>
-      </Flex>
-      <UpdateTaskFormModal
-        isOpen={isTaskUpdateFormModalOpen}
-        onClose={onCloseTaskUpdateFormModal}
-        onSubmit={handleUpdateTask}
-        task={task}
-      />
-    </>
+    <Flex
+      _hover={{ backgroundColor: "gray.100", cursor: "pointer" }}
+      p={4}
+      columnGap={4}
+      alignItems="center"
+      onClick={handleClickTask}
+    >
+      <Text flexGrow={1} flexShrink={0} fontWeight="bold">
+        {task.name}
+      </Text>
+      <VStack spacing={1}>
+        <FormattedTime prefix="계획 시간" timeInSecond={task.scheduledTimeInSecond} />
+        <FormattedTime prefix="남은 시간" timeInSecond={task.remainingTimeInSecond} />
+      </VStack>
+    </Flex>
   );
 }
 
@@ -71,3 +43,5 @@ WaitingTask.propTypes = {
   }).isRequired,
   dispatch: PropTypes.func.isRequired,
 };
+
+export default memo(WaitingTask);

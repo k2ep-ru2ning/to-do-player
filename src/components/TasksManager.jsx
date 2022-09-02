@@ -1,22 +1,24 @@
 import { useReducer } from "react";
 import { convertTimeFromHourMinuteSecondToSecond } from "../utils/timeConvertor";
-import TaskDetail from "./TaskDetail";
+import SelectedTaskDetail from "./SelectedTaskDetail";
 import OpenAddTaskFormModalButton from "./OpenAddTaskFormModalButton";
 import WaitingTasks from "./WaitingTasks";
 import FinishedTasks from "./FinishedTasks";
 
 export default function TasksManager() {
-  const [state, dispatch] = useReducer(tasksReducer, { tasks: [] });
+  const [state, dispatch] = useReducer(tasksReducer, { tasks: [], selectedTaskId: null });
 
-  const { tasks } = state;
+  const { tasks, selectedTaskId } = state;
 
   const waitingTasks = tasks.filter((task) => task.remainingTimeInSecond > 0);
 
   const finishedTasks = tasks.filter((task) => task.remainingTimeInSecond === 0);
 
+  const selectedTask = tasks.find((task) => task.id === selectedTaskId);
+
   return (
     <>
-      <TaskDetail />
+      <SelectedTaskDetail task={selectedTask} dispatch={dispatch} />
       <OpenAddTaskFormModalButton dispatch={dispatch} />
       <WaitingTasks waitingTasks={waitingTasks} dispatch={dispatch} />
       <FinishedTasks finishedTasks={finishedTasks} />
@@ -64,6 +66,13 @@ function tasksReducer(state, action) {
       return {
         ...state,
         tasks: state.tasks.filter((task) => task.id !== id),
+      };
+    }
+    case "selected": {
+      const { id } = action.payload.task;
+      return {
+        ...state,
+        selectedTaskId: id,
       };
     }
     default: {
