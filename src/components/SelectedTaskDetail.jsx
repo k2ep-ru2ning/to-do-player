@@ -1,21 +1,10 @@
 import PropTypes from "prop-types";
-import { Button, ButtonGroup, Center, Text, VStack } from "@chakra-ui/react";
+import { ButtonGroup, Center, Text, VStack } from "@chakra-ui/react";
 import DefaultMessage from "./DefaultMessage";
-import { useCallback } from "react";
 import OpenUpdateTaskFormModalButton from "./OpenUpdateTaskFormModalButton";
+import OpenRemoveTaskAlertModalButton from "./OpenRemoveTaskAlertModalButton";
 
 export default function SelectedTaskDetail({ task, dispatch }) {
-  const handleRemoveTask = useCallback(() => {
-    dispatch({
-      type: "removed",
-      payload: {
-        task: {
-          id: task.id,
-        },
-      },
-    });
-  }, [task]);
-
   return (
     <Center height={80} p={4} borderWidth="1px" borderRadius="lg">
       {task ? (
@@ -25,7 +14,7 @@ export default function SelectedTaskDetail({ task, dispatch }) {
           </Text>
           <ButtonGroup size="sm">
             <OpenUpdateTaskFormModalButton task={task} dispatch={dispatch} />
-            <Button onClick={handleRemoveTask}>삭제하기</Button>
+            <OpenRemoveTaskAlertModalButton task={task} dispatch={dispatch} />
           </ButtonGroup>
         </VStack>
       ) : (
