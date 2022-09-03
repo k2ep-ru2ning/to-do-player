@@ -66,6 +66,7 @@ function tasksReducer(state, action) {
       return {
         ...state,
         tasks: state.tasks.filter((task) => task.id !== id),
+        selectedTaskId: null,
       };
     }
     case "selected": {
