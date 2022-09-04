@@ -4,11 +4,16 @@ import SelectedTaskDetail from "./SelectedTaskDetail";
 import OpenAddTaskFormModalButton from "./OpenAddTaskFormModalButton";
 import WaitingTasks from "./WaitingTasks";
 import FinishedTasks from "./FinishedTasks";
+import { Flex } from "@chakra-ui/react";
 
 export default function TasksManager() {
-  const [state, dispatch] = useReducer(tasksReducer, { tasks: [], selectedTaskId: null });
+  const [state, dispatch] = useReducer(tasksReducer, {
+    tasks: [],
+    selectedTaskId: null,
+    isTimerRunning: false,
+  });
 
-  const { tasks, selectedTaskId } = state;
+  const { tasks, selectedTaskId, isTimerRunning } = state;
 
   const waitingTasks = tasks.filter((task) => task.remainingTimeInSecond > 0);
 
@@ -17,12 +22,20 @@ export default function TasksManager() {
   const selectedTask = tasks.find((task) => task.id === selectedTaskId);
 
   return (
-    <>
-      <SelectedTaskDetail task={selectedTask} dispatch={dispatch} />
+    <Flex direction="column" rowGap={6}>
+      <SelectedTaskDetail
+        selectedTask={selectedTask}
+        isRunning={isTimerRunning}
+        dispatch={dispatch}
+      />
       <OpenAddTaskFormModalButton dispatch={dispatch} />
-      <WaitingTasks waitingTasks={waitingTasks} dispatch={dispatch} />
+      <WaitingTasks
+        waitingTasks={waitingTasks}
+        selectedTaskId={selectedTaskId}
+        dispatch={dispatch}
+      />
       <FinishedTasks finishedTasks={finishedTasks} />
-    </>
+    </Flex>
   );
 }
 
@@ -45,13 +58,12 @@ function tasksReducer(state, action) {
       };
     }
     case "updated_selected_task": {
-      const { selectedTaskId } = state;
       const { name, hour, minute, second } = action.payload.task;
       const inputTimeInSecond = convertTimeFromHourMinuteSecondToSecond({ hour, minute, second });
       return {
         ...state,
         tasks: state.tasks.map((task) =>
-          task.id === selectedTaskId
+          task.id === state.selectedTaskId
             ? {
                 ...task,
                 name,
@@ -74,6 +86,45 @@ function tasksReducer(state, action) {
       return {
         ...state,
         selectedTaskId: id,
+        isTimerRunning: false,
+      };
+    }
+    case "started_timer": {
+      return {
+        ...state,
+        isTimerRunning: true,
+      };
+    }
+    case "stopped_timer": {
+      return {
+        ...state,
+        isTimerRunning: false,
+      };
+    }
+    case "updated_timer": {
+      return {
+        ...state,
+        tasks: state.tasks.map((task) =>
+          task.id === state.selectedTaskId
+            ? {
+                ...task,
+                remainingTimeInSecond: task.remainingTimeInSecond - 1,
+              }
+            : task,
+        ),
+      };
+    }
+    case "reset_timer": {
+      return {
+        ...state,
+        tasks: state.tasks.map((task) =>
+          task.id === state.selectedTaskId
+            ? {
+                ...task,
+                remainingTimeInSecond: task.scheduledTimeInSecond,
+              }
+            : task,
+        ),
       };
     }
     default: {

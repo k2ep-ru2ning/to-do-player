@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import DefaultMessage from "./DefaultMessage";
 import WaitingTask from "./WaitingTask";
 
-export default function WaitingTasks({ waitingTasks, dispatch }) {
+export default function WaitingTasks({ waitingTasks, selectedTaskId, dispatch }) {
   return (
     <Flex as="section" direction="column" rowGap={4}>
       <header>
@@ -11,7 +11,7 @@ export default function WaitingTasks({ waitingTasks, dispatch }) {
           할 일 목록
         </Heading>
       </header>
-      <Box h={96} overflowY="auto" borderWidth={1} borderRadius="md">
+      <Box h="389px" overflowY="auto" borderWidth={1} borderRadius="md">
         {waitingTasks.length === 0 ? (
           <Center h="full">
             <DefaultMessage>할 일 추가하기 버튼을 눌러 할 일을 추가하세요.</DefaultMessage>
@@ -19,7 +19,12 @@ export default function WaitingTasks({ waitingTasks, dispatch }) {
         ) : (
           <VStack divider={<StackDivider />} align="stretch" spacing={0}>
             {waitingTasks.map((task) => (
-              <WaitingTask key={task.id} task={task} dispatch={dispatch} />
+              <WaitingTask
+                key={task.id}
+                task={task}
+                isSelected={task.id === selectedTaskId}
+                dispatch={dispatch}
+              />
             ))}
           </VStack>
         )}
@@ -37,5 +42,6 @@ WaitingTasks.propTypes = {
       remainingTimeInSecond: PropTypes.number.isRequired,
     }),
   ).isRequired,
+  selectedTaskId: PropTypes.string,
   dispatch: PropTypes.func.isRequired,
 };

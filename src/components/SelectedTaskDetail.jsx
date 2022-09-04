@@ -3,19 +3,33 @@ import { ButtonGroup, Center, Text, VStack } from "@chakra-ui/react";
 import DefaultMessage from "./DefaultMessage";
 import OpenUpdateTaskFormModalButton from "./OpenUpdateTaskFormModalButton";
 import OpenRemoveTaskAlertModalButton from "./OpenRemoveTaskAlertModalButton";
+import SelectedTaskProgressTimer from "./SelectedTaskProgressTimer";
 
-export default function SelectedTaskDetail({ task, dispatch }) {
+export default function SelectedTaskDetail({ selectedTask, isRunning, dispatch }) {
+  const isSelectedTaskFinished = selectedTask && selectedTask.remainingTimeInSecond === 0;
+
   return (
-    <Center height={80} p={4} borderWidth="1px" borderRadius="lg">
-      {task ? (
-        <VStack>
-          <Text fontSize="3xl" fontWeight="bold">
-            {task.name}
-          </Text>
-          <ButtonGroup size="sm">
-            <OpenUpdateTaskFormModalButton task={task} dispatch={dispatch} />
-            <OpenRemoveTaskAlertModalButton task={task} dispatch={dispatch} />
+    <Center height={72} p={4} borderWidth="1px" borderRadius="lg">
+      {selectedTask ? (
+        <VStack spacing={4}>
+          <ButtonGroup size="sm" isDisabled={isRunning || isSelectedTaskFinished}>
+            <OpenUpdateTaskFormModalButton task={selectedTask} dispatch={dispatch} />
+            <OpenRemoveTaskAlertModalButton task={selectedTask} dispatch={dispatch} />
           </ButtonGroup>
+          <Text fontSize="3xl" fontWeight="bold">
+            {selectedTask.name}
+          </Text>
+          {isSelectedTaskFinished ? (
+            <Text fontSize="3xl" fontWeight="bold">
+              할 일을 완료했습니다!
+            </Text>
+          ) : (
+            <SelectedTaskProgressTimer
+              selectedTask={selectedTask}
+              isRunning={isRunning}
+              dispatch={dispatch}
+            />
+          )}
         </VStack>
       ) : (
         <DefaultMessage>할 일 목록에서 할 일을 선택하세요.</DefaultMessage>
@@ -25,11 +39,12 @@ export default function SelectedTaskDetail({ task, dispatch }) {
 }
 
 SelectedTaskDetail.propTypes = {
-  task: PropTypes.shape({
+  selectedTask: PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     scheduledTimeInSecond: PropTypes.number.isRequired,
     remainingTimeInSecond: PropTypes.number.isRequired,
   }),
+  isRunning: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
 };

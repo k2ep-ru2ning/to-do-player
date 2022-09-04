@@ -3,7 +3,7 @@ import { memo, useCallback } from "react";
 import FormattedTime from "./FormattedTime";
 import { Flex, Text, VStack } from "@chakra-ui/react";
 
-function WaitingTask({ task, dispatch }) {
+function WaitingTask({ task, isSelected, dispatch }) {
   const handleClickTask = useCallback(() => {
     dispatch({
       type: "selected_task",
@@ -19,6 +19,7 @@ function WaitingTask({ task, dispatch }) {
     <Flex
       _hover={{ backgroundColor: "gray.100", cursor: "pointer" }}
       p={4}
+      h={24}
       columnGap={4}
       alignItems="center"
       onClick={handleClickTask}
@@ -28,7 +29,9 @@ function WaitingTask({ task, dispatch }) {
       </Text>
       <VStack spacing={1}>
         <FormattedTime prefix="계획 시간" timeInSecond={task.scheduledTimeInSecond} />
-        <FormattedTime prefix="남은 시간" timeInSecond={task.remainingTimeInSecond} />
+        {!isSelected && (
+          <FormattedTime prefix="남은 시간" timeInSecond={task.remainingTimeInSecond} />
+        )}
       </VStack>
     </Flex>
   );
@@ -41,6 +44,7 @@ WaitingTask.propTypes = {
     scheduledTimeInSecond: PropTypes.number.isRequired,
     remainingTimeInSecond: PropTypes.number.isRequired,
   }).isRequired,
+  isSelected: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
 };
 
