@@ -9,7 +9,7 @@ export default function OpenAddTaskFormModalButton({ dispatch }) {
 
   const handleAddTask = useCallback(({ name, hour, minute, second }) => {
     dispatch({
-      type: "added",
+      type: "added_new_task",
       payload: {
         task: {
           id: nanoid(),

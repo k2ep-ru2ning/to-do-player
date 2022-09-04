@@ -28,7 +28,7 @@ export default function TasksManager() {
 
 function tasksReducer(state, action) {
   switch (action.type) {
-    case "added": {
+    case "added_new_task": {
       const { id, name, hour, minute, second } = action.payload.task;
       const inputTimeInSecond = convertTimeFromHourMinuteSecondToSecond({ hour, minute, second });
       return {
@@ -44,13 +44,14 @@ function tasksReducer(state, action) {
         ],
       };
     }
-    case "updated": {
-      const { id, name, hour, minute, second } = action.payload.task;
+    case "updated_selected_task": {
+      const { selectedTaskId } = state;
+      const { name, hour, minute, second } = action.payload.task;
       const inputTimeInSecond = convertTimeFromHourMinuteSecondToSecond({ hour, minute, second });
       return {
         ...state,
         tasks: state.tasks.map((task) =>
-          task.id === id
+          task.id === selectedTaskId
             ? {
                 ...task,
                 name,
@@ -61,15 +62,14 @@ function tasksReducer(state, action) {
         ),
       };
     }
-    case "removed": {
-      const { id } = action.payload.task;
+    case "removed_selected_task": {
       return {
         ...state,
-        tasks: state.tasks.filter((task) => task.id !== id),
+        tasks: state.tasks.filter((task) => task.id !== state.selectedTaskId),
         selectedTaskId: null,
       };
     }
-    case "selected": {
+    case "selected_task": {
       const { id } = action.payload.task;
       return {
         ...state,

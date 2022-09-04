@@ -6,7 +6,7 @@ import { Flex, Text, VStack } from "@chakra-ui/react";
 function WaitingTask({ task, dispatch }) {
   const handleClickTask = useCallback(() => {
     dispatch({
-      type: "selected",
+      type: "selected_task",
       payload: {
         task: {
           id: task.id,

@@ -6,11 +6,11 @@ import UpdateTaskFormModal from "./UpdateTaskFormModal";
 export default function OpenUpdateTaskFormModalButton({ task, dispatch }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const handleUpdateTask = useCallback(({ id, name, hour, minute, second }) => {
+  const handleUpdateTask = useCallback(({ name, hour, minute, second }) => {
     dispatch({
-      type: "updated",
+      type: "updated_selected_task",
       payload: {
-        task: { id, name, hour, minute, second },
+        task: { name, hour, minute, second },
       },
     });
   }, []);

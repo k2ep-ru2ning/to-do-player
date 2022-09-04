@@ -12,19 +12,15 @@ import { convertTimeFromSecondToHourMinuteSecond } from "../utils/timeConvertor"
 import UpdateTaskForm from "./UpdateTaskForm";
 
 export default function UpdateTaskFormModal({ isOpen, onClose, onSubmit, task }) {
-  const handleSubmit = useCallback(
-    ({ name, time: [hour, minute, second] }) => {
-      onSubmit({
-        id: task.id,
-        name,
-        hour: Number(hour),
-        minute: Number(minute),
-        second: Number(second),
-      });
-      onClose();
-    },
-    [task.id],
-  );
+  const handleSubmit = useCallback(({ name, time: [hour, minute, second] }) => {
+    onSubmit({
+      name,
+      hour: Number(hour),
+      minute: Number(minute),
+      second: Number(second),
+    });
+    onClose();
+  }, []);
 
   const defaultValues = convertTaskToUpdateTaskFormDefaultValues(task);
 
