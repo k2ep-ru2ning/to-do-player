@@ -3,7 +3,9 @@ import { memo, useCallback } from "react";
 import FormattedTime from "./FormattedTime";
 import { Flex, Text, VStack } from "@chakra-ui/react";
 
-function WaitingTask({ task, isSelected, dispatch }) {
+function TaskListItem({ task, isSelected, dispatch }) {
+  const isFinished = task.remainingTimeInSecond === 0;
+
   const handleClickTask = useCallback(() => {
     dispatch({
       type: "selected_task",
@@ -29,7 +31,7 @@ function WaitingTask({ task, isSelected, dispatch }) {
       </Text>
       <VStack spacing={1}>
         <FormattedTime prefix="계획 시간" timeInSecond={task.scheduledTimeInSecond} />
-        {!isSelected && (
+        {!isSelected && !isFinished && (
           <FormattedTime prefix="남은 시간" timeInSecond={task.remainingTimeInSecond} />
         )}
       </VStack>
@@ -37,7 +39,7 @@ function WaitingTask({ task, isSelected, dispatch }) {
   );
 }
 
-WaitingTask.propTypes = {
+TaskListItem.propTypes = {
   task: PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
@@ -48,4 +50,4 @@ WaitingTask.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
 
-export default memo(WaitingTask);
+export default memo(TaskListItem);
