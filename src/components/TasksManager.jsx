@@ -2,8 +2,8 @@ import { useReducer } from "react";
 import { convertTimeFromHourMinuteSecondToSecond } from "../utils/timeConvertor";
 import SelectedTaskDetail from "./SelectedTaskDetail";
 import OpenAddTaskFormModalButton from "./OpenAddTaskFormModalButton";
-import { Flex, Heading } from "@chakra-ui/react";
-import TaskList from "./TaskList";
+import { Flex } from "@chakra-ui/react";
+import Tasks from "./Tasks";
 
 export default function TasksManager() {
   const [state, dispatch] = useReducer(tasksReducer, {
@@ -13,10 +13,6 @@ export default function TasksManager() {
   });
 
   const { tasks, selectedTaskId, isTimerRunning } = state;
-
-  const waitingTasks = tasks.filter((task) => task.remainingTimeInSecond > 0);
-
-  const finishedTasks = tasks.filter((task) => task.remainingTimeInSecond === 0);
 
   const selectedTask = tasks.find((task) => task.id === selectedTaskId);
 
@@ -28,24 +24,7 @@ export default function TasksManager() {
         dispatch={dispatch}
       />
       <OpenAddTaskFormModalButton dispatch={dispatch} />
-      <Heading as="h2" fontSize="xl">
-        할 일 목록
-      </Heading>
-      <TaskList
-        tasks={waitingTasks}
-        selectedTaskId={selectedTaskId}
-        emptyMessage="할 일 추가하기 버튼을 눌러 할 일을 추가하세요"
-        dispatch={dispatch}
-      />
-      <Heading as="h2" fontSize="xl">
-        완료 한 일
-      </Heading>
-      <TaskList
-        tasks={finishedTasks}
-        selectedTaskId={selectedTaskId}
-        emptyMessage="아직 완료된 일이 없습니다"
-        dispatch={dispatch}
-      />
+      <Tasks tasks={tasks} selectedTaskId={selectedTaskId} dispatch={dispatch} />
     </Flex>
   );
 }
