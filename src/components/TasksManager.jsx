@@ -1,7 +1,6 @@
 import { useReducer } from "react";
 import { convertTimeFromHourMinuteSecondToSecond } from "../utils/timeConvertor";
 import SelectedTaskDetail from "./SelectedTaskDetail";
-import OpenAddTaskFormModalButton from "./OpenAddTaskFormModalButton";
 import { Flex } from "@chakra-ui/react";
 import Tasks from "./Tasks";
 
@@ -23,7 +22,6 @@ export default function TasksManager() {
         isRunning={isTimerRunning}
         dispatch={dispatch}
       />
-      <OpenAddTaskFormModalButton dispatch={dispatch} />
       <Tasks tasks={tasks} selectedTaskId={selectedTaskId} dispatch={dispatch} />
     </Flex>
   );
