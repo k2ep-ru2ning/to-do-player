@@ -16,7 +16,7 @@ export default function Tasks({ tasks, selectedTaskId, dispatch }) {
           <Tab>완료 한 일</Tab>
         </TabList>
         <TabPanels>
-          <TabPanel>
+          <TabPanel px={0}>
             <TaskList
               tasks={waitingTasks}
               selectedTaskId={selectedTaskId}
@@ -24,7 +24,7 @@ export default function Tasks({ tasks, selectedTaskId, dispatch }) {
               dispatch={dispatch}
             />
           </TabPanel>
-          <TabPanel>
+          <TabPanel px={0}>
             <TaskList
               tasks={finishedTasks}
               selectedTaskId={selectedTaskId}
