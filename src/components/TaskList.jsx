@@ -5,7 +5,7 @@ import TaskListItem from "./TaskListItem";
 
 export default function TaskList({ tasks, emptyMessage, selectedTaskId, dispatch }) {
   return (
-    <Box h="389px" overflowY="auto" borderWidth={1} borderRadius="md">
+    <Box h={{ base: "391px", md: "585px" }} overflowY="auto" borderWidth={2} borderRadius="lg">
       {tasks.length === 0 ? (
         <Center h="full">
           <DefaultMessage>{emptyMessage}</DefaultMessage>

@@ -9,7 +9,7 @@ export default function SelectedTaskDetail({ selectedTask, isRunning, dispatch }
   const isSelectedTaskFinished = selectedTask && selectedTask.remainingTimeInSecond === 0;
 
   return (
-    <Center height={72} p={4} borderWidth="1px" borderRadius="lg">
+    <Center h={{ base: 72, md: 96 }} p={4} borderWidth={2} borderRadius="lg">
       {selectedTask ? (
         <VStack spacing={4}>
           <ButtonGroup size="sm" isDisabled={isRunning || isSelectedTaskFinished}>
@@ -32,7 +32,7 @@ export default function SelectedTaskDetail({ selectedTask, isRunning, dispatch }
           )}
         </VStack>
       ) : (
-        <DefaultMessage>할 일 목록에서 할 일을 선택하세요.</DefaultMessage>
+        <DefaultMessage>할 일 목록에서 할 일을 선택하세요</DefaultMessage>
       )}
     </Center>
   );

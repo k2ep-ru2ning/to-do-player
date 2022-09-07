@@ -1,8 +1,9 @@
 import { useReducer } from "react";
 import { convertTimeFromHourMinuteSecondToSecond } from "../utils/timeConvertor";
 import SelectedTaskDetail from "./SelectedTaskDetail";
-import { Flex } from "@chakra-ui/react";
+import { Flex, Grid, GridItem } from "@chakra-ui/react";
 import Tasks from "./Tasks";
+import OpenAddTaskFormModalButton from "./OpenAddTaskFormModalButton";
 
 export default function TasksManager() {
   const [state, dispatch] = useReducer(tasksReducer, {
@@ -16,14 +17,21 @@ export default function TasksManager() {
   const selectedTask = tasks.find((task) => task.id === selectedTaskId);
 
   return (
-    <Flex direction="column" rowGap={6}>
-      <SelectedTaskDetail
-        selectedTask={selectedTask}
-        isRunning={isTimerRunning}
-        dispatch={dispatch}
-      />
-      <Tasks tasks={tasks} selectedTaskId={selectedTaskId} dispatch={dispatch} />
-    </Flex>
+    <Grid gap={4} templateColumns={{ md: "repeat(2, 1fr)", xl: "repeat(3, 1fr)" }}>
+      <Flex direction="column" rowGap={4}>
+        <Flex justifyContent="flex-end">
+          <OpenAddTaskFormModalButton dispatch={dispatch} />
+        </Flex>
+        <SelectedTaskDetail
+          selectedTask={selectedTask}
+          isRunning={isTimerRunning}
+          dispatch={dispatch}
+        />
+      </Flex>
+      <GridItem colSpan={{ xl: 2 }}>
+        <Tasks tasks={tasks} selectedTaskId={selectedTaskId} dispatch={dispatch} />
+      </GridItem>
+    </Grid>
   );
 }
 
