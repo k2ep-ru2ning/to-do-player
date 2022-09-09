@@ -12,8 +12,10 @@ export default function SelectedTaskDetail({ selectedTask, isRunning, dispatch }
     <Center h={{ base: 72, md: 96 }} p={4} borderWidth={2} borderRadius="lg">
       {selectedTask ? (
         <VStack spacing={4}>
-          <ButtonGroup size="sm" isDisabled={isRunning || isSelectedTaskFinished}>
-            <OpenUpdateTaskFormModalButton task={selectedTask} dispatch={dispatch} />
+          <ButtonGroup size="sm" isDisabled={isRunning}>
+            {!isSelectedTaskFinished && (
+              <OpenUpdateTaskFormModalButton task={selectedTask} dispatch={dispatch} />
+            )}
             <OpenRemoveTaskAlertModalButton task={selectedTask} dispatch={dispatch} />
           </ButtonGroup>
           <Text fontSize="3xl" fontWeight="bold">
