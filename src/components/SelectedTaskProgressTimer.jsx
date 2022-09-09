@@ -4,10 +4,10 @@ import { useCallback, useEffect } from "react";
 import { IoPlaySharp, IoRefreshSharp, IoStopSharp } from "react-icons/io5";
 import TimerTime from "./TimerTime";
 
-export default function SelectedTaskProgressTimer({ selectedTask, isRunning, dispatch }) {
-  const canStartTimer = !isRunning && selectedTask.remainingTimeInSecond > 0;
-  const canStopTimer = isRunning && selectedTask.remainingTimeInSecond > 0;
-  const canResetTimer = selectedTask.remainingTimeInSecond > 0;
+export default function SelectedTaskProgressTimer({ remainingTimeInSecond, isRunning, dispatch }) {
+  const canStartTimer = !isRunning && remainingTimeInSecond > 0;
+  const canStopTimer = isRunning && remainingTimeInSecond > 0;
+  const canResetTimer = remainingTimeInSecond > 0;
 
   const handleClickStartButton = useCallback(() => {
     if (!canStartTimer) return;
@@ -30,17 +30,17 @@ export default function SelectedTaskProgressTimer({ selectedTask, isRunning, dis
   useEffect(() => {
     if (!isRunning) return;
 
-    if (selectedTask.remainingTimeInSecond > 0) {
+    if (remainingTimeInSecond > 0) {
       const timerId = setTimeout(() => dispatch({ type: "updated_timer" }), 1000);
       return () => clearTimeout(timerId);
-    } else if (selectedTask.remainingTimeInSecond === 0) {
+    } else if (remainingTimeInSecond === 0) {
       dispatch({ type: "stopped_timer" });
     }
-  }, [isRunning, selectedTask.remainingTimeInSecond]);
+  }, [isRunning, remainingTimeInSecond]);
 
   return (
     <VStack spacing={4}>
-      <TimerTime timeInSecond={selectedTask.remainingTimeInSecond} />
+      <TimerTime timeInSecond={remainingTimeInSecond} />
       <ButtonGroup spacing={4}>
         {canStartTimer ? (
           <IconButton
@@ -72,12 +72,7 @@ export default function SelectedTaskProgressTimer({ selectedTask, isRunning, dis
 }
 
 SelectedTaskProgressTimer.propTypes = {
-  selectedTask: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    scheduledTimeInSecond: PropTypes.number.isRequired,
-    remainingTimeInSecond: PropTypes.number.isRequired,
-  }).isRequired,
+  remainingTimeInSecond: PropTypes.number.isRequired,
   isRunning: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
 };

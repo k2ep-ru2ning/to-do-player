@@ -25,7 +25,7 @@ export default function SelectedTaskDetail({ selectedTask, isRunning, dispatch }
             </Text>
           ) : (
             <SelectedTaskProgressTimer
-              selectedTask={selectedTask}
+              remainingTimeInSecond={selectedTask.remainingTimeInSecond}
               isRunning={isRunning}
               dispatch={dispatch}
             />
