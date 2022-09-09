@@ -98,16 +98,19 @@ function tasksReducer(state, action) {
       };
     }
     case "updated_timer": {
+      const { updatedTimeInSecond } = action.payload.timer;
+
       return {
         ...state,
         tasks: state.tasks.map((task) =>
           task.id === state.selectedTaskId
             ? {
                 ...task,
-                remainingTimeInSecond: task.remainingTimeInSecond - 1,
+                remainingTimeInSecond: updatedTimeInSecond,
               }
             : task,
         ),
+        isTimerRunning: updatedTimeInSecond > 0,
       };
     }
     case "reset_timer": {

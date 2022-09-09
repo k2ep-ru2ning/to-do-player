@@ -31,10 +31,15 @@ export default function SelectedTaskProgressTimer({ remainingTimeInSecond, isRun
     if (!isRunning) return;
 
     if (remainingTimeInSecond > 0) {
-      const timerId = setTimeout(() => dispatch({ type: "updated_timer" }), 1000);
+      const timerId = setTimeout(
+        () =>
+          dispatch({
+            type: "updated_timer",
+            payload: { timer: { updatedTimeInSecond: remainingTimeInSecond - 1 } },
+          }),
+        1000,
+      );
       return () => clearTimeout(timerId);
-    } else if (remainingTimeInSecond === 0) {
-      dispatch({ type: "stopped_timer" });
     }
   }, [isRunning, remainingTimeInSecond]);
 
