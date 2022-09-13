@@ -26,7 +26,14 @@ export default function AddTaskForm({ onSubmit }) {
           <Input
             type="text"
             placeholder="할 일을 추가하세요."
-            {...register("name", { required: "할 일을 입력해주세요." })}
+            {...register("name", {
+              setValueAs: (nameInput) => nameInput.trim(),
+              required: "할 일을 입력해주세요.",
+              maxLength: {
+                value: 30,
+                message: "30자 이내로 간단히 입력해주세요.",
+              },
+            })}
           />
           <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
         </FormControl>
