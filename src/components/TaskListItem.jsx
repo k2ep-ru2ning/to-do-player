@@ -26,10 +26,10 @@ function TaskListItem({ task, isSelected, dispatch }) {
       alignItems="center"
       onClick={handleClickTask}
     >
-      <Text flexGrow={1} flexShrink={0} fontWeight="bold">
+      <Text flexGrow={1} fontWeight="bold" noOfLines={3}>
         {task.name}
       </Text>
-      <VStack spacing={1}>
+      <VStack flexShrink={0} spacing={1}>
         <FormattedTime prefix="계획 시간" timeInSecond={task.scheduledTimeInSecond} />
         {!isSelected && !isFinished && (
           <FormattedTime prefix="남은 시간" timeInSecond={task.remainingTimeInSecond} />
