@@ -9,7 +9,7 @@ export default function SelectedTaskDetail({ selectedTask, isRunning, dispatch }
   const isSelectedTaskFinished = selectedTask && selectedTask.remainingTimeInSecond === 0;
 
   return (
-    <Center h={{ base: 72, md: 96 }} p={4} borderWidth={2} borderRadius="lg">
+    <Center h={{ base: 80, md: 96 }} p={4} borderWidth={2} borderRadius="lg">
       {selectedTask ? (
         <VStack spacing={4}>
           <ButtonGroup size="sm" isDisabled={isRunning}>
@@ -18,11 +18,11 @@ export default function SelectedTaskDetail({ selectedTask, isRunning, dispatch }
             )}
             <OpenRemoveTaskAlertModalButton task={selectedTask} dispatch={dispatch} />
           </ButtonGroup>
-          <Text fontSize="3xl" fontWeight="bold">
+          <Text textAlign="center" fontSize="2xl" fontWeight="bold">
             {selectedTask.name}
           </Text>
           {isSelectedTaskFinished ? (
-            <Text fontSize="3xl" fontWeight="bold">
+            <Text textAlign="center" fontSize="2xl" fontWeight="bold">
               할 일을 완료했습니다!
             </Text>
           ) : (
