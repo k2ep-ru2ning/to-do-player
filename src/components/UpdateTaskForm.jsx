@@ -20,7 +20,14 @@ export default function UpdateTaskForm({ onSubmit, defaultValues }) {
           <Input
             type="text"
             placeholder="할 일을 수정하세요."
-            {...register("name", { required: "할 일의 새 이름을 입력해주세요." })}
+            {...register("name", {
+              setValueAs: (nameInput) => nameInput.trim(),
+              required: "할 일의 새 이름을 입력해주세요.",
+              maxLength: {
+                value: 30,
+                message: "30자 이내로 간단히 입력해주세요.",
+              },
+            })}
           />
           <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
         </FormControl>
