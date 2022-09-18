@@ -1,7 +1,17 @@
 import PropTypes from "prop-types";
-import { FormControl, FormErrorMessage, FormLabel, VStack } from "@chakra-ui/react";
-import { useFieldArray, useWatch } from "react-hook-form";
-import TimeUnitFormControl from "./TimeUnitFormControl";
+import {
+  Flex,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  VStack,
+} from "@chakra-ui/react";
+import { Controller, useFieldArray, useWatch } from "react-hook-form";
 import { useEffect } from "react";
 
 export default function HourMinuteSecondTimeFieldArrayFormControl({
@@ -11,7 +21,7 @@ export default function HourMinuteSecondTimeFieldArrayFormControl({
   control,
   labelText,
 }) {
-  const { fields: timeFields } = useFieldArray({
+  const { fields } = useFieldArray({
     control,
     name,
     rules: {
@@ -31,24 +41,49 @@ export default function HourMinuteSecondTimeFieldArrayFormControl({
     trigger(name);
   }, [hour, minute, second]);
 
+  const fieldArrayErrorMessage = error?.root?.message;
+
   return (
     <FormControl as="fieldset" isInvalid={Boolean(error)}>
       <FormLabel as="legend">{labelText}</FormLabel>
       <VStack space={2}>
-        {timeFields.map((field, index) => (
-          <TimeUnitFormControl
-            key={field.id}
-            control={control}
-            name={`${name}.${index}`}
-            labelText={timeFieldLabels[index]}
-            min={timeFieldValidations[index].min.value}
-            max={timeFieldValidations[index].max.value}
-            validation={timeFieldValidations[index]}
-            errorMessage={error?.[index]?.message}
-          />
-        ))}
+        {fields.map(({ id }, index) => {
+          const fieldName = `${name}.${index}`;
+          const fieldLabelText = timeFieldLabels[index];
+          const fieldValidation = timeFieldValidations[index];
+          const fieldError = error?.[index];
+          const fieldErrorMessage = fieldError?.message;
+
+          return (
+            <FormControl key={id} isRequired isInvalid={Boolean(fieldError)}>
+              <Flex alignItems="center" columnGap={3}>
+                <Controller
+                  control={control}
+                  name={fieldName}
+                  rules={fieldValidation}
+                  render={({ field }) => (
+                    <NumberInput
+                      {...field}
+                      maxW={24}
+                      min={fieldValidation.min.value}
+                      max={fieldValidation.max.value}
+                    >
+                      <NumberInputField textAlign="end" />
+                      <NumberInputStepper>
+                        <NumberIncrementStepper />
+                        <NumberDecrementStepper />
+                      </NumberInputStepper>
+                    </NumberInput>
+                  )}
+                />
+                <FormLabel flexShrink={0}>{fieldLabelText}</FormLabel>
+              </Flex>
+              <FormErrorMessage>{fieldErrorMessage}</FormErrorMessage>
+            </FormControl>
+          );
+        })}
       </VStack>
-      <FormErrorMessage>{error?.root?.message}</FormErrorMessage>
+      <FormErrorMessage>{fieldArrayErrorMessage}</FormErrorMessage>
     </FormControl>
   );
 }
