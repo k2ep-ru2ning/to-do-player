@@ -112,6 +112,10 @@ const timeFieldValidations = [
       value: 2,
       message: "시간을 0~2 사이로 입력해주세요. 3시간이 넘는 계획은 무리한 계획일 수 있습니다.",
     },
+    pattern: {
+      value: /^\d+$/,
+      message: "+, -, .과 같은 기호를 제외하고 숫자로만 시간을 입력해주세요.",
+    },
   },
   {
     required: {
@@ -126,6 +130,10 @@ const timeFieldValidations = [
       value: 59,
       message: "분은 0~59 사이 값이여야 합니다.",
     },
+    pattern: {
+      value: /^\d+$/,
+      message: "+, -, .과 같은 기호를 제외하고 숫자로만 분을 입력해주세요.",
+    },
   },
   {
     required: {
@@ -139,6 +147,10 @@ const timeFieldValidations = [
     max: {
       value: 59,
       message: "초는 0~59 사이 값이여야 합니다.",
+    },
+    pattern: {
+      value: /^\d+$/,
+      message: "+, -, .과 같은 기호를 제외하고 숫자로만 초를 입력해주세요.",
     },
   },
 ];
