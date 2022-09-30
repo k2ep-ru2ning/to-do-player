@@ -26,8 +26,14 @@ export default function HourMinuteSecondTimeFieldArrayFormControl({
     name,
     rules: {
       validate: {
-        notZeroTime: (time) =>
-          time.some((timeUnit) => timeUnit != "0") || "계획 시간은 0시간 0분 0초 일 수 없습니다.",
+        notZeroTime: (time) => {
+          if (time.some((timeUnit) => timeUnit === "")) return true;
+
+          return (
+            time.some((timeUnit) => Number(timeUnit) !== 0) ||
+            "계획 시간은 0시간 0분 0초 일 수 없습니다."
+          );
+        },
       },
     },
   });
