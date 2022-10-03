@@ -26,6 +26,7 @@ module.exports = {
     rules: [
       {
         test: /\.jsx?$/,
+        exclude: /node_modules/,
         use: [
           {
             loader: "babel-loader",
@@ -49,7 +50,6 @@ module.exports = {
             },
           },
         ],
-        exclude: path.resolve(__dirname, "node_modules"),
       },
       {
         test: /\.css$/,
