@@ -24,7 +24,7 @@ export default function OpenAddTaskFormModalButton({ dispatch }) {
 
   return (
     <>
-      <Button onClick={onOpen} colorScheme="main">
+      <Button onClick={onOpen} colorScheme="main" variant="ghost">
         할 일 추가하기
       </Button>
       <AddTaskFormModal isOpen={isOpen} onClose={onClose} onSubmit={handleAddTask} />
