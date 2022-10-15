@@ -37,9 +37,10 @@ export default function TasksManager() {
 
 function tasksReducer(state, action) {
   switch (action.type) {
-    case "added_new_task": {
+    case "tasks/taskAdded": {
       const { id, name, hour, minute, second } = action.payload.task;
       const inputTimeInSecond = convertHourMinuteSecondIntoSecond({ hour, minute, second });
+
       return {
         ...state,
         tasks: [
@@ -53,9 +54,10 @@ function tasksReducer(state, action) {
         ],
       };
     }
-    case "updated_selected_task": {
+    case "tasks/selectedTaskUpdated": {
       const { name, hour, minute, second } = action.payload.task;
       const inputTimeInSecond = convertHourMinuteSecondIntoSecond({ hour, minute, second });
+
       return {
         ...state,
         tasks: state.tasks.map((task) =>
@@ -70,35 +72,36 @@ function tasksReducer(state, action) {
         ),
       };
     }
-    case "removed_selected_task": {
+    case "tasks/selectedTaskRemoved": {
       return {
         ...state,
         tasks: state.tasks.filter((task) => task.id !== state.selectedTaskId),
         selectedTaskId: null,
       };
     }
-    case "selected_task": {
-      const { id } = action.payload.task;
+    case "tasks/taskSelected": {
+      const { selectedTaskId } = action.payload;
+
       return {
         ...state,
-        selectedTaskId: id,
+        selectedTaskId,
         isTimerRunning: false,
       };
     }
-    case "started_timer": {
+    case "tasks/selectedTaskStarted": {
       return {
         ...state,
         isTimerRunning: true,
       };
     }
-    case "stopped_timer": {
+    case "tasks/selectedTaskStopped": {
       return {
         ...state,
         isTimerRunning: false,
       };
     }
-    case "updated_timer": {
-      const { updatedTimeInSecond } = action.payload.timer;
+    case "tasks/selectedTaskRan": {
+      const { newRemainingTimeInSecond } = action.payload;
 
       return {
         ...state,
@@ -106,14 +109,14 @@ function tasksReducer(state, action) {
           task.id === state.selectedTaskId
             ? {
                 ...task,
-                remainingTimeInSecond: updatedTimeInSecond,
+                remainingTimeInSecond: newRemainingTimeInSecond,
               }
             : task,
         ),
-        isTimerRunning: updatedTimeInSecond > 0,
+        isTimerRunning: newRemainingTimeInSecond > 0,
       };
     }
-    case "reset_timer": {
+    case "tasks/selectedTaskReset": {
       return {
         ...state,
         tasks: state.tasks.map((task) =>

@@ -12,19 +12,19 @@ export default function SelectedTaskProgressTimer({ remainingTimeInSecond, isRun
   const handleClickStartButton = useCallback(() => {
     if (!canStartTimer) return;
 
-    dispatch({ type: "started_timer" });
+    dispatch({ type: "tasks/selectedTaskStarted" });
   }, [canStartTimer]);
 
   const handleClickStopButton = useCallback(() => {
     if (!canStopTimer) return;
 
-    dispatch({ type: "stopped_timer" });
+    dispatch({ type: "tasks/selectedTaskStopped" });
   }, [canStopTimer]);
 
   const handleClickResetButton = useCallback(() => {
     if (!canResetTimer) return;
 
-    dispatch({ type: "reset_timer" });
+    dispatch({ type: "tasks/selectedTaskReset" });
   }, [canResetTimer]);
 
   useEffect(() => {
@@ -34,8 +34,8 @@ export default function SelectedTaskProgressTimer({ remainingTimeInSecond, isRun
       const timerId = setTimeout(
         () =>
           dispatch({
-            type: "updated_timer",
-            payload: { timer: { updatedTimeInSecond: remainingTimeInSecond - 1 } },
+            type: "tasks/selectedTaskRan",
+            payload: { newRemainingTimeInSecond: remainingTimeInSecond - 1 },
           }),
         1000,
       );

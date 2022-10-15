@@ -8,11 +8,9 @@ function TaskListItem({ task, isSelected, dispatch }) {
 
   const handleClickTask = useCallback(() => {
     dispatch({
-      type: "selected_task",
+      type: "tasks/taskSelected",
       payload: {
-        task: {
-          id: task.id,
-        },
+        selectedTaskId: task.id,
       },
     });
   }, [task.id]);

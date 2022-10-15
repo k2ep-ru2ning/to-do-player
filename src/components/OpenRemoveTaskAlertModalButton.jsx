@@ -7,7 +7,7 @@ export default function OpenRemoveTaskAlertModalButton({ task, dispatch }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleRemoveTask = useCallback(() => {
-    dispatch({ type: "removed_selected_task" });
+    dispatch({ type: "tasks/selectedTaskRemoved" });
   }, []);
 
   return (

@@ -8,7 +8,7 @@ export default function OpenUpdateTaskFormModalButton({ task, dispatch }) {
 
   const handleUpdateTask = useCallback(({ name, hour, minute, second }) => {
     dispatch({
-      type: "updated_selected_task",
+      type: "tasks/selectedTaskUpdated",
       payload: {
         task: { name, hour, minute, second },
       },
