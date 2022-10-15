@@ -8,7 +8,7 @@ import {
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { useCallback } from "react";
-import { convertTimeFromSecondToHourMinuteSecond } from "../utils/timeConvertor";
+import { convertSecondIntoHourMinuteSecond } from "../utils/timeConvertor";
 import UpdateTaskForm from "./UpdateTaskForm";
 
 export default function UpdateTaskFormModal({ isOpen, onClose, onSubmit, task }) {
@@ -52,7 +52,7 @@ UpdateTaskFormModal.propTypes = {
 
 function convertTaskToUpdateTaskFormDefaultValues(task) {
   const { name, scheduledTimeInSecond } = task;
-  const { hour, minute, second } = convertTimeFromSecondToHourMinuteSecond(scheduledTimeInSecond);
+  const { hour, minute, second } = convertSecondIntoHourMinuteSecond(scheduledTimeInSecond);
 
   return {
     name,

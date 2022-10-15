@@ -1,11 +1,11 @@
 import { Flex, Text } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { memo } from "react";
-import { convertTimeFromSecondToHourMinuteSecond } from "../utils/timeConvertor";
+import { convertSecondIntoHourMinuteSecond } from "../utils/timeConvertor";
 import { formatTime } from "../utils/timeFormatter";
 
 function FormattedTime({ prefix, timeInSecond }) {
-  const formattedTime = formatTime(convertTimeFromSecondToHourMinuteSecond(Number(timeInSecond)));
+  const formattedTime = formatTime(convertSecondIntoHourMinuteSecond(Number(timeInSecond)));
 
   return (
     <Flex alignItems="center" columnGap={2}>

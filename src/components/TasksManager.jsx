@@ -1,5 +1,5 @@
 import { useReducer } from "react";
-import { convertTimeFromHourMinuteSecondToSecond } from "../utils/timeConvertor";
+import { convertHourMinuteSecondIntoSecond } from "../utils/timeConvertor";
 import SelectedTaskDetail from "./SelectedTaskDetail";
 import { Flex, Grid, GridItem } from "@chakra-ui/react";
 import Tasks from "./Tasks";
@@ -39,7 +39,7 @@ function tasksReducer(state, action) {
   switch (action.type) {
     case "added_new_task": {
       const { id, name, hour, minute, second } = action.payload.task;
-      const inputTimeInSecond = convertTimeFromHourMinuteSecondToSecond({ hour, minute, second });
+      const inputTimeInSecond = convertHourMinuteSecondIntoSecond({ hour, minute, second });
       return {
         ...state,
         tasks: [
@@ -55,7 +55,7 @@ function tasksReducer(state, action) {
     }
     case "updated_selected_task": {
       const { name, hour, minute, second } = action.payload.task;
-      const inputTimeInSecond = convertTimeFromHourMinuteSecondToSecond({ hour, minute, second });
+      const inputTimeInSecond = convertHourMinuteSecondIntoSecond({ hour, minute, second });
       return {
         ...state,
         tasks: state.tasks.map((task) =>
