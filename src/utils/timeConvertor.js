@@ -24,3 +24,11 @@ export function convertHourMinuteSecondIntoSecond({ hour = -1, minute = -1, seco
 
   return 3600 * hour + 60 * minute + second;
 }
+
+export function convertMSIntoSecond(ms = -1) {
+  if (ms < 0) {
+    throw new Error("ms is invalid");
+  }
+
+  return Math.floor(ms / 1000);
+}

@@ -9,12 +9,16 @@ export default function TasksManager() {
   const [state, dispatch] = useReducer(tasksReducer, {
     tasks: [],
     selectedTaskId: null,
-    isTimerRunning: false,
+    selectedTaskDeadlineTimeStampInSecond: null,
   });
 
-  const { tasks, selectedTaskId, isTimerRunning } = state;
+  const { tasks, selectedTaskId, selectedTaskDeadlineTimeStampInSecond } = state;
 
-  const selectedTask = tasks.find((task) => task.id === selectedTaskId);
+  const selectedTask = getSelectedTask(
+    tasks,
+    selectedTaskId,
+    selectedTaskDeadlineTimeStampInSecond,
+  );
 
   return (
     <Grid gap={4} templateColumns={{ md: "repeat(2, 1fr)", xl: "repeat(3, 1fr)" }}>
@@ -22,17 +26,25 @@ export default function TasksManager() {
         <Flex justifyContent="flex-end">
           <OpenAddTaskFormModalButton dispatch={dispatch} />
         </Flex>
-        <SelectedTaskDetail
-          selectedTask={selectedTask}
-          isRunning={isTimerRunning}
-          dispatch={dispatch}
-        />
+        <SelectedTaskDetail selectedTask={selectedTask} dispatch={dispatch} />
       </Flex>
       <GridItem colSpan={{ xl: 2 }}>
         <Tasks tasks={tasks} selectedTaskId={selectedTaskId} dispatch={dispatch} />
       </GridItem>
     </Grid>
   );
+}
+
+function getSelectedTask(tasks, selectedTaskId, selectedTaskDeadlineTimeStampInSecond) {
+  let selectedTask = tasks.find((task) => task.id === selectedTaskId);
+  if (selectedTask) {
+    selectedTask = {
+      ...selectedTask,
+      deadlineTimeStampInSecond: selectedTaskDeadlineTimeStampInSecond,
+    };
+  }
+
+  return selectedTask;
 }
 
 function tasksReducer(state, action) {
@@ -85,19 +97,21 @@ function tasksReducer(state, action) {
       return {
         ...state,
         selectedTaskId,
-        isTimerRunning: false,
+        selectedTaskDeadlineTimeStampInSecond: null,
       };
     }
     case "tasks/selectedTaskStarted": {
+      const { newDeadlineTimeStampInSecond } = action.payload;
+
       return {
         ...state,
-        isTimerRunning: true,
+        selectedTaskDeadlineTimeStampInSecond: newDeadlineTimeStampInSecond,
       };
     }
     case "tasks/selectedTaskStopped": {
       return {
         ...state,
-        isTimerRunning: false,
+        selectedTaskDeadlineTimeStampInSecond: null,
       };
     }
     case "tasks/selectedTaskRan": {
@@ -113,10 +127,13 @@ function tasksReducer(state, action) {
               }
             : task,
         ),
-        isTimerRunning: newRemainingTimeInSecond > 0,
+        selectedTaskDeadlineTimeStampInSecond:
+          newRemainingTimeInSecond > 0 ? state.selectedTaskDeadlineTimeStampInSecond : null,
       };
     }
     case "tasks/selectedTaskReset": {
+      const { newDeadlineTimeStampInSecond } = action.payload;
+
       return {
         ...state,
         tasks: state.tasks.map((task) =>
@@ -127,6 +144,7 @@ function tasksReducer(state, action) {
               }
             : task,
         ),
+        selectedTaskDeadlineTimeStampInSecond: newDeadlineTimeStampInSecond,
       };
     }
     default: {

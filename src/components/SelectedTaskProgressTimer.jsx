@@ -2,9 +2,17 @@ import { ButtonGroup, IconButton, VStack } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { useCallback, useEffect } from "react";
 import { IoPlaySharp, IoRefreshSharp, IoStopSharp } from "react-icons/io5";
+import { convertMSIntoSecond } from "../utils/timeConvertor";
 import TimerTime from "./TimerTime";
 
-export default function SelectedTaskProgressTimer({ remainingTimeInSecond, isRunning, dispatch }) {
+export default function SelectedTaskProgressTimer({
+  remainingTimeInSecond,
+  resetTimeInSecond,
+  deadlineTimeStampInSecond,
+  dispatch,
+}) {
+  const isRunning = deadlineTimeStampInSecond !== null;
+
   const canStartTimer = !isRunning && remainingTimeInSecond > 0;
   const canStopTimer = isRunning && remainingTimeInSecond > 0;
   const canResetTimer = remainingTimeInSecond > 0;
@@ -12,8 +20,12 @@ export default function SelectedTaskProgressTimer({ remainingTimeInSecond, isRun
   const handleClickStartButton = useCallback(() => {
     if (!canStartTimer) return;
 
-    dispatch({ type: "tasks/selectedTaskStarted" });
-  }, [canStartTimer]);
+    const newDeadlineTimeStampInSecond = getNowTimeStampInSecond() + remainingTimeInSecond;
+    dispatch({
+      type: "tasks/selectedTaskStarted",
+      payload: { newDeadlineTimeStampInSecond },
+    });
+  }, [canStartTimer, remainingTimeInSecond]);
 
   const handleClickStopButton = useCallback(() => {
     if (!canStopTimer) return;
@@ -24,24 +36,32 @@ export default function SelectedTaskProgressTimer({ remainingTimeInSecond, isRun
   const handleClickResetButton = useCallback(() => {
     if (!canResetTimer) return;
 
-    dispatch({ type: "tasks/selectedTaskReset" });
-  }, [canResetTimer]);
+    const newDeadlineTimeStampInSecond = isRunning
+      ? getNowTimeStampInSecond() + resetTimeInSecond
+      : null;
+    dispatch({
+      type: "tasks/selectedTaskReset",
+      payload: { newDeadlineTimeStampInSecond },
+    });
+  }, [canResetTimer, isRunning, resetTimeInSecond]);
 
   useEffect(() => {
     if (!isRunning) return;
 
     if (remainingTimeInSecond > 0) {
-      const timerId = setTimeout(
-        () =>
-          dispatch({
-            type: "tasks/selectedTaskRan",
-            payload: { newRemainingTimeInSecond: remainingTimeInSecond - 1 },
-          }),
-        1000,
-      );
+      const timerId = setTimeout(() => {
+        let newRemainingTimeInSecond = deadlineTimeStampInSecond - getNowTimeStampInSecond();
+        if (newRemainingTimeInSecond < 0) {
+          newRemainingTimeInSecond = 0;
+        }
+        dispatch({
+          type: "tasks/selectedTaskRan",
+          payload: { newRemainingTimeInSecond },
+        });
+      }, 1000);
       return () => clearTimeout(timerId);
     }
-  }, [isRunning, remainingTimeInSecond]);
+  }, [deadlineTimeStampInSecond, isRunning, remainingTimeInSecond]);
 
   return (
     <VStack spacing={4}>
@@ -76,8 +96,13 @@ export default function SelectedTaskProgressTimer({ remainingTimeInSecond, isRun
   );
 }
 
+function getNowTimeStampInSecond() {
+  return convertMSIntoSecond(Date.now());
+}
+
 SelectedTaskProgressTimer.propTypes = {
-  remainingTimeInSecond: PropTypes.number.isRequired,
-  isRunning: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
+  remainingTimeInSecond: PropTypes.number.isRequired,
+  resetTimeInSecond: PropTypes.number.isRequired,
+  deadlineTimeStampInSecond: PropTypes.number,
 };

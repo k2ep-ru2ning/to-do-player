@@ -5,14 +5,15 @@ import OpenUpdateTaskFormModalButton from "./OpenUpdateTaskFormModalButton";
 import OpenRemoveTaskAlertModalButton from "./OpenRemoveTaskAlertModalButton";
 import SelectedTaskProgressTimer from "./SelectedTaskProgressTimer";
 
-export default function SelectedTaskDetail({ selectedTask, isRunning, dispatch }) {
+export default function SelectedTaskDetail({ selectedTask, dispatch }) {
   const isSelectedTaskFinished = selectedTask && selectedTask.remainingTimeInSecond === 0;
+  const isSelectedTaskRunning = selectedTask && selectedTask.deadlineTimeStampInSecond !== null;
 
   return (
     <Center h={{ base: 80, md: 96 }} p={4} borderWidth={2} borderRadius="lg">
       {selectedTask ? (
         <VStack spacing={4}>
-          <ButtonGroup size="sm" isDisabled={isRunning}>
+          <ButtonGroup size="sm" isDisabled={isSelectedTaskRunning}>
             {!isSelectedTaskFinished && (
               <OpenUpdateTaskFormModalButton task={selectedTask} dispatch={dispatch} />
             )}
@@ -27,9 +28,10 @@ export default function SelectedTaskDetail({ selectedTask, isRunning, dispatch }
             </Text>
           ) : (
             <SelectedTaskProgressTimer
-              remainingTimeInSecond={selectedTask.remainingTimeInSecond}
-              isRunning={isRunning}
               dispatch={dispatch}
+              remainingTimeInSecond={selectedTask.remainingTimeInSecond}
+              resetTimeInSecond={selectedTask.scheduledTimeInSecond}
+              deadlineTimeStampInSecond={selectedTask.deadlineTimeStampInSecond}
             />
           )}
         </VStack>
@@ -46,7 +48,7 @@ SelectedTaskDetail.propTypes = {
     name: PropTypes.string.isRequired,
     scheduledTimeInSecond: PropTypes.number.isRequired,
     remainingTimeInSecond: PropTypes.number.isRequired,
+    deadlineTimeStampInSecond: PropTypes.number,
   }),
-  isRunning: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
 };
