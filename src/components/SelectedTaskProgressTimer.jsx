@@ -48,20 +48,19 @@ export default function SelectedTaskProgressTimer({
   useEffect(() => {
     if (!isRunning) return;
 
-    if (remainingTimeInSecond > 0) {
-      const timerId = setTimeout(() => {
-        let newRemainingTimeInSecond = deadlineTimeStampInSecond - getNowTimeStampInSecond();
-        if (newRemainingTimeInSecond < 0) {
-          newRemainingTimeInSecond = 0;
-        }
-        dispatch({
-          type: "tasks/selectedTaskRan",
-          payload: { newRemainingTimeInSecond },
-        });
-      }, 1000);
-      return () => clearTimeout(timerId);
-    }
-  }, [deadlineTimeStampInSecond, isRunning, remainingTimeInSecond]);
+    const intervalId = setInterval(() => {
+      let newRemainingTimeInSecond = deadlineTimeStampInSecond - getNowTimeStampInSecond();
+      if (newRemainingTimeInSecond < 0) {
+        newRemainingTimeInSecond = 0;
+      }
+      dispatch({
+        type: "tasks/selectedTaskRan",
+        payload: { newRemainingTimeInSecond },
+      });
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [deadlineTimeStampInSecond, isRunning]);
 
   return (
     <VStack spacing={4}>
