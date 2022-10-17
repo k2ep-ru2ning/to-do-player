@@ -1,37 +1,12 @@
-import { Box, Button, Center, SimpleGrid, Text, VStack } from "@chakra-ui/react";
-import { motion } from "framer-motion";
+import { Button, Center, SimpleGrid, Text, VStack } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import SequentiallyShiningKeywords from "../components/SequentiallyShiningKeywords";
 
 export default function Home() {
   return (
     <Center p={6} minH="100vh">
       <SimpleGrid columns={{ md: 2 }} gap={{ base: 8, lg: 16 }} placeItems="center">
-        <VStack spacing={0}>
-          {keywords.map((keyword, index) => (
-            <Box
-              key={keyword.text}
-              bgGradient={keyword.backgroundGradient}
-              bgClip="text"
-              fontSize={{ base: "7xl", lg: "8xl", xl: "9xl" }}
-              fontWeight="extrabold"
-            >
-              <motion.div
-                animate={{
-                  color: ["rgba(0,0,0,1)", "rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(0,0,0,1)"],
-                }}
-                transition={{
-                  delay: 3 * index,
-                  repeat: Infinity,
-                  repeatDelay: 6,
-                  duration: 3,
-                  times: [0, 0.15, 0.85, 1],
-                }}
-              >
-                {keyword.text}
-              </motion.div>
-            </Box>
-          ))}
-        </VStack>
+        <SequentiallyShiningKeywords keywords={keywords} />
         <VStack spacing={8}>
           <VStack spacing={{ base: 2, md: 4 }}>
             <Text textAlign="center" fontSize={{ base: "2xl", lg: "3xl" }} fontWeight="bold">

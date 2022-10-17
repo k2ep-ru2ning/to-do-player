@@ -39,14 +39,11 @@ module.exports = {
                     corejs: "3",
                   },
                 ],
-                [
-                  "@babel/preset-react",
-                  {
-                    runtime: "automatic",
-                  },
-                ],
+                ["@babel/preset-react", { runtime: "automatic", importSource: "@emotion/react" }],
               ],
-              plugins: [isDevelopment && "react-refresh/babel"].filter(Boolean),
+              plugins: [isDevelopment && "react-refresh/babel", "@emotion/babel-plugin"].filter(
+                Boolean,
+              ),
             },
           },
         ],
