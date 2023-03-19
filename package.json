@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "build": "webpack --node-env production --progress",
+    "build:analyze": "webpack --node-env production --progress --analyze",
     "dev": "webpack serve --node-env development --progress",
     "lint": "eslint --fix --ext .jsx,.js .",
     "prettier": "prettier --write .",
@@ -39,6 +40,7 @@
     "react-refresh": "^0.14.0",
     "terser-webpack-plugin": "^5.3.7",
     "webpack": "^5.76.2",
+    "webpack-bundle-analyzer": "^4.8.0",
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.9.3"
   },
