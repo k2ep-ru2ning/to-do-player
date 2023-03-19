@@ -27,7 +27,11 @@ export default function OpenAddTaskFormModalButton({ dispatch }) {
       <Button onClick={onOpen} colorScheme="main" variant="ghost">
         할 일 추가하기
       </Button>
-      <AddTaskFormModal isOpen={isOpen} onClose={onClose} onSubmit={handleAddTask} />
+      <AddTaskFormModal
+        isOpen={isOpen}
+        onClose={onClose}
+        onSubmit={handleAddTask}
+      />
     </>
   );
 }

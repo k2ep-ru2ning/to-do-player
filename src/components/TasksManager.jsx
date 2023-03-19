@@ -12,16 +12,20 @@ export default function TasksManager() {
     selectedTaskDeadlineTimeStampInSecond: null,
   });
 
-  const { tasks, selectedTaskId, selectedTaskDeadlineTimeStampInSecond } = state;
+  const { tasks, selectedTaskId, selectedTaskDeadlineTimeStampInSecond } =
+    state;
 
   const selectedTask = getSelectedTask(
     tasks,
     selectedTaskId,
-    selectedTaskDeadlineTimeStampInSecond,
+    selectedTaskDeadlineTimeStampInSecond
   );
 
   return (
-    <Grid gap={4} templateColumns={{ md: "repeat(2, 1fr)", xl: "repeat(3, 1fr)" }}>
+    <Grid
+      gap={4}
+      templateColumns={{ md: "repeat(2, 1fr)", xl: "repeat(3, 1fr)" }}
+    >
       <Flex direction="column" rowGap={4}>
         <Flex justifyContent="flex-end">
           <OpenAddTaskFormModalButton dispatch={dispatch} />
@@ -29,13 +33,21 @@ export default function TasksManager() {
         <SelectedTaskDetail selectedTask={selectedTask} dispatch={dispatch} />
       </Flex>
       <GridItem colSpan={{ xl: 2 }}>
-        <Tasks tasks={tasks} selectedTaskId={selectedTaskId} dispatch={dispatch} />
+        <Tasks
+          tasks={tasks}
+          selectedTaskId={selectedTaskId}
+          dispatch={dispatch}
+        />
       </GridItem>
     </Grid>
   );
 }
 
-function getSelectedTask(tasks, selectedTaskId, selectedTaskDeadlineTimeStampInSecond) {
+function getSelectedTask(
+  tasks,
+  selectedTaskId,
+  selectedTaskDeadlineTimeStampInSecond
+) {
   let selectedTask = tasks.find((task) => task.id === selectedTaskId);
   if (selectedTask) {
     selectedTask = {
@@ -51,7 +63,11 @@ function tasksReducer(state, action) {
   switch (action.type) {
     case "tasks/taskAdded": {
       const { id, name, hour, minute, second } = action.payload.task;
-      const inputTimeInSecond = convertHourMinuteSecondIntoSecond({ hour, minute, second });
+      const inputTimeInSecond = convertHourMinuteSecondIntoSecond({
+        hour,
+        minute,
+        second,
+      });
 
       return {
         ...state,
@@ -68,7 +84,11 @@ function tasksReducer(state, action) {
     }
     case "tasks/selectedTaskUpdated": {
       const { name, hour, minute, second } = action.payload.task;
-      const inputTimeInSecond = convertHourMinuteSecondIntoSecond({ hour, minute, second });
+      const inputTimeInSecond = convertHourMinuteSecondIntoSecond({
+        hour,
+        minute,
+        second,
+      });
 
       return {
         ...state,
@@ -80,7 +100,7 @@ function tasksReducer(state, action) {
                 scheduledTimeInSecond: inputTimeInSecond,
                 remainingTimeInSecond: inputTimeInSecond,
               }
-            : task,
+            : task
         ),
       };
     }
@@ -125,10 +145,12 @@ function tasksReducer(state, action) {
                 ...task,
                 remainingTimeInSecond: newRemainingTimeInSecond,
               }
-            : task,
+            : task
         ),
         selectedTaskDeadlineTimeStampInSecond:
-          newRemainingTimeInSecond > 0 ? state.selectedTaskDeadlineTimeStampInSecond : null,
+          newRemainingTimeInSecond > 0
+            ? state.selectedTaskDeadlineTimeStampInSecond
+            : null,
       };
     }
     case "tasks/selectedTaskReset": {
@@ -142,7 +164,7 @@ function tasksReducer(state, action) {
                 ...task,
                 remainingTimeInSecond: task.scheduledTimeInSecond,
               }
-            : task,
+            : task
         ),
         selectedTaskDeadlineTimeStampInSecond: newDeadlineTimeStampInSecond,
       };

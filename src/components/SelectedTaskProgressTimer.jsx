@@ -20,7 +20,8 @@ export default function SelectedTaskProgressTimer({
   const handleClickStartButton = useCallback(() => {
     if (!canStartTimer) return;
 
-    const newDeadlineTimeStampInSecond = getNowTimeStampInSecond() + remainingTimeInSecond;
+    const newDeadlineTimeStampInSecond =
+      getNowTimeStampInSecond() + remainingTimeInSecond;
     dispatch({
       type: "tasks/selectedTaskStarted",
       payload: { newDeadlineTimeStampInSecond },
@@ -49,7 +50,8 @@ export default function SelectedTaskProgressTimer({
     if (!isRunning) return;
 
     const intervalId = setInterval(() => {
-      let newRemainingTimeInSecond = deadlineTimeStampInSecond - getNowTimeStampInSecond();
+      let newRemainingTimeInSecond =
+        deadlineTimeStampInSecond - getNowTimeStampInSecond();
       if (newRemainingTimeInSecond < 0) {
         newRemainingTimeInSecond = 0;
       }

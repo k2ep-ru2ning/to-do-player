@@ -5,11 +5,19 @@ import SequentiallyShiningKeywords from "../components/SequentiallyShiningKeywor
 export default function Home() {
   return (
     <Center p={6} minH="100vh">
-      <SimpleGrid columns={{ md: 2 }} gap={{ base: 8, lg: 16 }} placeItems="center">
+      <SimpleGrid
+        columns={{ md: 2 }}
+        gap={{ base: 8, lg: 16 }}
+        placeItems="center"
+      >
         <SequentiallyShiningKeywords keywords={keywords} />
         <VStack spacing={8}>
           <VStack spacing={{ base: 2, md: 4 }}>
-            <Text textAlign="center" fontSize={{ base: "2xl", lg: "3xl" }} fontWeight="bold">
+            <Text
+              textAlign="center"
+              fontSize={{ base: "2xl", lg: "3xl" }}
+              fontWeight="bold"
+            >
               TodoList + Timer
             </Text>
             <Text textAlign="center" fontSize={{ lg: "2xl" }}>

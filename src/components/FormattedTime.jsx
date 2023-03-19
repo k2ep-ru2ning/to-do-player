@@ -5,7 +5,9 @@ import { convertSecondIntoHourMinuteSecond } from "../utils/timeConvertor";
 import { formatTime } from "../utils/timeFormatter";
 
 function FormattedTime({ prefix, timeInSecond }) {
-  const formattedTime = formatTime(convertSecondIntoHourMinuteSecond(Number(timeInSecond)));
+  const formattedTime = formatTime(
+    convertSecondIntoHourMinuteSecond(Number(timeInSecond))
+  );
 
   return (
     <Flex alignItems="center" columnGap={2}>
@@ -17,7 +19,8 @@ function FormattedTime({ prefix, timeInSecond }) {
 
 FormattedTime.propTypes = {
   prefix: PropTypes.string,
-  timeInSecond: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  timeInSecond: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    .isRequired,
 };
 
 export default memo(FormattedTime);

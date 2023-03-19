@@ -112,14 +112,17 @@ const timeFieldValidations = [
     },
     min: {
       value: 0,
-      message: "시간을 0~2 사이로 입력해주세요. 3시간이 넘는 계획은 무리한 계획일 수 있습니다.",
+      message:
+        "시간을 0~2 사이로 입력해주세요. 3시간이 넘는 계획은 무리한 계획일 수 있습니다.",
     },
     max: {
       value: 2,
-      message: "시간을 0~2 사이로 입력해주세요. 3시간이 넘는 계획은 무리한 계획일 수 있습니다.",
+      message:
+        "시간을 0~2 사이로 입력해주세요. 3시간이 넘는 계획은 무리한 계획일 수 있습니다.",
     },
     validate: {
-      mustBeInteger: (hour) => Number.isInteger(Number(hour)) || "시간을 정수 형태로 입력해주세요.",
+      mustBeInteger: (hour) =>
+        Number.isInteger(Number(hour)) || "시간을 정수 형태로 입력해주세요.",
     },
   },
   {

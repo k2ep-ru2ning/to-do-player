@@ -5,7 +5,12 @@ import { css, keyframes } from "@emotion/react";
 const SHINING_DURATION_IN_SECOND = 4;
 const SHINING_TRANSITION_PERCENT = 20;
 
-export default function ShiningKeyword({ text, backgroundGradient, seq, numberOfKeywords }) {
+export default function ShiningKeyword({
+  text,
+  backgroundGradient,
+  seq,
+  numberOfKeywords,
+}) {
   const shiningEndPercent = 100 / numberOfKeywords;
   const totalDurationInSecond = numberOfKeywords * SHINING_DURATION_IN_SECOND;
   const firstDelayInSecond = seq * SHINING_DURATION_IN_SECOND;

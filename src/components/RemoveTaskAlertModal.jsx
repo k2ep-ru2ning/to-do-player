@@ -12,7 +12,12 @@ import {
 } from "@chakra-ui/react";
 import { useRef } from "react";
 
-export default function RemoveTaskAlertModal({ task, isOpen, onClose, onConfirm }) {
+export default function RemoveTaskAlertModal({
+  task,
+  isOpen,
+  onClose,
+  onConfirm,
+}) {
   const cancelButtonRef = useRef();
 
   return (

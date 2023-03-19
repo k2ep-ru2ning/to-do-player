@@ -23,6 +23,6 @@ SequentiallyShiningKeywords.propTypes = {
     PropTypes.shape({
       text: PropTypes.string.isRequired,
       backgroundGradient: PropTypes.string.isRequired,
-    }),
+    })
   ),
 };

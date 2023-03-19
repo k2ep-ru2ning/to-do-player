@@ -17,7 +17,11 @@ export function convertSecondIntoHourMinuteSecond(second = -1) {
   };
 }
 
-export function convertHourMinuteSecondIntoSecond({ hour = -1, minute = -1, second = -1 }) {
+export function convertHourMinuteSecondIntoSecond({
+  hour = -1,
+  minute = -1,
+  second = -1,
+}) {
   if (hour < 0 || minute < 0 || second < 0) {
     throw new Error("hour, minute or second is invalid");
   }

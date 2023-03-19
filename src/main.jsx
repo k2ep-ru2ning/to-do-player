@@ -13,5 +13,5 @@ root.render(
         <App />
       </ChakraProvider>
     </BrowserRouter>
-  </StrictMode>,
+  </StrictMode>
 );

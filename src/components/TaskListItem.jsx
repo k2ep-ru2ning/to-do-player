@@ -28,9 +28,15 @@ function TaskListItem({ task, isSelected, dispatch }) {
         {task.name}
       </Text>
       <VStack flexShrink={0} spacing={1}>
-        <FormattedTime prefix="계획 시간" timeInSecond={task.scheduledTimeInSecond} />
+        <FormattedTime
+          prefix="계획 시간"
+          timeInSecond={task.scheduledTimeInSecond}
+        />
         {!isSelected && !isFinished && (
-          <FormattedTime prefix="남은 시간" timeInSecond={task.remainingTimeInSecond} />
+          <FormattedTime
+            prefix="남은 시간"
+            timeInSecond={task.remainingTimeInSecond}
+          />
         )}
       </VStack>
     </Flex>

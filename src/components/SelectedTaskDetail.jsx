@@ -6,8 +6,10 @@ import OpenRemoveTaskAlertModalButton from "./OpenRemoveTaskAlertModalButton";
 import SelectedTaskProgressTimer from "./SelectedTaskProgressTimer";
 
 export default function SelectedTaskDetail({ selectedTask, dispatch }) {
-  const isSelectedTaskFinished = selectedTask && selectedTask.remainingTimeInSecond === 0;
-  const isSelectedTaskRunning = selectedTask && selectedTask.deadlineTimeStampInSecond !== null;
+  const isSelectedTaskFinished =
+    selectedTask && selectedTask.remainingTimeInSecond === 0;
+  const isSelectedTaskRunning =
+    selectedTask && selectedTask.deadlineTimeStampInSecond !== null;
 
   return (
     <Center h={{ base: 80, md: 96 }} p={4} borderWidth={2} borderRadius="lg">
@@ -15,9 +17,15 @@ export default function SelectedTaskDetail({ selectedTask, dispatch }) {
         <VStack spacing={4}>
           <ButtonGroup size="sm" isDisabled={isSelectedTaskRunning}>
             {!isSelectedTaskFinished && (
-              <OpenUpdateTaskFormModalButton task={selectedTask} dispatch={dispatch} />
+              <OpenUpdateTaskFormModalButton
+                task={selectedTask}
+                dispatch={dispatch}
+              />
             )}
-            <OpenRemoveTaskAlertModalButton task={selectedTask} dispatch={dispatch} />
+            <OpenRemoveTaskAlertModalButton
+              task={selectedTask}
+              dispatch={dispatch}
+            />
           </ButtonGroup>
           <Text textAlign="center" fontSize="2xl" fontWeight="bold">
             {selectedTask.name}

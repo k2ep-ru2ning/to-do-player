@@ -4,7 +4,9 @@ import TaskList from "./TaskList";
 
 export default function Tasks({ tasks, selectedTaskId, dispatch }) {
   const waitingTasks = tasks.filter((task) => task.remainingTimeInSecond > 0);
-  const finishedTasks = tasks.filter((task) => task.remainingTimeInSecond === 0);
+  const finishedTasks = tasks.filter(
+    (task) => task.remainingTimeInSecond === 0
+  );
 
   return (
     <Tabs variant="soft-rounded" colorScheme="main">
@@ -41,7 +43,7 @@ Tasks.propTypes = {
       name: PropTypes.string.isRequired,
       scheduledTimeInSecond: PropTypes.number.isRequired,
       remainingTimeInSecond: PropTypes.number.isRequired,
-    }),
+    })
   ).isRequired,
   selectedTaskId: PropTypes.string,
   dispatch: PropTypes.func.isRequired,

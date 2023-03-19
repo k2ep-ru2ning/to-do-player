@@ -11,7 +11,12 @@ import { useCallback } from "react";
 import { convertSecondIntoHourMinuteSecond } from "../utils/timeConvertor";
 import UpdateTaskForm from "./UpdateTaskForm";
 
-export default function UpdateTaskFormModal({ isOpen, onClose, onSubmit, task }) {
+export default function UpdateTaskFormModal({
+  isOpen,
+  onClose,
+  onSubmit,
+  task,
+}) {
   const handleSubmit = useCallback(({ name, time: [hour, minute, second] }) => {
     onSubmit({
       name,
@@ -31,7 +36,10 @@ export default function UpdateTaskFormModal({ isOpen, onClose, onSubmit, task })
         <ModalHeader>할 일 수정하기</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <UpdateTaskForm onSubmit={handleSubmit} defaultValues={defaultValues} />
+          <UpdateTaskForm
+            onSubmit={handleSubmit}
+            defaultValues={defaultValues}
+          />
         </ModalBody>
       </ModalContent>
     </Modal>
@@ -52,7 +60,9 @@ UpdateTaskFormModal.propTypes = {
 
 function convertTaskToUpdateTaskFormDefaultValues(task) {
   const { name, scheduledTimeInSecond } = task;
-  const { hour, minute, second } = convertSecondIntoHourMinuteSecond(scheduledTimeInSecond);
+  const { hour, minute, second } = convertSecondIntoHourMinuteSecond(
+    scheduledTimeInSecond
+  );
 
   return {
     name,
