@@ -9,7 +9,7 @@ module.exports = {
   mode: isDevelopment ? "development" : "production",
   devtool: isDevelopment ? "eval-cheap-module-source-map" : false,
   resolve: {
-    extensions: [".js", ".jsx", "..."],
+    extensions: [".js", ".jsx", ".ts", ".tsx", "..."],
   },
   entry: {
     main: "./src/main",
@@ -23,7 +23,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/i,
+        test: /\.(js|jsx|ts|tsx)$/i,
         exclude: /node_modules/,
         use: [
           {
@@ -35,6 +35,7 @@ module.exports = {
                   "@babel/preset-react",
                   { runtime: "automatic", importSource: "@emotion/react" },
                 ],
+                "@babel/preset-typescript",
               ],
               plugins: [
                 isDevelopment && "react-refresh/babel",
