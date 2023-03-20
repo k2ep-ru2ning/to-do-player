@@ -2,10 +2,12 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 
 const isDevelopment = process.env.NODE_ENV !== "production";
 
 module.exports = {
+  context: __dirname,
   mode: isDevelopment ? "development" : "production",
   devtool: isDevelopment ? "eval-cheap-module-source-map" : false,
   resolve: {
@@ -51,6 +53,14 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "template/index.html",
       favicon: "template/favicon.ico",
+    }),
+    new ForkTsCheckerWebpackPlugin({
+      typescript: {
+        diagnosticOptions: {
+          semantic: true,
+          syntactic: true,
+        },
+      },
     }),
     isDevelopment && new ReactRefreshWebpackPlugin(),
   ].filter(Boolean),
