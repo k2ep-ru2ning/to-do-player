@@ -1,5 +1,6 @@
-import { Button, Center, SimpleGrid, Text, VStack } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import { Button, Center, SimpleGrid, Text, VStack } from "@chakra-ui/react";
+
 import SequentiallyShiningKeywords from "../components/SequentiallyShiningKeywords";
 
 export default function Home() {
