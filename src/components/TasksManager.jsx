@@ -1,5 +1,5 @@
 import { useReducer } from "react";
-import { convertHourMinuteSecondIntoSecond } from "../utils/timeConvertor";
+import { convertHourMinuteSecondIntoSecond } from "../utils/time";
 import SelectedTaskDetail from "./SelectedTaskDetail";
 import { Flex, Grid, GridItem } from "@chakra-ui/react";
 import Tasks from "./Tasks";

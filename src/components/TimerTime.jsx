@@ -1,7 +1,9 @@
 import { HStack } from "@chakra-ui/react";
 import PropTypes from "prop-types";
-import { convertSecondIntoHourMinuteSecond } from "../utils/timeConvertor";
-import { formatTimeUnit } from "../utils/timeFormatter";
+import {
+  convertSecondIntoHourMinuteSecond,
+  formatTimeUnit,
+} from "../utils/time";
 import TimerTimeUnit from "./TimerTimeUnit";
 
 export default function TimerTime({ timeInSecond = 0 }) {

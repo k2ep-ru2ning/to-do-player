@@ -8,7 +8,7 @@ import {
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { useCallback } from "react";
-import { convertSecondIntoHourMinuteSecond } from "../utils/timeConvertor";
+import { convertSecondIntoHourMinuteSecond } from "../utils/time";
 import UpdateTaskForm from "./UpdateTaskForm";
 
 export default function UpdateTaskFormModal({

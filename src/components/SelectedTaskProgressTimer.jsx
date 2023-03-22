@@ -2,7 +2,7 @@ import { ButtonGroup, IconButton, VStack } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { useCallback, useEffect } from "react";
 import { IoPlaySharp, IoRefreshSharp, IoStopSharp } from "react-icons/io5";
-import { convertMSIntoSecond } from "../utils/timeConvertor";
+import { convertMSIntoSecond } from "../utils/time";
 import TimerTime from "./TimerTime";
 
 export default function SelectedTaskProgressTimer({
