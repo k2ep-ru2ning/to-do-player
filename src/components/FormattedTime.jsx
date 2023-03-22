@@ -2,10 +2,10 @@ import { Flex, Text } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { memo } from "react";
 import { convertSecondIntoHourMinuteSecond } from "../utils/timeConvertor";
-import { formatTime } from "../utils/timeFormatter";
+import { formatHourMinuteSecond } from "../utils/timeFormatter";
 
 function FormattedTime({ prefix, timeInSecond }) {
-  const formattedTime = formatTime(
+  const formattedTime = formatHourMinuteSecond(
     convertSecondIntoHourMinuteSecond(Number(timeInSecond))
   );
 
