@@ -1,5 +1,5 @@
-import { useReducer } from "react";
-import { Flex, Grid, GridItem } from "@chakra-ui/react";
+import { type Dispatch, useReducer } from "react";
+import { ButtonGroup, Flex, Grid, GridItem } from "@chakra-ui/react";
 
 import { convertHourMinuteSecondIntoSecond } from "../utils/time";
 import SelectedTaskDetail from "./SelectedTaskDetail";
@@ -17,13 +17,13 @@ type SelectedTask = Task & {
   deadlineTimeStampInSecond: number | null;
 };
 
-type State = {
+type TasksState = {
   tasks: Task[];
   selectedTaskId: string | null;
   selectedTaskDeadlineTimeStampInSecond: number | null;
 };
 
-type Action =
+type TasksAction =
   | {
       type: "tasks/taskAdded";
       payload: {
@@ -78,6 +78,8 @@ type Action =
       };
     };
 
+export type TasksDispatch = Dispatch<TasksAction>;
+
 export default function TasksManager() {
   const [state, dispatch] = useReducer(tasksReducer, {
     tasks: [],
@@ -100,9 +102,9 @@ export default function TasksManager() {
       templateColumns={{ md: "repeat(2, 1fr)", xl: "repeat(3, 1fr)" }}
     >
       <Flex direction="column" rowGap={4}>
-        <Flex justifyContent="flex-end">
+        <ButtonGroup justifyContent="flex-end">
           <OpenAddTaskFormModalButton dispatch={dispatch} />
-        </Flex>
+        </ButtonGroup>
         <SelectedTaskDetail selectedTask={selectedTask} dispatch={dispatch} />
       </Flex>
       <GridItem colSpan={{ xl: 2 }}>
@@ -133,7 +135,7 @@ function getSelectedTask(
   };
 }
 
-function tasksReducer(state: State, action: Action) {
+function tasksReducer(state: TasksState, action: TasksAction): TasksState {
   switch (action.type) {
     case "tasks/taskAdded": {
       const { id, name, hour, minute, second } = action.payload.task;

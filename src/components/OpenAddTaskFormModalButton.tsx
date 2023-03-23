@@ -1,13 +1,31 @@
-import PropTypes from "prop-types";
 import { Button, useDisclosure } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
-import { useCallback } from "react";
-import AddTaskFormModal from "./AddTaskFormModal";
 
-export default function OpenAddTaskFormModalButton({ dispatch }) {
+import AddTaskFormModal from "./AddTaskFormModal";
+import { type TasksDispatch } from "./TasksManager";
+
+type OpenAddTaskFormModalButtonProps = {
+  dispatch: TasksDispatch;
+};
+
+type NewTaskFormData = {
+  name: string;
+  hour: number;
+  minute: number;
+  second: number;
+};
+
+export default function OpenAddTaskFormModalButton({
+  dispatch,
+}: OpenAddTaskFormModalButtonProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const handleAddTask = useCallback(({ name, hour, minute, second }) => {
+  const handleAddTask = ({
+    name,
+    hour,
+    minute,
+    second,
+  }: NewTaskFormData): void => {
     dispatch({
       type: "tasks/taskAdded",
       payload: {
@@ -20,7 +38,7 @@ export default function OpenAddTaskFormModalButton({ dispatch }) {
         },
       },
     });
-  }, []);
+  };
 
   return (
     <>
@@ -35,7 +53,3 @@ export default function OpenAddTaskFormModalButton({ dispatch }) {
     </>
   );
 }
-
-OpenAddTaskFormModalButton.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-};
