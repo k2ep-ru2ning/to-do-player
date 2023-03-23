@@ -1,18 +1,17 @@
 import { Button, useDisclosure } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
 
-import AddTaskFormModal from "./AddTaskFormModal";
+import AddTaskForm from "./AddTaskForm";
+import TaskFormModal from "./TaskFormModal";
 import { type TasksDispatch } from "./TasksManager";
 
 type OpenAddTaskFormModalButtonProps = {
   dispatch: TasksDispatch;
 };
 
-type NewTaskFormData = {
+type AddTaskFormData = {
   name: string;
-  hour: number;
-  minute: number;
-  second: number;
+  time: [string, string, string];
 };
 
 export default function OpenAddTaskFormModalButton({
@@ -20,12 +19,8 @@ export default function OpenAddTaskFormModalButton({
 }: OpenAddTaskFormModalButtonProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const handleAddTask = ({
-    name,
-    hour,
-    minute,
-    second,
-  }: NewTaskFormData): void => {
+  const handleSubmit = ({ name, time }: AddTaskFormData): void => {
+    const [hour, minute, second] = time.map((t) => Number(t));
     dispatch({
       type: "tasks/taskAdded",
       payload: {
@@ -38,6 +33,7 @@ export default function OpenAddTaskFormModalButton({
         },
       },
     });
+    onClose();
   };
 
   return (
@@ -45,11 +41,9 @@ export default function OpenAddTaskFormModalButton({
       <Button onClick={onOpen} colorScheme="main" variant="ghost">
         할 일 추가하기
       </Button>
-      <AddTaskFormModal
-        isOpen={isOpen}
-        onClose={onClose}
-        onSubmit={handleAddTask}
-      />
+      <TaskFormModal isOpen={isOpen} onClose={onClose} title="할 일 추가하기">
+        <AddTaskForm onSubmit={handleSubmit} />
+      </TaskFormModal>
     </>
   );
 }
