@@ -29,7 +29,7 @@ export default function TaskFormModal({
           <Heading fontSize="xl">{title}</Heading>
         </ModalHeader>
         <ModalCloseButton />
-        <ModalBody>{children}</ModalBody>
+        <ModalBody py={6}>{children}</ModalBody>
       </ModalContent>
     </Modal>
   );

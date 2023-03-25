@@ -1,4 +1,4 @@
-type HourMinuteSecond = {
+export type HourMinuteSecond = {
   hour: number;
   minute: number;
   second: number;
