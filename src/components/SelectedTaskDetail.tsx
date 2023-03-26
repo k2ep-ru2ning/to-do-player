@@ -18,7 +18,7 @@ export default function SelectedTaskDetail({
   if (selectedTask === null) {
     return (
       <Center h={{ base: 80, md: 96 }} p={4} borderWidth={2} borderRadius="lg">
-        <DefaultMessage>할 일 목록에서 할 일을 선택하세요</DefaultMessage>
+        <DefaultMessage message="할 일 목록에서 할 일을 선택하세요" />
       </Center>
     );
   }

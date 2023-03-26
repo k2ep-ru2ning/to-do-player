@@ -18,7 +18,7 @@ export default function TaskList({
     >
       {tasks.length === 0 ? (
         <Center h="full">
-          <DefaultMessage>{emptyMessage}</DefaultMessage>
+          <DefaultMessage message={emptyMessage} />
         </Center>
       ) : (
         <VStack divider={<StackDivider />} align="stretch" spacing={0}>
