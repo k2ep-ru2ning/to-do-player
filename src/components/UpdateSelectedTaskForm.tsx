@@ -14,20 +14,21 @@ import {
   NumberInputStepper,
   Text,
 } from "@chakra-ui/react";
-import { nanoid } from "nanoid";
 
-import { type TasksDispatch } from "./TasksManager";
+import { type TasksDispatch, type SelectedTask } from "./TasksManager";
 import {
   convertHourMinuteSecondIntoSecond,
+  convertSecondIntoHourMinuteSecond,
   type HourMinuteSecond,
 } from "../utils/time";
 
-type AddTaskFormProps = {
+type UpdateSelectedTaskFormProps = {
+  selectedTask: SelectedTask;
   onClose: () => void;
   dispatch: TasksDispatch;
 };
 
-type AddTaskFormData = {
+type UpdateSelectedTaskFormData = {
   name: string;
   time: HourMinuteSecond;
 };
@@ -39,21 +40,23 @@ const MAX_MINUTE = 59;
 const MIN_SECOND = 0;
 const MAX_SECOND = 59;
 
-export default function AddTaskForm({ dispatch, onClose }: AddTaskFormProps) {
+export default function UpdateSelectedTaskForm({
+  selectedTask,
+  onClose,
+  dispatch,
+}: UpdateSelectedTaskFormProps) {
   const {
     register,
     handleSubmit,
     formState: { errors },
     control,
     watch,
-  } = useForm<AddTaskFormData>({
+  } = useForm<UpdateSelectedTaskFormData>({
     defaultValues: {
-      name: "",
-      time: {
-        hour: 0,
-        minute: 30,
-        second: 0,
-      },
+      name: selectedTask.name,
+      time: convertSecondIntoHourMinuteSecond(
+        selectedTask.scheduledTimeInSecond
+      ),
     },
     mode: "onChange",
   });
@@ -65,21 +68,19 @@ export default function AddTaskForm({ dispatch, onClose }: AddTaskFormProps) {
 
   const hasTimeFieldSetError = Boolean(errors.time) || isTimeFieldSetZero;
 
-  const handleValid = (data: AddTaskFormData): void => {
+  const handleValid = (data: UpdateSelectedTaskFormData): void => {
     if (convertHourMinuteSecondIntoSecond(data.time) === 0) {
       return;
     }
 
+    const {
+      name,
+      time: { hour, minute, second },
+    } = data;
     dispatch({
-      type: "tasks/taskAdded",
+      type: "tasks/selectedTaskUpdated",
       payload: {
-        task: {
-          id: nanoid(),
-          name: data.name,
-          hour: data.time.hour,
-          minute: data.time.minute,
-          second: data.time.second,
-        },
+        task: { name, hour, minute, second },
       },
     });
     onClose();
@@ -96,10 +97,10 @@ export default function AddTaskForm({ dispatch, onClose }: AddTaskFormProps) {
         <FormLabel>할 일</FormLabel>
         <Input
           type="text"
-          placeholder="할 일을 추가하세요"
+          placeholder="할 일을 수정하세요"
           {...register("name", {
             setValueAs: (nameInput) => nameInput.trim(),
-            required: "할 일을 입력해주세요",
+            required: "할 일의 새 이름을 입력해주세요",
             maxLength: {
               value: 30,
               message: "30자 이하로 입력해주세요",
@@ -227,7 +228,7 @@ export default function AddTaskForm({ dispatch, onClose }: AddTaskFormProps) {
         ) : null}
       </FormControl>
       <Button type="submit" colorScheme="main" size="md">
-        할 일 추가
+        수정하기
       </Button>
     </Flex>
   );
