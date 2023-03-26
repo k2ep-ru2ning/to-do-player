@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import HourMinuteSecondTimeFieldArrayFormControl from "./HourMinuteSecondTimeFieldArrayFormControl";
 
-export default function UpdateTaskForm({ onSubmit, defaultValues }) {
+export default function UpdateSelectedTaskForm({ onSubmit, defaultValues }) {
   const {
     register,
     handleSubmit,
@@ -53,7 +53,7 @@ export default function UpdateTaskForm({ onSubmit, defaultValues }) {
   );
 }
 
-UpdateTaskForm.propTypes = {
+UpdateSelectedTaskForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   defaultValues: PropTypes.shape({
     name: PropTypes.string.isRequired,
