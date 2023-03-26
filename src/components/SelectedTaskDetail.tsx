@@ -2,7 +2,7 @@ import { ButtonGroup, Center, Heading, Text, VStack } from "@chakra-ui/react";
 
 import DefaultMessage from "./DefaultMessage";
 import UpdateSelectedTaskFormModalOpenButton from "./UpdateSelectedTaskFormModalOpenButton";
-import OpenRemoveTaskAlertModalButton from "./OpenRemoveTaskAlertModalButton";
+import RemoveSelectedTaskAlertModalOpenButton from "./RemoveSelectedTaskAlertModalOpenButton";
 import SelectedTaskProgressTimer from "./SelectedTaskProgressTimer";
 import { type SelectedTask, type TasksDispatch } from "./TasksManager";
 
@@ -30,15 +30,15 @@ export default function SelectedTaskDetail({
   return (
     <Center h={{ base: 80, md: 96 }} p={4} borderWidth={2} borderRadius="lg">
       <VStack spacing={4}>
-        <ButtonGroup size="sm" isDisabled={isSelectedTaskRunning}>
+        <ButtonGroup isDisabled={isSelectedTaskRunning} variant="ghost">
           {!isSelectedTaskFinished ? (
             <UpdateSelectedTaskFormModalOpenButton
               selectedTask={selectedTask}
               dispatch={dispatch}
             />
           ) : null}
-          <OpenRemoveTaskAlertModalButton
-            task={selectedTask}
+          <RemoveSelectedTaskAlertModalOpenButton
+            selectedTask={selectedTask}
             dispatch={dispatch}
           />
         </ButtonGroup>
