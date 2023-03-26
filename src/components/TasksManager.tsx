@@ -13,7 +13,7 @@ type Task = {
   remainingTimeInSecond: number;
 };
 
-type SelectedTask = Task & {
+export type SelectedTask = Task & {
   deadlineTimeStampInSecond: number | null;
 };
 
