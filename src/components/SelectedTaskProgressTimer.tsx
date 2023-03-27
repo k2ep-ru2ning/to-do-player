@@ -1,23 +1,33 @@
+import { useEffect } from "react";
 import { ButtonGroup, IconButton, VStack } from "@chakra-ui/react";
-import PropTypes from "prop-types";
-import { useCallback, useEffect } from "react";
 import { IoPlaySharp, IoRefreshSharp, IoStopSharp } from "react-icons/io5";
+
 import { convertMSIntoSecond } from "../utils/time";
+import { type SelectedTask, type TasksDispatch } from "./TasksManager";
 import TimerTime from "./TimerTime";
 
+type SelectedTaskProgressTimerProps = {
+  dispatch: TasksDispatch;
+  selectedTask: SelectedTask;
+};
+
 export default function SelectedTaskProgressTimer({
-  remainingTimeInSecond,
-  resetTimeInSecond,
-  deadlineTimeStampInSecond,
   dispatch,
-}) {
+  selectedTask,
+}: SelectedTaskProgressTimerProps) {
+  const {
+    remainingTimeInSecond,
+    scheduledTimeInSecond: resetTimeInSecond,
+    deadlineTimeStampInSecond,
+  } = selectedTask;
+
   const isRunning = deadlineTimeStampInSecond !== null;
 
   const canStartTimer = !isRunning && remainingTimeInSecond > 0;
   const canStopTimer = isRunning && remainingTimeInSecond > 0;
   const canResetTimer = remainingTimeInSecond > 0;
 
-  const handleClickStartButton = useCallback(() => {
+  const handleClickStartButton = (): void => {
     if (!canStartTimer) return;
 
     const newDeadlineTimeStampInSecond =
@@ -26,15 +36,15 @@ export default function SelectedTaskProgressTimer({
       type: "tasks/selectedTaskStarted",
       payload: { newDeadlineTimeStampInSecond },
     });
-  }, [canStartTimer, remainingTimeInSecond]);
+  };
 
-  const handleClickStopButton = useCallback(() => {
+  const handleClickStopButton = (): void => {
     if (!canStopTimer) return;
 
     dispatch({ type: "tasks/selectedTaskStopped" });
-  }, [canStopTimer]);
+  };
 
-  const handleClickResetButton = useCallback(() => {
+  const handleClickResetButton = (): void => {
     if (!canResetTimer) return;
 
     const newDeadlineTimeStampInSecond = isRunning
@@ -44,7 +54,7 @@ export default function SelectedTaskProgressTimer({
       type: "tasks/selectedTaskReset",
       payload: { newDeadlineTimeStampInSecond },
     });
-  }, [canResetTimer, isRunning, resetTimeInSecond]);
+  };
 
   useEffect(() => {
     if (!isRunning) return;
@@ -97,13 +107,6 @@ export default function SelectedTaskProgressTimer({
   );
 }
 
-function getNowTimeStampInSecond() {
+function getNowTimeStampInSecond(): number {
   return convertMSIntoSecond(Date.now());
 }
-
-SelectedTaskProgressTimer.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  remainingTimeInSecond: PropTypes.number.isRequired,
-  resetTimeInSecond: PropTypes.number.isRequired,
-  deadlineTimeStampInSecond: PropTypes.number,
-};

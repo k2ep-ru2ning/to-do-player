@@ -52,9 +52,7 @@ export default function SelectedTaskDetail({
         ) : (
           <SelectedTaskProgressTimer
             dispatch={dispatch}
-            remainingTimeInSecond={selectedTask.remainingTimeInSecond}
-            resetTimeInSecond={selectedTask.scheduledTimeInSecond}
-            deadlineTimeStampInSecond={selectedTask.deadlineTimeStampInSecond}
+            selectedTask={selectedTask}
           />
         )}
       </VStack>
