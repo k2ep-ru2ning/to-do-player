@@ -1,14 +1,14 @@
 import { VStack } from "@chakra-ui/react";
 import PropTypes from "prop-types";
-import ShiningKeyword from "./ShiningKeyword";
+import Keyword from "./Keyword";
 
 export default function SequentiallyShiningKeywords({ keywords = [] }) {
   return (
     <VStack spacing={0}>
       {keywords.map((keyword, index) => (
-        <ShiningKeyword
+        <Keyword
           key={index}
-          text={keyword.text}
+          keyword={keyword.text}
           backgroundGradient={keyword.backgroundGradient}
           seq={index}
           numberOfKeywords={keywords.length}
