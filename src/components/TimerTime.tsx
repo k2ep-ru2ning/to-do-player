@@ -1,12 +1,16 @@
-import { HStack } from "@chakra-ui/react";
-import PropTypes from "prop-types";
+import { Flex } from "@chakra-ui/react";
+
 import {
   convertSecondIntoHourMinuteSecond,
   formatTimeUnit,
 } from "../utils/time";
 import TimerTimeUnit from "./TimerTimeUnit";
 
-export default function TimerTime({ timeInSecond = 0 }) {
+type TimerTimeProps = {
+  timeInSecond: number;
+};
+
+export default function TimerTime({ timeInSecond }: TimerTimeProps) {
   const { hour, minute, second } =
     convertSecondIntoHourMinuteSecond(timeInSecond);
 
@@ -15,16 +19,12 @@ export default function TimerTime({ timeInSecond = 0 }) {
   const SS = formatTimeUnit(second);
 
   return (
-    <HStack>
+    <Flex alignItems="center" columnGap={1}>
       <TimerTimeUnit timeUnit={HH} />
       <TimerTimeUnit timeUnit={":"} />
       <TimerTimeUnit timeUnit={MM} />
       <TimerTimeUnit timeUnit={":"} />
       <TimerTimeUnit timeUnit={SS} />
-    </HStack>
+    </Flex>
   );
 }
-
-TimerTime.propTypes = {
-  timeInSecond: PropTypes.number,
-};
