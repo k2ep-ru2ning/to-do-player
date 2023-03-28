@@ -226,7 +226,7 @@ export default function AddTaskForm({ dispatch, onClose }: AddTaskFormProps) {
           <FormErrorMessage>{errors.time.second.message}</FormErrorMessage>
         ) : null}
       </FormControl>
-      <Button type="submit" colorScheme="main" size="md">
+      <Button type="submit" colorScheme="main" size="md" variant="solid">
         할 일 추가
       </Button>
     </Flex>

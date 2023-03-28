@@ -227,7 +227,7 @@ export default function UpdateSelectedTaskForm({
           <FormErrorMessage>{errors.time.second.message}</FormErrorMessage>
         ) : null}
       </FormControl>
-      <Button type="submit" colorScheme="main" size="md">
+      <Button type="submit" colorScheme="main" size="md" variant="solid">
         수정하기
       </Button>
     </Flex>

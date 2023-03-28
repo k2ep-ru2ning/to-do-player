@@ -55,7 +55,7 @@ export default function RemoveSelectedTaskAlertModalOpenButton({
             </Text>
           </AlertDialogBody>
           <AlertDialogFooter>
-            <ButtonGroup>
+            <ButtonGroup variant="solid" size="md">
               <Button type="button" onClick={onClose} ref={cancelButtonRef}>
                 취소
               </Button>
