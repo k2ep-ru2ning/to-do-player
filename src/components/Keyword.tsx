@@ -27,7 +27,7 @@ export default function Keyword({
     <Box
       bgGradient={backgroundGradient}
       bgClip="text"
-      fontSize={{ base: "7xl", lg: "8xl", xl: "9xl" }}
+      fontSize={{ base: "7xl", lg: "8xl" }}
       fontWeight="extrabold"
     >
       <p

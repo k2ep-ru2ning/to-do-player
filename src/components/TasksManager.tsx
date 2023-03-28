@@ -97,17 +97,14 @@ export default function TasksManager() {
   );
 
   return (
-    <Grid
-      gap={4}
-      templateColumns={{ md: "repeat(2, 1fr)", xl: "repeat(3, 1fr)" }}
-    >
+    <Grid gap={4} templateColumns={{ md: "repeat(3, 1fr)" }}>
       <Flex direction="column" rowGap={4}>
         <ButtonGroup alignSelf="flex-end">
           <AddTaskFormModalOpenButton dispatch={dispatch} />
         </ButtonGroup>
         <SelectedTaskDetail selectedTask={selectedTask} dispatch={dispatch} />
       </Flex>
-      <GridItem colSpan={{ xl: 2 }}>
+      <GridItem colSpan={{ md: 2 }}>
         <TaskListTabs
           tasks={tasks}
           selectedTaskId={selectedTaskId}
