@@ -1,6 +1,7 @@
-import { Button, Center, SimpleGrid, Text, VStack } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import SequentiallyShiningKeywords from "../components/SequentiallyShiningKeywords";
+import { Button, Center, SimpleGrid, Text, VStack } from "@chakra-ui/react";
+
+import Keywords from "../components/Keywords";
 
 export default function Home() {
   return (
@@ -10,7 +11,7 @@ export default function Home() {
         gap={{ base: 8, lg: 16 }}
         placeItems="center"
       >
-        <SequentiallyShiningKeywords keywords={keywords} />
+        <Keywords keywords={keywords} />
         <VStack spacing={8}>
           <VStack spacing={{ base: 2, md: 4 }}>
             <Text
@@ -35,15 +36,15 @@ export default function Home() {
 
 const keywords = [
   {
-    text: "Focus.",
+    keyword: "Focus.",
     backgroundGradient: "linear(to-r, #6300ff, #ff0086)",
   },
   {
-    text: "Plan.",
+    keyword: "Plan.",
     backgroundGradient: "linear(to-r, #00beff, #0027ff)",
   },
   {
-    text: "Start.",
+    keyword: "Start.",
     backgroundGradient: "linear(to-r, #ff8f00, #feff00)",
   },
 ];

@@ -1,9 +1,84 @@
-import { useReducer } from "react";
-import { convertHourMinuteSecondIntoSecond } from "../utils/timeConvertor";
+import { type Dispatch, useReducer } from "react";
+import { ButtonGroup, Flex, Grid, GridItem } from "@chakra-ui/react";
+
+import { convertHourMinuteSecondIntoSecond } from "../utils/time";
 import SelectedTaskDetail from "./SelectedTaskDetail";
-import { Flex, Grid, GridItem } from "@chakra-ui/react";
-import Tasks from "./Tasks";
-import OpenAddTaskFormModalButton from "./OpenAddTaskFormModalButton";
+import TaskListTabs from "./TaskListTabs";
+import AddTaskFormModalOpenButton from "./AddTaskFormModalOpenButton";
+
+export type Task = {
+  id: string;
+  name: string;
+  scheduledTimeInSecond: number;
+  remainingTimeInSecond: number;
+};
+
+export type SelectedTask = Task & {
+  deadlineTimeStampInSecond: number | null;
+};
+
+export type TasksState = {
+  tasks: Task[];
+  selectedTaskId: string | null;
+  selectedTaskDeadlineTimeStampInSecond: number | null;
+};
+
+type TasksAction =
+  | {
+      type: "tasks/taskAdded";
+      payload: {
+        task: {
+          id: string;
+          name: string;
+          hour: number;
+          minute: number;
+          second: number;
+        };
+      };
+    }
+  | {
+      type: "tasks/selectedTaskUpdated";
+      payload: {
+        task: {
+          name: string;
+          hour: number;
+          minute: number;
+          second: number;
+        };
+      };
+    }
+  | {
+      type: "tasks/selectedTaskRemoved";
+    }
+  | {
+      type: "tasks/taskSelected";
+      payload: {
+        selectedTaskId: string;
+      };
+    }
+  | {
+      type: "tasks/selectedTaskStarted";
+      payload: {
+        newDeadlineTimeStampInSecond: number;
+      };
+    }
+  | {
+      type: "tasks/selectedTaskStopped";
+    }
+  | {
+      type: "tasks/selectedTaskRan";
+      payload: {
+        newRemainingTimeInSecond: number;
+      };
+    }
+  | {
+      type: "tasks/selectedTaskReset";
+      payload: {
+        newDeadlineTimeStampInSecond: number | null;
+      };
+    };
+
+export type TasksDispatch = Dispatch<TasksAction>;
 
 export default function TasksManager() {
   const [state, dispatch] = useReducer(tasksReducer, {
@@ -27,13 +102,13 @@ export default function TasksManager() {
       templateColumns={{ md: "repeat(2, 1fr)", xl: "repeat(3, 1fr)" }}
     >
       <Flex direction="column" rowGap={4}>
-        <Flex justifyContent="flex-end">
-          <OpenAddTaskFormModalButton dispatch={dispatch} />
-        </Flex>
+        <ButtonGroup alignSelf="flex-end">
+          <AddTaskFormModalOpenButton dispatch={dispatch} />
+        </ButtonGroup>
         <SelectedTaskDetail selectedTask={selectedTask} dispatch={dispatch} />
       </Flex>
       <GridItem colSpan={{ xl: 2 }}>
-        <Tasks
+        <TaskListTabs
           tasks={tasks}
           selectedTaskId={selectedTaskId}
           dispatch={dispatch}
@@ -44,22 +119,23 @@ export default function TasksManager() {
 }
 
 function getSelectedTask(
-  tasks,
-  selectedTaskId,
-  selectedTaskDeadlineTimeStampInSecond
-) {
+  tasks: Task[],
+  selectedTaskId: string | null,
+  selectedTaskDeadlineTimeStampInSecond: number | null
+): SelectedTask | null {
   let selectedTask = tasks.find((task) => task.id === selectedTaskId);
-  if (selectedTask) {
-    selectedTask = {
-      ...selectedTask,
-      deadlineTimeStampInSecond: selectedTaskDeadlineTimeStampInSecond,
-    };
+
+  if (!selectedTask) {
+    return null;
   }
 
-  return selectedTask;
+  return {
+    ...selectedTask,
+    deadlineTimeStampInSecond: selectedTaskDeadlineTimeStampInSecond,
+  };
 }
 
-function tasksReducer(state, action) {
+function tasksReducer(state: TasksState, action: TasksAction): TasksState {
   switch (action.type) {
     case "tasks/taskAdded": {
       const { id, name, hour, minute, second } = action.payload.task;
@@ -170,7 +246,7 @@ function tasksReducer(state, action) {
       };
     }
     default: {
-      throw new Error(`Unknown action: ${action.type}`);
+      throw new Error("Unknown action");
     }
   }
 }

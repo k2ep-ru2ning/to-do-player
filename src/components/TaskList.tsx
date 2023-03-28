@@ -1,14 +1,20 @@
 import { Box, Center, StackDivider, VStack } from "@chakra-ui/react";
-import PropTypes from "prop-types";
+
 import DefaultMessage from "./DefaultMessage";
 import TaskListItem from "./TaskListItem";
+import { type TasksDispatch, type TasksState } from "./TasksManager";
+
+type TaskListProps = Pick<TasksState, "tasks" | "selectedTaskId"> & {
+  emptyMessage: string;
+  dispatch: TasksDispatch;
+};
 
 export default function TaskList({
   tasks,
   emptyMessage,
   selectedTaskId,
   dispatch,
-}) {
+}: TaskListProps) {
   return (
     <Box
       h={{ base: "391px", md: "585px" }}
@@ -18,7 +24,7 @@ export default function TaskList({
     >
       {tasks.length === 0 ? (
         <Center h="full">
-          <DefaultMessage>{emptyMessage}</DefaultMessage>
+          <DefaultMessage message={emptyMessage} />
         </Center>
       ) : (
         <VStack divider={<StackDivider />} align="stretch" spacing={0}>
@@ -35,17 +41,3 @@ export default function TaskList({
     </Box>
   );
 }
-
-TaskList.propTypes = {
-  tasks: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      scheduledTimeInSecond: PropTypes.number.isRequired,
-      remainingTimeInSecond: PropTypes.number.isRequired,
-    })
-  ).isRequired,
-  emptyMessage: PropTypes.string.isRequired,
-  selectedTaskId: PropTypes.string,
-  dispatch: PropTypes.func.isRequired,
-};

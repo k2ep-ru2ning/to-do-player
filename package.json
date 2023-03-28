@@ -6,7 +6,7 @@
     "build": "webpack --node-env production --progress",
     "build:analyze": "webpack --node-env production --progress --analyze",
     "dev": "webpack serve --node-env development --progress",
-    "lint": "eslint --fix --ext .jsx,.js .",
+    "lint": "eslint --fix --ext .jsx,.js,.tsx,.ts .",
     "prettier": "prettier --write .",
     "prepare": "husky install"
   },
@@ -16,7 +16,6 @@
     "@emotion/styled": "^11.10.0",
     "framer-motion": "^7.2.0",
     "nanoid": "^4.0.0",
-    "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.34.0",
@@ -27,18 +26,23 @@
     "@babel/core": "^7.18.9",
     "@babel/preset-env": "^7.18.9",
     "@babel/preset-react": "^7.18.6",
+    "@babel/preset-typescript": "^7.21.0",
     "@emotion/babel-plugin": "^11.10.2",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.7",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
     "babel-loader": "^8.2.5",
     "eslint": "^8.20.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-react-app": "^7.0.1",
+    "fork-ts-checker-webpack-plugin": "^8.0.0",
     "html-webpack-plugin": "^5.5.0",
     "husky": "^8.0.0",
     "lint-staged": "^13.0.3",
     "prettier": "2.7.1",
     "react-refresh": "^0.14.0",
     "terser-webpack-plugin": "^5.3.7",
+    "typescript": "^4.9.5",
     "webpack": "^5.76.2",
     "webpack-bundle-analyzer": "^4.8.0",
     "webpack-cli": "^5.0.1",
@@ -48,7 +52,7 @@
     "defaults"
   ],
   "lint-staged": {
-    "*.{js,jsx}": [
+    "*.{js,jsx,ts,tsx}": [
       "prettier --write",
       "eslint --fix"
     ],

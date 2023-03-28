@@ -1,19 +1,29 @@
-import PropTypes from "prop-types";
-import { memo, useCallback } from "react";
-import FormattedTime from "./FormattedTime";
 import { Flex, Text, VStack } from "@chakra-ui/react";
 
-function TaskListItem({ task, isSelected, dispatch }) {
+import FormattedTime from "./FormattedTime";
+import { type TasksDispatch, type Task } from "./TasksManager";
+
+type TaskListItemProps = {
+  task: Task;
+  isSelected: boolean;
+  dispatch: TasksDispatch;
+};
+
+export default function TaskListItem({
+  task,
+  isSelected,
+  dispatch,
+}: TaskListItemProps) {
   const isFinished = task.remainingTimeInSecond === 0;
 
-  const handleClickTask = useCallback(() => {
+  const handleClickTask = (): void => {
     dispatch({
       type: "tasks/taskSelected",
       payload: {
         selectedTaskId: task.id,
       },
     });
-  }, [task.id]);
+  };
 
   return (
     <Flex
@@ -42,16 +52,3 @@ function TaskListItem({ task, isSelected, dispatch }) {
     </Flex>
   );
 }
-
-TaskListItem.propTypes = {
-  task: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    scheduledTimeInSecond: PropTypes.number.isRequired,
-    remainingTimeInSecond: PropTypes.number.isRequired,
-  }).isRequired,
-  isSelected: PropTypes.bool.isRequired,
-  dispatch: PropTypes.func.isRequired,
-};
-
-export default memo(TaskListItem);
