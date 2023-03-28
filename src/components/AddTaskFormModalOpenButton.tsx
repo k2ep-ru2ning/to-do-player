@@ -4,13 +4,13 @@ import { type TasksDispatch } from "./TasksManager";
 import AddTaskForm from "./AddTaskForm";
 import TaskFormModal from "./TaskFormModal";
 
-type OpenAddTaskFormModalButtonProps = {
+type AddTaskFormModalOpenButtonProps = {
   dispatch: TasksDispatch;
 };
 
-export default function OpenAddTaskFormModalButton({
+export default function AddTaskFormModalOpenButton({
   dispatch,
-}: OpenAddTaskFormModalButtonProps) {
+}: AddTaskFormModalOpenButtonProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (

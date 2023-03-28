@@ -4,7 +4,7 @@ import { ButtonGroup, Flex, Grid, GridItem } from "@chakra-ui/react";
 import { convertHourMinuteSecondIntoSecond } from "../utils/time";
 import SelectedTaskDetail from "./SelectedTaskDetail";
 import TaskListTabs from "./TaskListTabs";
-import OpenAddTaskFormModalButton from "./OpenAddTaskFormModalButton";
+import AddTaskFormModalOpenButton from "./AddTaskFormModalOpenButton";
 
 export type Task = {
   id: string;
@@ -102,8 +102,8 @@ export default function TasksManager() {
       templateColumns={{ md: "repeat(2, 1fr)", xl: "repeat(3, 1fr)" }}
     >
       <Flex direction="column" rowGap={4}>
-        <ButtonGroup justifyContent="flex-end">
-          <OpenAddTaskFormModalButton dispatch={dispatch} />
+        <ButtonGroup alignSelf="flex-end">
+          <AddTaskFormModalOpenButton dispatch={dispatch} />
         </ButtonGroup>
         <SelectedTaskDetail selectedTask={selectedTask} dispatch={dispatch} />
       </Flex>
