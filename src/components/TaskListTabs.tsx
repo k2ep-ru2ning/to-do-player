@@ -1,8 +1,17 @@
-import PropTypes from "prop-types";
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
-import TaskList from "./TaskList";
 
-export default function Tasks({ tasks, selectedTaskId, dispatch }) {
+import TaskList from "./TaskList";
+import { type TasksState, type TasksDispatch } from "./TasksManager";
+
+type TaskListTabsProps = Pick<TasksState, "tasks" | "selectedTaskId"> & {
+  dispatch: TasksDispatch;
+};
+
+export default function TaskListTabs({
+  tasks,
+  selectedTaskId,
+  dispatch,
+}: TaskListTabsProps) {
   const waitingTasks = tasks.filter((task) => task.remainingTimeInSecond > 0);
   const finishedTasks = tasks.filter(
     (task) => task.remainingTimeInSecond === 0
@@ -35,16 +44,3 @@ export default function Tasks({ tasks, selectedTaskId, dispatch }) {
     </Tabs>
   );
 }
-
-Tasks.propTypes = {
-  tasks: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      scheduledTimeInSecond: PropTypes.number.isRequired,
-      remainingTimeInSecond: PropTypes.number.isRequired,
-    })
-  ).isRequired,
-  selectedTaskId: PropTypes.string,
-  dispatch: PropTypes.func.isRequired,
-};

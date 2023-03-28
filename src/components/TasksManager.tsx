@@ -3,10 +3,10 @@ import { ButtonGroup, Flex, Grid, GridItem } from "@chakra-ui/react";
 
 import { convertHourMinuteSecondIntoSecond } from "../utils/time";
 import SelectedTaskDetail from "./SelectedTaskDetail";
-import Tasks from "./Tasks";
+import TaskListTabs from "./TaskListTabs";
 import OpenAddTaskFormModalButton from "./OpenAddTaskFormModalButton";
 
-type Task = {
+export type Task = {
   id: string;
   name: string;
   scheduledTimeInSecond: number;
@@ -17,7 +17,7 @@ export type SelectedTask = Task & {
   deadlineTimeStampInSecond: number | null;
 };
 
-type TasksState = {
+export type TasksState = {
   tasks: Task[];
   selectedTaskId: string | null;
   selectedTaskDeadlineTimeStampInSecond: number | null;
@@ -108,7 +108,7 @@ export default function TasksManager() {
         <SelectedTaskDetail selectedTask={selectedTask} dispatch={dispatch} />
       </Flex>
       <GridItem colSpan={{ xl: 2 }}>
-        <Tasks
+        <TaskListTabs
           tasks={tasks}
           selectedTaskId={selectedTaskId}
           dispatch={dispatch}
