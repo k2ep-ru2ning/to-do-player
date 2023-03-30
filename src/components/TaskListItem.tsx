@@ -1,20 +1,21 @@
 import { Flex, Text, VStack } from "@chakra-ui/react";
 
+import { type Task } from "../types/tasks";
 import FormattedTime from "./FormattedTime";
-import { type TasksDispatch, type Task } from "./TasksManager";
+import { useTasks, useTasksDispatch } from "../contexts/TasksContext";
 
 type TaskListItemProps = {
   task: Task;
-  isSelected: boolean;
-  dispatch: TasksDispatch;
 };
 
-export default function TaskListItem({
-  task,
-  isSelected,
-  dispatch,
-}: TaskListItemProps) {
+export default function TaskListItem({ task }: TaskListItemProps) {
+  const dispatch = useTasksDispatch();
+
+  const { selectedTaskId } = useTasks();
+
   const isFinished = task.remainingTimeInSecond === 0;
+
+  const isSelected = selectedTaskId === task.id;
 
   const handleClickTask = (): void => {
     dispatch({
@@ -42,12 +43,12 @@ export default function TaskListItem({
           prefix="계획 시간"
           timeInSecond={task.scheduledTimeInSecond}
         />
-        {!isSelected && !isFinished && (
+        {!isSelected && !isFinished ? (
           <FormattedTime
             prefix="남은 시간"
             timeInSecond={task.remainingTimeInSecond}
           />
-        )}
+        ) : null}
       </VStack>
     </Flex>
   );

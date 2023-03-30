@@ -1,17 +1,15 @@
 import { Button, useDisclosure } from "@chakra-ui/react";
 
-import { type TasksDispatch, type SelectedTask } from "./TasksManager";
 import UpdateSelectedTaskForm from "./UpdateSelectedTaskForm";
 import TaskFormModal from "./TaskFormModal";
+import { type SelectedTask } from "../types/tasks";
 
 type UpdateSelectedTaskFormModalOpenButtonProps = {
   selectedTask: SelectedTask;
-  dispatch: TasksDispatch;
 };
 
 export default function UpdateSelectedTaskFormModalOpenButton({
   selectedTask,
-  dispatch,
 }: UpdateSelectedTaskFormModalOpenButtonProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -21,11 +19,7 @@ export default function UpdateSelectedTaskFormModalOpenButton({
         수정하기
       </Button>
       <TaskFormModal title="할 일 수정하기" isOpen={isOpen} onClose={onClose}>
-        <UpdateSelectedTaskForm
-          selectedTask={selectedTask}
-          onClose={onClose}
-          dispatch={dispatch}
-        />
+        <UpdateSelectedTaskForm selectedTask={selectedTask} onClose={onClose} />
       </TaskFormModal>
     </>
   );

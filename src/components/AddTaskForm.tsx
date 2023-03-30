@@ -16,15 +16,14 @@ import {
 } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
 
-import { type TasksDispatch } from "./TasksManager";
 import {
   convertHourMinuteSecondIntoSecond,
   type HourMinuteSecond,
 } from "../utils/time";
+import { useTasksDispatch } from "../contexts/TasksContext";
 
 type AddTaskFormProps = {
   onClose: () => void;
-  dispatch: TasksDispatch;
 };
 
 type AddTaskFormData = {
@@ -39,7 +38,9 @@ const MAX_MINUTE = 59;
 const MIN_SECOND = 0;
 const MAX_SECOND = 59;
 
-export default function AddTaskForm({ dispatch, onClose }: AddTaskFormProps) {
+export default function AddTaskForm({ onClose }: AddTaskFormProps) {
+  const dispatch = useTasksDispatch();
+
   const {
     register,
     handleSubmit,

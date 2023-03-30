@@ -4,17 +4,13 @@ import DefaultMessage from "./DefaultMessage";
 import UpdateSelectedTaskFormModalOpenButton from "./UpdateSelectedTaskFormModalOpenButton";
 import RemoveSelectedTaskAlertModalOpenButton from "./RemoveSelectedTaskAlertModalOpenButton";
 import SelectedTaskProgressTimer from "./SelectedTaskProgressTimer";
-import { type SelectedTask, type TasksDispatch } from "./TasksManager";
+import { getSelectedTask, useTasks } from "../contexts/TasksContext";
 
-type SelectedTaskDetailProps = {
-  dispatch: TasksDispatch;
-  selectedTask: SelectedTask | null;
-};
+export default function SelectedTaskDetail() {
+  const tasks = useTasks();
 
-export default function SelectedTaskDetail({
-  selectedTask,
-  dispatch,
-}: SelectedTaskDetailProps) {
+  const selectedTask = getSelectedTask(tasks);
+
   if (selectedTask === null) {
     return (
       <Center h={{ base: 80, md: 96 }} p={4} borderWidth={2} borderRadius="lg">
@@ -34,13 +30,9 @@ export default function SelectedTaskDetail({
           {!isSelectedTaskFinished ? (
             <UpdateSelectedTaskFormModalOpenButton
               selectedTask={selectedTask}
-              dispatch={dispatch}
             />
           ) : null}
-          <RemoveSelectedTaskAlertModalOpenButton
-            selectedTask={selectedTask}
-            dispatch={dispatch}
-          />
+          <RemoveSelectedTaskAlertModalOpenButton selectedTask={selectedTask} />
         </ButtonGroup>
         <Heading textAlign="center" fontSize="2xl" fontWeight="bold">
           {selectedTask.name}
@@ -50,10 +42,7 @@ export default function SelectedTaskDetail({
             할 일을 완료했습니다!
           </Text>
         ) : (
-          <SelectedTaskProgressTimer
-            dispatch={dispatch}
-            selectedTask={selectedTask}
-          />
+          <SelectedTaskProgressTimer selectedTask={selectedTask} />
         )}
       </VStack>
     </Center>

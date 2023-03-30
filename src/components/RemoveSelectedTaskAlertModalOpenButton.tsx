@@ -13,17 +13,18 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 
-import { type TasksDispatch, type SelectedTask } from "./TasksManager";
+import { type SelectedTask } from "../types/tasks";
+import { useTasksDispatch } from "../contexts/TasksContext";
 
 type RemoveSelectedTaskAlertModalOpenButtonProps = {
   selectedTask: SelectedTask;
-  dispatch: TasksDispatch;
 };
 
 export default function RemoveSelectedTaskAlertModalOpenButton({
   selectedTask,
-  dispatch,
 }: RemoveSelectedTaskAlertModalOpenButtonProps) {
+  const dispatch = useTasksDispatch();
+
   const cancelButtonRef = useRef<HTMLButtonElement>(null);
 
   const { isOpen, onOpen, onClose } = useDisclosure();

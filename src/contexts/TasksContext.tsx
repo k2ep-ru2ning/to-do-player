@@ -1,23 +1,18 @@
-import { type Dispatch, useReducer } from "react";
-import { ButtonGroup, Flex, Grid, GridItem } from "@chakra-ui/react";
+import {
+  createContext,
+  type Dispatch,
+  type ReactNode,
+  useContext,
+  useReducer,
+} from "react";
 
-import { convertHourMinuteSecondIntoSecond } from "../utils/time";
-import SelectedTaskDetail from "./SelectedTaskDetail";
-import TaskListTabs from "./TaskListTabs";
-import AddTaskFormModalOpenButton from "./AddTaskFormModalOpenButton";
+import { type SelectedTask, type Task } from "../types/tasks";
+import {
+  convertHourMinuteSecondIntoSecond,
+  type HourMinuteSecond,
+} from "../utils/time";
 
-export type Task = {
-  id: string;
-  name: string;
-  scheduledTimeInSecond: number;
-  remainingTimeInSecond: number;
-};
-
-export type SelectedTask = Task & {
-  deadlineTimeStampInSecond: number | null;
-};
-
-export type TasksState = {
+type Tasks = {
   tasks: Task[];
   selectedTaskId: string | null;
   selectedTaskDeadlineTimeStampInSecond: number | null;
@@ -27,24 +22,13 @@ type TasksAction =
   | {
       type: "tasks/taskAdded";
       payload: {
-        task: {
-          id: string;
-          name: string;
-          hour: number;
-          minute: number;
-          second: number;
-        };
+        task: Pick<Task, "id" | "name"> & HourMinuteSecond;
       };
     }
   | {
       type: "tasks/selectedTaskUpdated";
       payload: {
-        task: {
-          name: string;
-          hour: number;
-          minute: number;
-          second: number;
-        };
+        task: Pick<Task, "name"> & HourMinuteSecond;
       };
     }
   | {
@@ -78,48 +62,58 @@ type TasksAction =
       };
     };
 
-export type TasksDispatch = Dispatch<TasksAction>;
+type TasksProviderProps = {
+  children?: ReactNode;
+};
 
-export default function TasksManager() {
-  const [state, dispatch] = useReducer(tasksReducer, {
-    tasks: [],
-    selectedTaskId: null,
-    selectedTaskDeadlineTimeStampInSecond: null,
-  });
+const TasksContext = createContext<Tasks | null>(null);
+const TasksDispatchContext = createContext<Dispatch<TasksAction> | null>(null);
 
-  const { tasks, selectedTaskId, selectedTaskDeadlineTimeStampInSecond } =
-    state;
+const initialTasks: Tasks = {
+  tasks: [],
+  selectedTaskId: null,
+  selectedTaskDeadlineTimeStampInSecond: null,
+};
 
-  const selectedTask = getSelectedTask(
-    tasks,
-    selectedTaskId,
-    selectedTaskDeadlineTimeStampInSecond
-  );
+export function TasksProvider({ children }: TasksProviderProps) {
+  const [tasks, dispatch] = useReducer(tasksReducer, initialTasks);
 
   return (
-    <Grid gap={4} templateColumns={{ md: "repeat(3, 1fr)" }}>
-      <Flex direction="column" rowGap={4}>
-        <ButtonGroup alignSelf="flex-end">
-          <AddTaskFormModalOpenButton dispatch={dispatch} />
-        </ButtonGroup>
-        <SelectedTaskDetail selectedTask={selectedTask} dispatch={dispatch} />
-      </Flex>
-      <GridItem colSpan={{ md: 2 }}>
-        <TaskListTabs
-          tasks={tasks}
-          selectedTaskId={selectedTaskId}
-          dispatch={dispatch}
-        />
-      </GridItem>
-    </Grid>
+    <TasksContext.Provider value={tasks}>
+      <TasksDispatchContext.Provider value={dispatch}>
+        {children}
+      </TasksDispatchContext.Provider>
+    </TasksContext.Provider>
   );
 }
 
-function getSelectedTask(
-  tasks: Task[],
-  selectedTaskId: string | null,
-  selectedTaskDeadlineTimeStampInSecond: number | null
-): SelectedTask | null {
+export function useTasks(): Tasks {
+  const tasks = useContext(TasksContext);
+
+  if (tasks === null) {
+    throw new Error("useTasks has to be used within TasksContext.Provider");
+  }
+
+  return tasks;
+}
+
+export function useTasksDispatch(): Dispatch<TasksAction> {
+  const dispatch = useContext(TasksDispatchContext);
+
+  if (dispatch === null) {
+    throw new Error(
+      "useTasksDispatch has to be used within TasksDispatchContext.Provider"
+    );
+  }
+
+  return dispatch;
+}
+
+export function getSelectedTask({
+  tasks,
+  selectedTaskId,
+  selectedTaskDeadlineTimeStampInSecond,
+}: Tasks): SelectedTask | null {
   let selectedTask = tasks.find((task) => task.id === selectedTaskId);
 
   if (!selectedTask) {
@@ -132,7 +126,7 @@ function getSelectedTask(
   };
 }
 
-function tasksReducer(state: TasksState, action: TasksAction): TasksState {
+function tasksReducer(state: Tasks, action: TasksAction): Tasks {
   switch (action.type) {
     case "tasks/taskAdded": {
       const { id, name, hour, minute, second } = action.payload.task;

@@ -1,20 +1,15 @@
 import { Box, Center, StackDivider, VStack } from "@chakra-ui/react";
 
+import { type Task } from "../types/tasks";
 import DefaultMessage from "./DefaultMessage";
 import TaskListItem from "./TaskListItem";
-import { type TasksDispatch, type TasksState } from "./TasksManager";
 
-type TaskListProps = Pick<TasksState, "tasks" | "selectedTaskId"> & {
+type TaskListProps = {
+  tasks: Task[];
   emptyMessage: string;
-  dispatch: TasksDispatch;
 };
 
-export default function TaskList({
-  tasks,
-  emptyMessage,
-  selectedTaskId,
-  dispatch,
-}: TaskListProps) {
+export default function TaskList({ tasks, emptyMessage }: TaskListProps) {
   return (
     <Box
       h={{ base: "391px", md: "585px" }}
@@ -29,12 +24,7 @@ export default function TaskList({
       ) : (
         <VStack divider={<StackDivider />} align="stretch" spacing={0}>
           {tasks.map((task) => (
-            <TaskListItem
-              key={task.id}
-              task={task}
-              isSelected={task.id === selectedTaskId}
-              dispatch={dispatch}
-            />
+            <TaskListItem key={task.id} task={task} />
           ))}
         </VStack>
       )}

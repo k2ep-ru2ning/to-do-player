@@ -15,17 +15,17 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-import { type TasksDispatch, type SelectedTask } from "./TasksManager";
 import {
   convertHourMinuteSecondIntoSecond,
   convertSecondIntoHourMinuteSecond,
   type HourMinuteSecond,
 } from "../utils/time";
+import { type SelectedTask } from "../types/tasks";
+import { useTasksDispatch } from "../contexts/TasksContext";
 
 type UpdateSelectedTaskFormProps = {
   selectedTask: SelectedTask;
   onClose: () => void;
-  dispatch: TasksDispatch;
 };
 
 type UpdateSelectedTaskFormData = {
@@ -43,8 +43,9 @@ const MAX_SECOND = 59;
 export default function UpdateSelectedTaskForm({
   selectedTask,
   onClose,
-  dispatch,
 }: UpdateSelectedTaskFormProps) {
+  const dispatch = useTasksDispatch();
+
   const {
     register,
     handleSubmit,

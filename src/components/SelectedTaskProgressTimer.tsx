@@ -2,19 +2,20 @@ import { useEffect } from "react";
 import { ButtonGroup, IconButton, VStack } from "@chakra-ui/react";
 import { IoPlaySharp, IoRefreshSharp, IoStopSharp } from "react-icons/io5";
 
+import { type SelectedTask } from "../types/tasks";
+import { useTasksDispatch } from "../contexts/TasksContext";
 import { convertMSIntoSecond } from "../utils/time";
-import { type SelectedTask, type TasksDispatch } from "./TasksManager";
 import TimerTime from "./TimerTime";
 
 type SelectedTaskProgressTimerProps = {
-  dispatch: TasksDispatch;
   selectedTask: SelectedTask;
 };
 
 export default function SelectedTaskProgressTimer({
-  dispatch,
   selectedTask,
 }: SelectedTaskProgressTimerProps) {
+  const dispatch = useTasksDispatch();
+
   const {
     remainingTimeInSecond,
     scheduledTimeInSecond: resetTimeInSecond,

@@ -1,17 +1,11 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 
 import TaskList from "./TaskList";
-import { type TasksState, type TasksDispatch } from "./TasksManager";
+import { useTasks } from "../contexts/TasksContext";
 
-type TaskListTabsProps = Pick<TasksState, "tasks" | "selectedTaskId"> & {
-  dispatch: TasksDispatch;
-};
+export default function TaskListTabs() {
+  const { tasks } = useTasks();
 
-export default function TaskListTabs({
-  tasks,
-  selectedTaskId,
-  dispatch,
-}: TaskListTabsProps) {
   const waitingTasks = tasks.filter((task) => task.remainingTimeInSecond > 0);
   const finishedTasks = tasks.filter(
     (task) => task.remainingTimeInSecond === 0
@@ -27,17 +21,13 @@ export default function TaskListTabs({
         <TabPanel px={0}>
           <TaskList
             tasks={waitingTasks}
-            selectedTaskId={selectedTaskId}
             emptyMessage="할 일 추가하기 버튼을 눌러 할 일을 추가하세요"
-            dispatch={dispatch}
           />
         </TabPanel>
         <TabPanel px={0}>
           <TaskList
             tasks={finishedTasks}
-            selectedTaskId={selectedTaskId}
             emptyMessage="아직 완료된 일이 없습니다"
-            dispatch={dispatch}
           />
         </TabPanel>
       </TabPanels>
