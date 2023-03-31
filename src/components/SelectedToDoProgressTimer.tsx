@@ -2,25 +2,25 @@ import { useEffect } from "react";
 import { ButtonGroup, IconButton, VStack } from "@chakra-ui/react";
 import { IoPlaySharp, IoRefreshSharp, IoStopSharp } from "react-icons/io5";
 
-import { type SelectedTask } from "../types/tasks";
-import { useTasksDispatch } from "../contexts/TasksContext";
+import { type SelectedToDo } from "../types/toDos";
+import { useToDosDispatch } from "../contexts/ToDosContext";
 import { convertMSIntoSecond } from "../utils/time";
 import TimerTime from "./TimerTime";
 
-type SelectedTaskProgressTimerProps = {
-  selectedTask: SelectedTask;
+type SelectedToDoProgressTimerProps = {
+  selectedToDo: SelectedToDo;
 };
 
-export default function SelectedTaskProgressTimer({
-  selectedTask,
-}: SelectedTaskProgressTimerProps) {
-  const dispatch = useTasksDispatch();
+export default function SelectedToDoProgressTimer({
+  selectedToDo,
+}: SelectedToDoProgressTimerProps) {
+  const dispatch = useToDosDispatch();
 
   const {
     remainingTimeInSecond,
     scheduledTimeInSecond: resetTimeInSecond,
     deadlineTimeStampInSecond,
-  } = selectedTask;
+  } = selectedToDo;
 
   const isRunning = deadlineTimeStampInSecond !== null;
 
@@ -34,7 +34,7 @@ export default function SelectedTaskProgressTimer({
     const newDeadlineTimeStampInSecond =
       getNowTimeStampInSecond() + remainingTimeInSecond;
     dispatch({
-      type: "tasks/selectedTaskStarted",
+      type: "selectedToDoStarted",
       payload: { newDeadlineTimeStampInSecond },
     });
   };
@@ -42,7 +42,7 @@ export default function SelectedTaskProgressTimer({
   const handleClickStopButton = (): void => {
     if (!canStopTimer) return;
 
-    dispatch({ type: "tasks/selectedTaskStopped" });
+    dispatch({ type: "selectedToDoStopped" });
   };
 
   const handleClickResetButton = (): void => {
@@ -52,7 +52,7 @@ export default function SelectedTaskProgressTimer({
       ? getNowTimeStampInSecond() + resetTimeInSecond
       : null;
     dispatch({
-      type: "tasks/selectedTaskReset",
+      type: "selectedToDoReset",
       payload: { newDeadlineTimeStampInSecond },
     });
   };
@@ -67,7 +67,7 @@ export default function SelectedTaskProgressTimer({
         newRemainingTimeInSecond = 0;
       }
       dispatch({
-        type: "tasks/selectedTaskRan",
+        type: "selectedToDoRan",
         payload: { newRemainingTimeInSecond },
       });
     }, 1000);

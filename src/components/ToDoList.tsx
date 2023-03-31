@@ -1,15 +1,15 @@
 import { Box, Center, StackDivider, VStack } from "@chakra-ui/react";
 
-import { type Task } from "../types/tasks";
+import { type ToDo } from "../types/toDos";
 import DefaultMessage from "./DefaultMessage";
-import TaskListItem from "./TaskListItem";
+import ToDoListItem from "./ToDoListItem";
 
-type TaskListProps = {
-  tasks: Task[];
+type ToDoListProps = {
+  toDos: ToDo[];
   emptyMessage: string;
 };
 
-export default function TaskList({ tasks, emptyMessage }: TaskListProps) {
+export default function ToDoList({ toDos, emptyMessage }: ToDoListProps) {
   return (
     <Box
       h={{ base: "391px", md: "585px" }}
@@ -17,14 +17,14 @@ export default function TaskList({ tasks, emptyMessage }: TaskListProps) {
       borderWidth={2}
       borderRadius="lg"
     >
-      {tasks.length === 0 ? (
+      {toDos.length === 0 ? (
         <Center h="full">
           <DefaultMessage message={emptyMessage} />
         </Center>
       ) : (
         <VStack divider={<StackDivider />} align="stretch" spacing={0}>
-          {tasks.map((task) => (
-            <TaskListItem key={task.id} task={task} />
+          {toDos.map((toDo) => (
+            <ToDoListItem key={toDo.id} toDo={toDo} />
           ))}
         </VStack>
       )}

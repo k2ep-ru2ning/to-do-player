@@ -7,20 +7,21 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
+import { type ReactNode } from "react";
 
-type TaskFormModalProps = {
+type ToDoFormModalProps = {
   isOpen: boolean;
   onClose: () => void;
   title: string;
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
-export default function TaskFormModal({
+export default function ToDoFormModal({
   isOpen,
   onClose,
   title,
   children,
-}: TaskFormModalProps) {
+}: ToDoFormModalProps) {
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={{ base: "sm", md: "md" }}>
       <ModalOverlay />

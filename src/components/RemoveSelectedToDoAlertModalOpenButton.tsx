@@ -13,24 +13,24 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 
-import { type SelectedTask } from "../types/tasks";
-import { useTasksDispatch } from "../contexts/TasksContext";
+import { type SelectedToDo } from "../types/toDos";
+import { useToDosDispatch } from "../contexts/ToDosContext";
 
-type RemoveSelectedTaskAlertModalOpenButtonProps = {
-  selectedTask: SelectedTask;
+type RemoveSelectedToDoAlertModalOpenButtonProps = {
+  selectedToDo: SelectedToDo;
 };
 
-export default function RemoveSelectedTaskAlertModalOpenButton({
-  selectedTask,
-}: RemoveSelectedTaskAlertModalOpenButtonProps) {
-  const dispatch = useTasksDispatch();
+export default function RemoveSelectedToDoAlertModalOpenButton({
+  selectedToDo,
+}: RemoveSelectedToDoAlertModalOpenButtonProps) {
+  const dispatch = useToDosDispatch();
 
   const cancelButtonRef = useRef<HTMLButtonElement>(null);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleClickRemoveButton = (): void => {
-    dispatch({ type: "tasks/selectedTaskRemoved" });
+    dispatch({ type: "selectedToDoRemoved" });
   };
 
   return (
@@ -52,7 +52,7 @@ export default function RemoveSelectedTaskAlertModalOpenButton({
           <AlertDialogBody>
             <Text>
               할 일을 삭제합니다 <br />
-              (삭제할 할 일: <Text as="strong">{selectedTask.name}</Text>)
+              (삭제할 할 일: <Text as="strong">{selectedToDo.name}</Text>)
             </Text>
           </AlertDialogBody>
           <AlertDialogFooter>

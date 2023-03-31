@@ -20,13 +20,13 @@ import {
   convertHourMinuteSecondIntoSecond,
   type HourMinuteSecond,
 } from "../utils/time";
-import { useTasksDispatch } from "../contexts/TasksContext";
+import { useToDosDispatch } from "../contexts/ToDosContext";
 
-type AddTaskFormProps = {
+type AddToDoFormProps = {
   onClose: () => void;
 };
 
-type AddTaskFormData = {
+type AddToDoFormData = {
   name: string;
   time: HourMinuteSecond;
 };
@@ -38,8 +38,8 @@ const MAX_MINUTE = 59;
 const MIN_SECOND = 0;
 const MAX_SECOND = 59;
 
-export default function AddTaskForm({ onClose }: AddTaskFormProps) {
-  const dispatch = useTasksDispatch();
+export default function AddToDoForm({ onClose }: AddToDoFormProps) {
+  const dispatch = useToDosDispatch();
 
   const {
     register,
@@ -47,7 +47,7 @@ export default function AddTaskForm({ onClose }: AddTaskFormProps) {
     formState: { errors },
     control,
     watch,
-  } = useForm<AddTaskFormData>({
+  } = useForm<AddToDoFormData>({
     defaultValues: {
       name: "",
       time: {
@@ -66,15 +66,15 @@ export default function AddTaskForm({ onClose }: AddTaskFormProps) {
 
   const hasTimeFieldSetError = Boolean(errors.time) || isTimeFieldSetZero;
 
-  const handleValid = (data: AddTaskFormData): void => {
+  const handleValid = (data: AddToDoFormData): void => {
     if (convertHourMinuteSecondIntoSecond(data.time) === 0) {
       return;
     }
 
     dispatch({
-      type: "tasks/taskAdded",
+      type: "toDoAdded",
       payload: {
-        task: {
+        toDo: {
           id: nanoid(),
           name: data.name,
           hour: data.time.hour,

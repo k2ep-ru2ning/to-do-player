@@ -1,27 +1,27 @@
 import { Flex, Text, VStack } from "@chakra-ui/react";
 
-import { type Task } from "../types/tasks";
+import { type ToDo } from "../types/toDos";
 import FormattedTime from "./FormattedTime";
-import { useTasks, useTasksDispatch } from "../contexts/TasksContext";
+import { useToDos, useToDosDispatch } from "../contexts/ToDosContext";
 
-type TaskListItemProps = {
-  task: Task;
+type ToDoListItemProps = {
+  toDo: ToDo;
 };
 
-export default function TaskListItem({ task }: TaskListItemProps) {
-  const dispatch = useTasksDispatch();
+export default function ToDoListItem({ toDo }: ToDoListItemProps) {
+  const dispatch = useToDosDispatch();
 
-  const { selectedTaskId } = useTasks();
+  const { selectedItemId } = useToDos();
 
-  const isFinished = task.remainingTimeInSecond === 0;
+  const isFinished = toDo.remainingTimeInSecond === 0;
 
-  const isSelected = selectedTaskId === task.id;
+  const isSelected = selectedItemId === toDo.id;
 
-  const handleClickTask = (): void => {
+  const handleClickToDo = (): void => {
     dispatch({
-      type: "tasks/taskSelected",
+      type: "toDoSelected",
       payload: {
-        selectedTaskId: task.id,
+        selectedItemId: toDo.id,
       },
     });
   };
@@ -33,20 +33,20 @@ export default function TaskListItem({ task }: TaskListItemProps) {
       h={24}
       columnGap={4}
       alignItems="center"
-      onClick={handleClickTask}
+      onClick={handleClickToDo}
     >
       <Text flexGrow={1} fontWeight="bold" noOfLines={3}>
-        {task.name}
+        {toDo.name}
       </Text>
       <VStack flexShrink={0} spacing={1}>
         <FormattedTime
           prefix="계획 시간"
-          timeInSecond={task.scheduledTimeInSecond}
+          timeInSecond={toDo.scheduledTimeInSecond}
         />
         {!isSelected && !isFinished ? (
           <FormattedTime
             prefix="남은 시간"
-            timeInSecond={task.remainingTimeInSecond}
+            timeInSecond={toDo.remainingTimeInSecond}
           />
         ) : null}
       </VStack>

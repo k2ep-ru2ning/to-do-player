@@ -1,14 +1,14 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 
-import TaskList from "./TaskList";
-import { useTasks } from "../contexts/TasksContext";
+import ToDoList from "./ToDoList";
+import { useToDos } from "../contexts/ToDosContext";
 
-export default function TaskListTabs() {
-  const { tasks } = useTasks();
+export default function ToDoListTabs() {
+  const { items: toDos } = useToDos();
 
-  const waitingTasks = tasks.filter((task) => task.remainingTimeInSecond > 0);
-  const finishedTasks = tasks.filter(
-    (task) => task.remainingTimeInSecond === 0
+  const waitingToDos = toDos.filter((toDo) => toDo.remainingTimeInSecond > 0);
+  const finishedToDos = toDos.filter(
+    (toDo) => toDo.remainingTimeInSecond === 0
   );
 
   return (
@@ -19,14 +19,14 @@ export default function TaskListTabs() {
       </TabList>
       <TabPanels>
         <TabPanel px={0}>
-          <TaskList
-            tasks={waitingTasks}
+          <ToDoList
+            toDos={waitingToDos}
             emptyMessage="할 일 추가하기 버튼을 눌러 할 일을 추가하세요"
           />
         </TabPanel>
         <TabPanel px={0}>
-          <TaskList
-            tasks={finishedTasks}
+          <ToDoList
+            toDos={finishedToDos}
             emptyMessage="아직 완료된 일이 없습니다"
           />
         </TabPanel>

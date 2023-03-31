@@ -20,15 +20,15 @@ import {
   convertSecondIntoHourMinuteSecond,
   type HourMinuteSecond,
 } from "../utils/time";
-import { type SelectedTask } from "../types/tasks";
-import { useTasksDispatch } from "../contexts/TasksContext";
+import { type SelectedToDo } from "../types/toDos";
+import { useToDosDispatch } from "../contexts/ToDosContext";
 
-type UpdateSelectedTaskFormProps = {
-  selectedTask: SelectedTask;
+type UpdateSelectedToDoFormProps = {
+  selectedToDo: SelectedToDo;
   onClose: () => void;
 };
 
-type UpdateSelectedTaskFormData = {
+type UpdateSelectedToDoFormData = {
   name: string;
   time: HourMinuteSecond;
 };
@@ -40,11 +40,11 @@ const MAX_MINUTE = 59;
 const MIN_SECOND = 0;
 const MAX_SECOND = 59;
 
-export default function UpdateSelectedTaskForm({
-  selectedTask,
+export default function UpdateSelectedToDoForm({
+  selectedToDo,
   onClose,
-}: UpdateSelectedTaskFormProps) {
-  const dispatch = useTasksDispatch();
+}: UpdateSelectedToDoFormProps) {
+  const dispatch = useToDosDispatch();
 
   const {
     register,
@@ -52,11 +52,11 @@ export default function UpdateSelectedTaskForm({
     formState: { errors },
     control,
     watch,
-  } = useForm<UpdateSelectedTaskFormData>({
+  } = useForm<UpdateSelectedToDoFormData>({
     defaultValues: {
-      name: selectedTask.name,
+      name: selectedToDo.name,
       time: convertSecondIntoHourMinuteSecond(
-        selectedTask.scheduledTimeInSecond
+        selectedToDo.scheduledTimeInSecond
       ),
     },
     mode: "onChange",
@@ -69,7 +69,7 @@ export default function UpdateSelectedTaskForm({
 
   const hasTimeFieldSetError = Boolean(errors.time) || isTimeFieldSetZero;
 
-  const handleValid = (data: UpdateSelectedTaskFormData): void => {
+  const handleValid = (data: UpdateSelectedToDoFormData): void => {
     if (convertHourMinuteSecondIntoSecond(data.time) === 0) {
       return;
     }
@@ -79,9 +79,9 @@ export default function UpdateSelectedTaskForm({
       time: { hour, minute, second },
     } = data;
     dispatch({
-      type: "tasks/selectedTaskUpdated",
+      type: "selectedToDoUpdated",
       payload: {
-        task: { name, hour, minute, second },
+        toDo: { name, hour, minute, second },
       },
     });
     onClose();

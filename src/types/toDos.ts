@@ -1,10 +1,10 @@
-export type Task = {
+export type ToDo = {
   id: string;
   name: string;
   scheduledTimeInSecond: number;
   remainingTimeInSecond: number;
 };
 
-export type SelectedTask = Task & {
+export type SelectedToDo = ToDo & {
   deadlineTimeStampInSecond: number | null;
 };
