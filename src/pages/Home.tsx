@@ -1,5 +1,12 @@
 import { Link } from "react-router-dom";
-import { Button, Center, SimpleGrid, Text, VStack } from "@chakra-ui/react";
+import {
+  Button,
+  Center,
+  Heading,
+  SimpleGrid,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 
 import Keywords from "../components/Keywords";
 
@@ -13,14 +20,15 @@ export default function Home() {
       >
         <Keywords keywords={keywords} />
         <VStack spacing={8}>
-          <VStack spacing={{ base: 2, lg: 4 }}>
-            <Text
+          <VStack spacing={{ base: 3, lg: 6 }}>
+            <Heading
+              as="h1"
               textAlign="center"
-              fontSize={{ base: "2xl", lg: "3xl" }}
+              fontSize={{ base: "2xl", lg: "4xl" }}
               fontWeight="bold"
             >
-              TodoList + Timer
-            </Text>
+              To-Do Player
+            </Heading>
             <Text textAlign="center" fontSize={{ lg: "2xl" }}>
               할 일을 계획하고, 실행할 수 있도록 도와줍니다
             </Text>
