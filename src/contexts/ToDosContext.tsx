@@ -181,6 +181,10 @@ function toDosReducer(state: ToDos, action: ToDosAction): ToDos {
     case "toDoSelected": {
       const { selectedItemId } = action.payload;
 
+      if (selectedItemId === state.selectedItemId) {
+        return state;
+      }
+
       return {
         ...state,
         selectedItemId: selectedItemId,

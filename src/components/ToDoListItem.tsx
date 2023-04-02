@@ -29,6 +29,7 @@ export default function ToDoListItem({ toDo }: ToDoListItemProps) {
   return (
     <Flex
       _hover={{ backgroundColor: "gray.100", cursor: "pointer" }}
+      bgColor={isSelected ? "main.50" : undefined}
       p={4}
       h={24}
       columnGap={4}
