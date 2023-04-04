@@ -30,7 +30,8 @@ export default function Home() {
               To-Do Player
             </Heading>
             <Text textAlign="center" fontSize={{ lg: "2xl" }}>
-              할 일을 계획하고, 실행할 수 있도록 도와줍니다
+              할 일을 계획하고, <br />
+              계획한 시간만큼 집중할 수 있도록 도와줍니다
             </Text>
           </VStack>
           <Button
