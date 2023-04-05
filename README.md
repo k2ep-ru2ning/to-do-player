@@ -33,3 +33,5 @@
 
 1. `npm install` 명령어로 필요한 패키지들을 설치합니다.
 2. `npm run dev` 명령어로 webpack dev server를 실행시킵니다.
+
+   - `3000` 포트에서 실행됩니다.
