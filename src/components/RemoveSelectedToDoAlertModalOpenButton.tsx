@@ -52,7 +52,7 @@ export default function RemoveSelectedToDoAlertModalOpenButton({
           <AlertDialogBody>
             <Text>
               할 일을 삭제합니다 <br />
-              (삭제할 할 일: <Text as="strong">{selectedToDo.name}</Text>)
+              (삭제할 일: <Text as="strong">{selectedToDo.name}</Text>)
             </Text>
           </AlertDialogBody>
           <AlertDialogFooter>
