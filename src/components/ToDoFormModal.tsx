@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { type ReactNode } from "react";
 
-type ToDoFormModalProps = {
+type Props = {
   isOpen: boolean;
   onClose: () => void;
   title: string;
@@ -21,7 +21,7 @@ export default function ToDoFormModal({
   onClose,
   title,
   children,
-}: ToDoFormModalProps) {
+}: Props) {
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={{ base: "sm", md: "md" }}>
       <ModalOverlay />

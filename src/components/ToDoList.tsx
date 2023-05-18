@@ -4,12 +4,12 @@ import { type ToDo } from "../types/toDos";
 import DefaultMessage from "./DefaultMessage";
 import ToDoListItem from "./ToDoListItem";
 
-type ToDoListProps = {
+type Props = {
   toDos: ToDo[];
   emptyMessage: string;
 };
 
-export default function ToDoList({ toDos, emptyMessage }: ToDoListProps) {
+export default function ToDoList({ toDos, emptyMessage }: Props) {
   return (
     <Box
       h={{ base: "391px", md: "585px" }}

@@ -22,11 +22,11 @@ import {
 } from "../utils/time";
 import { useToDosDispatch } from "../contexts/ToDosContext";
 
-type AddToDoFormProps = {
+type Props = {
   onClose: () => void;
 };
 
-type AddToDoFormData = {
+type FormData = {
   name: string;
   time: HourMinuteSecond;
 };
@@ -38,7 +38,7 @@ const MAX_MINUTE = 59;
 const MIN_SECOND = 0;
 const MAX_SECOND = 59;
 
-export default function AddToDoForm({ onClose }: AddToDoFormProps) {
+export default function AddToDoForm({ onClose }: Props) {
   const dispatch = useToDosDispatch();
 
   const {
@@ -47,7 +47,7 @@ export default function AddToDoForm({ onClose }: AddToDoFormProps) {
     formState: { errors },
     control,
     watch,
-  } = useForm<AddToDoFormData>({
+  } = useForm<FormData>({
     defaultValues: {
       name: "",
       time: {
@@ -66,7 +66,7 @@ export default function AddToDoForm({ onClose }: AddToDoFormProps) {
 
   const hasTimeFieldSetError = Boolean(errors.time) || isTimeFieldSetZero;
 
-  const handleValid = (data: AddToDoFormData): void => {
+  const handleValid = (data: FormData): void => {
     if (convertHourMinuteSecondIntoSecond(data.time) === 0) {
       return;
     }

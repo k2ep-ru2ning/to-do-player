@@ -2,14 +2,14 @@ import { Flex } from "@chakra-ui/react";
 
 import Keyword from "./Keyword";
 
-type KeywordsProps = {
+type Props = {
   keywords?: {
     keyword: string;
     backgroundGradient: string;
   }[];
 };
 
-export default function Keywords({ keywords }: KeywordsProps) {
+export default function Keywords({ keywords }: Props) {
   return (
     <Flex direction="column" alignItems="center">
       {keywords?.map(({ keyword, backgroundGradient }, index) => (

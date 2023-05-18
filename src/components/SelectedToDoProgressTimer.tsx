@@ -7,13 +7,11 @@ import { useToDosDispatch } from "../contexts/ToDosContext";
 import { convertMSIntoSecond } from "../utils/time";
 import TimerTime from "./TimerTime";
 
-type SelectedToDoProgressTimerProps = {
+type Props = {
   selectedToDo: SelectedToDo;
 };
 
-export default function SelectedToDoProgressTimer({
-  selectedToDo,
-}: SelectedToDoProgressTimerProps) {
+export default function SelectedToDoProgressTimer({ selectedToDo }: Props) {
   const dispatch = useToDosDispatch();
 
   const {

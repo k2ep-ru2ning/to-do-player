@@ -6,11 +6,11 @@ import {
 } from "../utils/time";
 import TimerTimeUnit from "./TimerTimeUnit";
 
-type TimerTimeProps = {
+type Props = {
   timeInSecond: number;
 };
 
-export default function TimerTime({ timeInSecond }: TimerTimeProps) {
+export default function TimerTime({ timeInSecond }: Props) {
   const { hour, minute, second } =
     convertSecondIntoHourMinuteSecond(timeInSecond);
 

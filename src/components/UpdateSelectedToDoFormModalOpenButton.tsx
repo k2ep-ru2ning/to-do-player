@@ -4,13 +4,13 @@ import UpdateSelectedToDoForm from "./UpdateSelectedToDoForm";
 import ToDoFormModal from "./ToDoFormModal";
 import { type SelectedToDo } from "../types/toDos";
 
-type UpdateSelectedToDoFormModalOpenButtonProps = {
+type Props = {
   selectedToDo: SelectedToDo;
 };
 
 export default function UpdateSelectedToDoFormModalOpenButton({
   selectedToDo,
-}: UpdateSelectedToDoFormModalOpenButtonProps) {
+}: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (

@@ -1,10 +1,10 @@
 import { Box } from "@chakra-ui/react";
 
-type TimerTimeUnitProps = {
+type Props = {
   timeUnit: string;
 };
 
-export default function TimerTimeUnit({ timeUnit }: TimerTimeUnitProps) {
+export default function TimerTimeUnit({ timeUnit }: Props) {
   return (
     <Box fontSize="4xl" fontWeight="bold">
       {timeUnit}

@@ -4,7 +4,7 @@ import { css, keyframes } from "@emotion/react";
 const ACTIVE_DURATION_IN_SECOND = 4;
 const TRANSITION_OF_ACTIVE_IN_PERCENT = 20;
 
-type KeywordProps = {
+type Props = {
   keyword: string;
   backgroundGradient: string;
   seq: number;
@@ -16,7 +16,7 @@ export default function Keyword({
   backgroundGradient,
   seq,
   numberOfKeywords,
-}: KeywordProps) {
+}: Props) {
   const activeEndPercent = 100 / numberOfKeywords;
   const totalDurationInSecond = numberOfKeywords * ACTIVE_DURATION_IN_SECOND;
   const firstDelayInSecond = seq * ACTIVE_DURATION_IN_SECOND;

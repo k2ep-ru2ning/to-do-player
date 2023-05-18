@@ -5,15 +5,12 @@ import {
   formatHourMinuteSecond,
 } from "../utils/time";
 
-type FormattedTimeProps = {
+type Props = {
   timeInSecond: number;
   prefix?: string;
 };
 
-export default function FormattedTime({
-  timeInSecond,
-  prefix,
-}: FormattedTimeProps) {
+export default function FormattedTime({ timeInSecond, prefix }: Props) {
   const formattedTime = formatHourMinuteSecond(
     convertSecondIntoHourMinuteSecond(timeInSecond)
   );

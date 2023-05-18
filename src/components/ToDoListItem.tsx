@@ -4,11 +4,11 @@ import { type ToDo } from "../types/toDos";
 import FormattedTime from "./FormattedTime";
 import { useToDos, useToDosDispatch } from "../contexts/ToDosContext";
 
-type ToDoListItemProps = {
+type Props = {
   toDo: ToDo;
 };
 
-export default function ToDoListItem({ toDo }: ToDoListItemProps) {
+export default function ToDoListItem({ toDo }: Props) {
   const dispatch = useToDosDispatch();
 
   const { selectedItemId } = useToDos();

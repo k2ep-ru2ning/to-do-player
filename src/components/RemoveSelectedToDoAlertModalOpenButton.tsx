@@ -16,13 +16,13 @@ import {
 import { type SelectedToDo } from "../types/toDos";
 import { useToDosDispatch } from "../contexts/ToDosContext";
 
-type RemoveSelectedToDoAlertModalOpenButtonProps = {
+type Props = {
   selectedToDo: SelectedToDo;
 };
 
 export default function RemoveSelectedToDoAlertModalOpenButton({
   selectedToDo,
-}: RemoveSelectedToDoAlertModalOpenButtonProps) {
+}: Props) {
   const dispatch = useToDosDispatch();
 
   const cancelButtonRef = useRef<HTMLButtonElement>(null);

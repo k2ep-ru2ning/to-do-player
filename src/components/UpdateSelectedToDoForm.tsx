@@ -23,12 +23,12 @@ import {
 import { type SelectedToDo } from "../types/toDos";
 import { useToDosDispatch } from "../contexts/ToDosContext";
 
-type UpdateSelectedToDoFormProps = {
+type Props = {
   selectedToDo: SelectedToDo;
   onClose: () => void;
 };
 
-type UpdateSelectedToDoFormData = {
+type FormData = {
   name: string;
   time: HourMinuteSecond;
 };
@@ -43,7 +43,7 @@ const MAX_SECOND = 59;
 export default function UpdateSelectedToDoForm({
   selectedToDo,
   onClose,
-}: UpdateSelectedToDoFormProps) {
+}: Props) {
   const dispatch = useToDosDispatch();
 
   const {
@@ -52,7 +52,7 @@ export default function UpdateSelectedToDoForm({
     formState: { errors },
     control,
     watch,
-  } = useForm<UpdateSelectedToDoFormData>({
+  } = useForm<FormData>({
     defaultValues: {
       name: selectedToDo.name,
       time: convertSecondIntoHourMinuteSecond(
@@ -69,7 +69,7 @@ export default function UpdateSelectedToDoForm({
 
   const hasTimeFieldSetError = Boolean(errors.time) || isTimeFieldSetZero;
 
-  const handleValid = (data: UpdateSelectedToDoFormData): void => {
+  const handleValid = (data: FormData): void => {
     if (convertHourMinuteSecondIntoSecond(data.time) === 0) {
       return;
     }
