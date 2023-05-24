@@ -13,8 +13,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 
-import { type SelectedToDo } from "../types/toDos";
-import { useToDosDispatch } from "../contexts/ToDosContext";
+import { type SelectedToDo, useToDosDispatch } from "../contexts/ToDosContext";
 
 type Props = {
   selectedToDo: SelectedToDo;
