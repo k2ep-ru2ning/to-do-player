@@ -19,8 +19,8 @@ import { nanoid } from "nanoid";
 import {
   convertHourMinuteSecondIntoSecond,
   type HourMinuteSecond,
-} from "../utils/time";
-import { useToDosDispatch } from "../contexts/ToDosContext";
+} from "../../utils/time";
+import { useToDosDispatch } from "../../contexts/to-dos";
 
 type Props = {
   onClose: () => void;

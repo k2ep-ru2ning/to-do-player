@@ -2,9 +2,9 @@ import { useEffect } from "react";
 import { ButtonGroup, IconButton, VStack } from "@chakra-ui/react";
 import { IoPlaySharp, IoRefreshSharp, IoStopSharp } from "react-icons/io5";
 
-import { type SelectedToDo, useToDosDispatch } from "../contexts/ToDosContext";
-import { convertMSIntoSecond } from "../utils/time";
-import TimerTime from "./TimerTime";
+import { type SelectedToDo, useToDosDispatch } from "../../contexts/to-dos";
+import { convertMSIntoSecond } from "../../utils/time";
+import TimerTime from "./timer-time";
 
 type Props = {
   selectedToDo: SelectedToDo;

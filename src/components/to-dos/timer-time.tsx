@@ -3,8 +3,8 @@ import { Flex } from "@chakra-ui/react";
 import {
   convertSecondIntoHourMinuteSecond,
   formatTimeUnit,
-} from "../utils/time";
-import TimerTimeUnit from "./TimerTimeUnit";
+} from "../../utils/time";
+import TimerTimeUnit from "./timer-time-unit";
 
 type Props = {
   timeInSecond: number;

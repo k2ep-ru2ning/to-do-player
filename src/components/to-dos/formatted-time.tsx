@@ -3,7 +3,7 @@ import { Flex, Text } from "@chakra-ui/react";
 import {
   convertSecondIntoHourMinuteSecond,
   formatHourMinuteSecond,
-} from "../utils/time";
+} from "../../utils/time";
 
 type Props = {
   timeInSecond: number;

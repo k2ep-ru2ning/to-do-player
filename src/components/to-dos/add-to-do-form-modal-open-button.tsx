@@ -1,7 +1,7 @@
 import { Button, useDisclosure } from "@chakra-ui/react";
 
-import AddToDoForm from "./AddToDoForm";
-import ToDoFormModal from "./ToDoFormModal";
+import AddToDoForm from "./add-to-do-form";
+import ToDoFormModal from "./to-do-form-modal";
 
 export default function AddToDoFormModalOpenButton() {
   const { isOpen, onOpen, onClose } = useDisclosure();

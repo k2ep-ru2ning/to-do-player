@@ -19,8 +19,8 @@ import {
   convertHourMinuteSecondIntoSecond,
   convertSecondIntoHourMinuteSecond,
   type HourMinuteSecond,
-} from "../utils/time";
-import { type SelectedToDo, useToDosDispatch } from "../contexts/ToDosContext";
+} from "../../utils/time";
+import { type SelectedToDo, useToDosDispatch } from "../../contexts/to-dos";
 
 type Props = {
   selectedToDo: SelectedToDo;

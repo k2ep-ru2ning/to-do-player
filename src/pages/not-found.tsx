@@ -13,14 +13,8 @@ export default function NotFound() {
             해당 페이지를 찾지 못했습니다.
           </Text>
         </VStack>
-        <Button
-          as={Link}
-          to="/main"
-          colorScheme="main"
-          variant="link"
-          size="lg"
-        >
-          메인 페이지로 이동
+        <Button as={Link} to="/" colorScheme="main" variant="link" size="lg">
+          홈페이지로 이동
         </Button>
       </VStack>
     </Center>

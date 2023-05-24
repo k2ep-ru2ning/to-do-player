@@ -1,11 +1,7 @@
 import { Flex, Text, VStack } from "@chakra-ui/react";
 
-import FormattedTime from "./FormattedTime";
-import {
-  type ToDo,
-  useToDos,
-  useToDosDispatch,
-} from "../contexts/ToDosContext";
+import FormattedTime from "./formatted-time";
+import { type ToDo, useToDos, useToDosDispatch } from "../../contexts/to-dos";
 
 type Props = {
   toDo: ToDo;

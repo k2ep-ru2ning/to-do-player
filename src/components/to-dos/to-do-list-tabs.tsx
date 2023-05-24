@@ -1,7 +1,7 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 
-import ToDoList from "./ToDoList";
-import { useToDos } from "../contexts/ToDosContext";
+import ToDoList from "./to-do-list";
+import { useToDos } from "../../contexts/to-dos";
 
 export default function ToDoListTabs() {
   const { items: toDos } = useToDos();

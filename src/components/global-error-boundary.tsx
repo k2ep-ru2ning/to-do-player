@@ -12,7 +12,7 @@ function FallbackPage({ resetErrorBoundary }: FallbackProps) {
 
   const handleClickRecoverButton = () => {
     resetErrorBoundary();
-    navigate("/main");
+    navigate("/");
   };
 
   return (
@@ -36,7 +36,7 @@ function FallbackPage({ resetErrorBoundary }: FallbackProps) {
             onClick={handleClickRecoverButton}
             alignSelf="center"
           >
-            메인 페이지로 이동
+            홈페이지로 이동
           </Button>
         </Flex>
       </Center>

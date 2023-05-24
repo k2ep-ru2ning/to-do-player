@@ -1,8 +1,8 @@
 import { Button, useDisclosure } from "@chakra-ui/react";
 
-import UpdateSelectedToDoForm from "./UpdateSelectedToDoForm";
-import ToDoFormModal from "./ToDoFormModal";
-import { type SelectedToDo } from "../contexts/ToDosContext";
+import UpdateSelectedToDoForm from "./update-selected-to-do-form";
+import ToDoFormModal from "./to-do-form-modal";
+import { type SelectedToDo } from "../../contexts/to-dos";
 
 type Props = {
   selectedToDo: SelectedToDo;

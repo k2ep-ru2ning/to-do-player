@@ -1,8 +1,8 @@
 import { Box, Center, StackDivider, VStack } from "@chakra-ui/react";
 
-import { type ToDo } from "../contexts/ToDosContext";
-import DefaultMessage from "./DefaultMessage";
-import ToDoListItem from "./ToDoListItem";
+import { type ToDo } from "../../contexts/to-dos";
+import DefaultMessage from "../default-message";
+import ToDoListItem from "./to-do-list-item";
 
 type Props = {
   toDos: ToDo[];

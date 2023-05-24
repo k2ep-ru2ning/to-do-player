@@ -1,10 +1,10 @@
 import { ButtonGroup, Center, Heading, Text, VStack } from "@chakra-ui/react";
 
-import DefaultMessage from "./DefaultMessage";
-import UpdateSelectedToDoFormModalOpenButton from "./UpdateSelectedToDoFormModalOpenButton";
-import RemoveSelectedToDoAlertModalOpenButton from "./RemoveSelectedToDoAlertModalOpenButton";
-import SelectedToDoProgressTimer from "./SelectedToDoProgressTimer";
-import { getSelectedToDo, useToDos } from "../contexts/ToDosContext";
+import DefaultMessage from "../default-message";
+import UpdateSelectedToDoFormModalOpenButton from "./update-selected-to-do-form-modal-open-button";
+import RemoveSelectedToDoAlertModalOpenButton from "./remove-selected-to-do-alert-modal-open-button";
+import SelectedToDoProgressTimer from "./selected-to-do-progress-timer";
+import { getSelectedToDo, useToDos } from "../../contexts/to-dos";
 
 export default function SelectedToDoDetail() {
   const toDos = useToDos();

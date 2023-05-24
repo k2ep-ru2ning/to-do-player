@@ -1,9 +1,9 @@
 import { ButtonGroup, Flex, Grid, GridItem } from "@chakra-ui/react";
 
-import SelectedToDoDetail from "./SelectedToDoDetail";
-import ToDoListTabs from "./ToDoListTabs";
-import AddToDoFormModalOpenButton from "./AddToDoFormModalOpenButton";
-import { ToDosProvider } from "../contexts/ToDosContext";
+import SelectedToDoDetail from "./selected-to-do-detail";
+import ToDoListTabs from "./to-do-list-tabs";
+import AddToDoFormModalOpenButton from "./add-to-do-form-modal-open-button";
+import { ToDosProvider } from "../../contexts/to-dos";
 
 export default function ToDos() {
   return (

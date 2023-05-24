@@ -1,6 +1,6 @@
 import { Flex } from "@chakra-ui/react";
 
-import Keyword from "./Keyword";
+import Keyword from "./keyword";
 
 type Props = {
   keywords?: {

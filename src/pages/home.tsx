@@ -8,7 +8,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-import Keywords from "../components/Keywords";
+import Keywords from "../components/keywords";
 
 export default function Home() {
   return (
@@ -36,7 +36,7 @@ export default function Home() {
           </VStack>
           <Button
             as={Link}
-            to="/main"
+            to="/player"
             size={{ base: "md", lg: "lg" }}
             colorScheme="main"
             variant="ghost"
