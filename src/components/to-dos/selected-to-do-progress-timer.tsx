@@ -1,110 +1,125 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { ButtonGroup, IconButton, VStack } from "@chakra-ui/react";
 import { IoPlaySharp, IoRefreshSharp, IoStopSharp } from "react-icons/io5";
 
 import { type SelectedToDo, useToDosDispatch } from "../../contexts/to-dos";
-import { convertMSIntoSecond } from "../../utils/time";
 import TimerTime from "./timer-time";
+import CountdownTimer from "../../lib/countdown-timer";
 
 type Props = {
   selectedToDo: SelectedToDo;
 };
 
 export default function SelectedToDoProgressTimer({ selectedToDo }: Props) {
+  const { remainingTimeInSecond, scheduledTimeInSecond, status } = selectedToDo;
+
   const dispatch = useToDosDispatch();
 
-  const {
-    remainingTimeInSecond,
-    scheduledTimeInSecond: resetTimeInSecond,
-    deadlineTimeStampInSecond,
-  } = selectedToDo;
+  const countdownTimerRef = useRef<CountdownTimer | null>(null);
 
-  const isRunning = deadlineTimeStampInSecond !== null;
+  const getCountdownTimer = (): CountdownTimer => {
+    if (countdownTimerRef.current) {
+      return countdownTimerRef.current;
+    }
 
-  const canStartTimer = !isRunning && remainingTimeInSecond > 0;
-  const canStopTimer = isRunning && remainingTimeInSecond > 0;
-  const canResetTimer = remainingTimeInSecond > 0;
+    countdownTimerRef.current = new CountdownTimer();
+    return countdownTimerRef.current;
+  };
+
+  useEffect(() => {
+    const countdownTimer = getCountdownTimer();
+
+    countdownTimer.setOnTick((countdownInSecond) => {
+      dispatch({
+        type: "selectedToDoRan",
+        payload: {
+          newRemainingTimeInSecond: countdownInSecond,
+        },
+      });
+    });
+
+    countdownTimer.setOnFinish(() => {
+      dispatch({ type: "selectedToDoFinished" });
+    });
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (status === "ready" || status === "finished") return;
+
+    const countdownTimer = getCountdownTimer();
+    countdownTimer.start();
+
+    return () => {
+      countdownTimer.stop();
+    };
+  }, [status]);
 
   const handleClickStartButton = (): void => {
-    if (!canStartTimer) return;
+    if (status !== "ready") return;
 
-    const newDeadlineTimeStampInSecond =
-      getNowTimeStampInSecond() + remainingTimeInSecond;
-    dispatch({
-      type: "selectedToDoStarted",
-      payload: { newDeadlineTimeStampInSecond },
-    });
+    getCountdownTimer().schedule(remainingTimeInSecond);
+    dispatch({ type: "selectedToDoStarted" });
+  };
+
+  const handleClickResetButton = (): void => {
+    if (status !== "ready") return;
+
+    dispatch({ type: "selectedToDoReset" });
   };
 
   const handleClickStopButton = (): void => {
-    if (!canStopTimer) return;
+    if (status !== "running") return;
 
     dispatch({ type: "selectedToDoStopped" });
   };
 
-  const handleClickResetButton = (): void => {
-    if (!canResetTimer) return;
+  const handleClickRestartButton = (): void => {
+    if (status !== "running") return;
 
-    const newDeadlineTimeStampInSecond = isRunning
-      ? getNowTimeStampInSecond() + resetTimeInSecond
-      : null;
-    dispatch({
-      type: "selectedToDoReset",
-      payload: { newDeadlineTimeStampInSecond },
-    });
+    const countdownTimer = getCountdownTimer();
+    countdownTimer.stop();
+    dispatch({ type: "selectedToDoReset" });
+    countdownTimer.schedule(scheduledTimeInSecond);
+    countdownTimer.start();
   };
-
-  useEffect(() => {
-    if (!isRunning) return;
-
-    const intervalId = setInterval(() => {
-      let newRemainingTimeInSecond =
-        deadlineTimeStampInSecond - getNowTimeStampInSecond();
-      if (newRemainingTimeInSecond < 0) {
-        newRemainingTimeInSecond = 0;
-      }
-      dispatch({
-        type: "selectedToDoRan",
-        payload: { newRemainingTimeInSecond },
-      });
-    }, 1000);
-
-    return () => clearInterval(intervalId);
-  }, [deadlineTimeStampInSecond, isRunning]);
 
   return (
     <VStack spacing={4}>
       <TimerTime timeInSecond={remainingTimeInSecond} />
       <ButtonGroup spacing={4}>
-        {canStartTimer ? (
-          <IconButton
-            rounded="full"
-            aria-label="Start Timer"
-            icon={<IoPlaySharp />}
-            onClick={handleClickStartButton}
-          />
+        {status === "ready" ? (
+          <>
+            <IconButton
+              rounded="full"
+              aria-label="타이머 시작"
+              icon={<IoPlaySharp />}
+              onClick={handleClickStartButton}
+            />
+            <IconButton
+              rounded="full"
+              aria-label="타이머 초기화"
+              icon={<IoRefreshSharp />}
+              onClick={handleClickResetButton}
+            />
+          </>
         ) : null}
-        {canStopTimer ? (
-          <IconButton
-            rounded="full"
-            aria-label="Stop Timer"
-            icon={<IoStopSharp />}
-            onClick={handleClickStopButton}
-          />
-        ) : null}
-        {canResetTimer ? (
-          <IconButton
-            rounded="full"
-            aria-label="Reset Timer"
-            icon={<IoRefreshSharp />}
-            onClick={handleClickResetButton}
-          />
+        {status === "running" ? (
+          <>
+            <IconButton
+              rounded="full"
+              aria-label="타이머 정지"
+              icon={<IoStopSharp />}
+              onClick={handleClickStopButton}
+            />
+            <IconButton
+              rounded="full"
+              aria-label="타이머 재시작"
+              icon={<IoRefreshSharp />}
+              onClick={handleClickRestartButton}
+            />
+          </>
         ) : null}
       </ButtonGroup>
     </VStack>
   );
-}
-
-function getNowTimeStampInSecond(): number {
-  return convertMSIntoSecond(Date.now());
 }

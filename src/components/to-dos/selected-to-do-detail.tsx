@@ -19,15 +19,13 @@ export default function SelectedToDoDetail() {
     );
   }
 
-  const isSelectedToDoFinished = selectedToDo.remainingTimeInSecond === 0;
-
-  const isSelectedToDoRunning = selectedToDo.deadlineTimeStampInSecond !== null;
+  const { status, name } = selectedToDo;
 
   return (
     <Center h={{ base: 80, md: 96 }} p={4} borderWidth={2} borderRadius="lg">
       <VStack spacing={4}>
-        <ButtonGroup isDisabled={isSelectedToDoRunning} variant="ghost">
-          {!isSelectedToDoFinished ? (
+        <ButtonGroup isDisabled={status === "running"} variant="ghost">
+          {status !== "finished" ? (
             <UpdateSelectedToDoFormModalOpenButton
               selectedToDo={selectedToDo}
             />
@@ -35,9 +33,9 @@ export default function SelectedToDoDetail() {
           <RemoveSelectedToDoAlertModalOpenButton selectedToDo={selectedToDo} />
         </ButtonGroup>
         <Heading textAlign="center" fontSize="2xl" fontWeight="bold">
-          {selectedToDo.name}
+          {name}
         </Heading>
-        {isSelectedToDoFinished ? (
+        {status === "finished" ? (
           <Text textAlign="center" fontSize="2xl" fontWeight="bold">
             할 일을 완료했습니다!
           </Text>

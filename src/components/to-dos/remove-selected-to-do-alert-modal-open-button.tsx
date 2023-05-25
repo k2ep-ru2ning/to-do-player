@@ -29,7 +29,8 @@ export default function RemoveSelectedToDoAlertModalOpenButton({
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleClickRemoveButton = (): void => {
-    dispatch({ type: "selectedToDoRemoved" });
+    dispatch({ type: "selectedToDoCleared" });
+    dispatch({ type: "toDoRemoved", payload: { toDoId: selectedToDo.id } });
   };
 
   return (
