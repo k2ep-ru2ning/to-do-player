@@ -67,7 +67,9 @@ export default function AddToDoForm({ onClose }: Props) {
   const hasTimeFieldSetError = Boolean(errors.time) || isTimeFieldSetZero;
 
   const handleValid = (data: FormData): void => {
-    if (convertHourMinuteSecondIntoSecond(data.time) === 0) {
+    const timeInSecond = convertHourMinuteSecondIntoSecond(data.time);
+
+    if (timeInSecond === 0) {
       return;
     }
 
@@ -77,12 +79,12 @@ export default function AddToDoForm({ onClose }: Props) {
         toDo: {
           id: nanoid(),
           name: data.name,
-          hour: data.time.hour,
-          minute: data.time.minute,
-          second: data.time.second,
+          remainingTimeInSecond: timeInSecond,
+          scheduledTimeInSecond: timeInSecond,
         },
       },
     });
+
     onClose();
   };
 

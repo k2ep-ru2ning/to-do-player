@@ -10,18 +10,16 @@ type Props = {
 export default function ToDoListItem({ toDo }: Props) {
   const dispatch = useToDosDispatch();
 
-  const { selectedItemId } = useToDos();
+  const { selectedItem } = useToDos();
 
   const isFinished = toDo.remainingTimeInSecond === 0;
 
-  const isSelected = selectedItemId === toDo.id;
+  const isSelected = selectedItem?.id === toDo.id;
 
   const handleClickToDo = (): void => {
     dispatch({
       type: "toDoSelected",
-      payload: {
-        selectedItemId: toDo.id,
-      },
+      payload: { toDo },
     });
   };
 

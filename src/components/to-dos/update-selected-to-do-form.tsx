@@ -69,20 +69,28 @@ export default function UpdateSelectedToDoForm({
   const hasTimeFieldSetError = Boolean(errors.time) || isTimeFieldSetZero;
 
   const handleValid = (data: FormData): void => {
-    if (convertHourMinuteSecondIntoSecond(data.time) === 0) {
+    const newScheduledTimeInSecond = convertHourMinuteSecondIntoSecond(
+      data.time
+    );
+
+    if (newScheduledTimeInSecond === 0) {
       return;
     }
 
-    const {
-      name,
-      time: { hour, minute, second },
-    } = data;
+    const newName = data.name;
+
     dispatch({
-      type: "selectedToDoUpdated",
+      type: "toDoUpdated",
       payload: {
-        toDo: { name, hour, minute, second },
+        toDo: {
+          id: selectedToDo.id,
+          name: newName,
+          remainingTimeInSecond: newScheduledTimeInSecond,
+          scheduledTimeInSecond: newScheduledTimeInSecond,
+        },
       },
     });
+
     onClose();
   };
 

@@ -6,11 +6,6 @@ import {
   useReducer,
 } from "react";
 
-import {
-  convertHourMinuteSecondIntoSecond,
-  type HourMinuteSecond,
-} from "../utils/time";
-
 export type ToDo = {
   id: string;
   name: string;
@@ -19,42 +14,44 @@ export type ToDo = {
 };
 
 export type SelectedToDo = ToDo & {
-  deadlineTimeStampInSecond: number | null;
+  status: "ready" | "running" | "finished";
 };
 
 type ToDos = {
   items: ToDo[];
-  selectedItemId: string | null;
-  selectedItemDeadlineTimeStampInSecond: number | null;
+  selectedItem: Pick<SelectedToDo, "id" | "status"> | null;
 };
 
 type ToDosAction =
   | {
       type: "toDoAdded";
       payload: {
-        toDo: Pick<ToDo, "id" | "name"> & HourMinuteSecond;
+        toDo: ToDo;
       };
     }
   | {
-      type: "selectedToDoUpdated";
+      type: "toDoUpdated";
       payload: {
-        toDo: Pick<ToDo, "name"> & HourMinuteSecond;
+        toDo: ToDo;
       };
     }
   | {
-      type: "selectedToDoRemoved";
+      type: "toDoRemoved";
+      payload: {
+        toDoId: ToDo["id"];
+      };
     }
   | {
       type: "toDoSelected";
       payload: {
-        selectedItemId: string;
+        toDo: ToDo;
       };
     }
   | {
+      type: "selectedToDoCleared";
+    }
+  | {
       type: "selectedToDoStarted";
-      payload: {
-        newDeadlineTimeStampInSecond: number;
-      };
     }
   | {
       type: "selectedToDoStopped";
@@ -62,14 +59,14 @@ type ToDosAction =
   | {
       type: "selectedToDoRan";
       payload: {
-        newRemainingTimeInSecond: number;
+        newRemainingTimeInSecond: ToDo["remainingTimeInSecond"];
       };
     }
   | {
+      type: "selectedToDoFinished";
+    }
+  | {
       type: "selectedToDoReset";
-      payload: {
-        newDeadlineTimeStampInSecond: number | null;
-      };
     };
 
 type ToDosProviderProps = {
@@ -81,8 +78,7 @@ const ToDosDispatchContext = createContext<Dispatch<ToDosAction> | null>(null);
 
 const initialToDos: ToDos = {
   items: [],
-  selectedItemId: null,
-  selectedItemDeadlineTimeStampInSecond: null,
+  selectedItem: null,
 };
 
 export function ToDosProvider({ children }: ToDosProviderProps) {
@@ -121,133 +117,149 @@ export function useToDosDispatch(): Dispatch<ToDosAction> {
 
 export function getSelectedToDo({
   items,
-  selectedItemId,
-  selectedItemDeadlineTimeStampInSecond,
+  selectedItem,
 }: ToDos): SelectedToDo | null {
-  let selectedToDo = items.find((item) => item.id === selectedItemId);
+  if (!selectedItem) return null;
 
-  if (!selectedToDo) {
-    return null;
-  }
+  const toDo = items.find((item) => item.id === selectedItem.id);
+  if (!toDo) return null;
 
   return {
-    ...selectedToDo,
-    deadlineTimeStampInSecond: selectedItemDeadlineTimeStampInSecond,
+    ...toDo,
+    status: selectedItem.status,
   };
 }
 
 function toDosReducer(state: ToDos, action: ToDosAction): ToDos {
   switch (action.type) {
     case "toDoAdded": {
-      const { id, name, hour, minute, second } = action.payload.toDo;
-      const inputTimeInSecond = convertHourMinuteSecondIntoSecond({
-        hour,
-        minute,
-        second,
-      });
+      const { toDo } = action.payload;
+      const { items } = state;
 
       return {
         ...state,
-        items: [
-          ...state.items,
-          {
-            id,
-            name,
-            scheduledTimeInSecond: inputTimeInSecond,
-            remainingTimeInSecond: inputTimeInSecond,
-          },
-        ],
+        items: [...items, { ...toDo }],
       };
     }
-    case "selectedToDoUpdated": {
-      const { name, hour, minute, second } = action.payload.toDo;
-      const inputTimeInSecond = convertHourMinuteSecondIntoSecond({
-        hour,
-        minute,
-        second,
-      });
+    case "toDoUpdated": {
+      const { toDo } = action.payload;
+      const { items } = state;
 
       return {
         ...state,
-        items: state.items.map((item) =>
-          item.id === state.selectedItemId
-            ? {
-                ...item,
-                name,
-                scheduledTimeInSecond: inputTimeInSecond,
-                remainingTimeInSecond: inputTimeInSecond,
-              }
-            : item
-        ),
+        items: items.map((item) => (item.id === toDo.id ? { ...toDo } : item)),
       };
     }
-    case "selectedToDoRemoved": {
+    case "toDoRemoved": {
+      const { toDoId } = action.payload;
+      const { items } = state;
+
       return {
         ...state,
-        items: state.items.filter((item) => item.id !== state.selectedItemId),
-        selectedItemId: null,
+        items: items.filter((item) => item.id !== toDoId),
       };
     }
     case "toDoSelected": {
-      const { selectedItemId } = action.payload;
+      const { toDo } = action.payload;
 
-      if (selectedItemId === state.selectedItemId) {
+      if (toDo.id === state.selectedItem?.id) {
         return state;
       }
 
       return {
         ...state,
-        selectedItemId: selectedItemId,
-        selectedItemDeadlineTimeStampInSecond: null,
+        selectedItem: {
+          id: toDo.id,
+          status: toDo.remainingTimeInSecond > 0 ? "ready" : "finished",
+        },
+      };
+    }
+    case "selectedToDoCleared": {
+      return {
+        ...state,
+        selectedItem: null,
       };
     }
     case "selectedToDoStarted": {
-      const { newDeadlineTimeStampInSecond } = action.payload;
+      const { selectedItem } = state;
+
+      if (!selectedItem) {
+        return state;
+      }
 
       return {
         ...state,
-        selectedItemDeadlineTimeStampInSecond: newDeadlineTimeStampInSecond,
+        selectedItem: {
+          ...selectedItem,
+          status: "running",
+        },
       };
     }
     case "selectedToDoStopped": {
+      const { selectedItem } = state;
+
+      if (!selectedItem) {
+        return state;
+      }
+
       return {
         ...state,
-        selectedItemDeadlineTimeStampInSecond: null,
+        selectedItem: {
+          ...selectedItem,
+          status: "ready",
+        },
       };
     }
     case "selectedToDoRan": {
+      const { selectedItem, items } = state;
+
+      if (!selectedItem) {
+        return state;
+      }
+
       const { newRemainingTimeInSecond } = action.payload;
 
       return {
         ...state,
-        items: state.items.map((item) =>
-          item.id === state.selectedItemId
+        items: items.map((item) =>
+          item.id === selectedItem.id
             ? {
                 ...item,
                 remainingTimeInSecond: newRemainingTimeInSecond,
               }
             : item
         ),
-        selectedItemDeadlineTimeStampInSecond:
-          newRemainingTimeInSecond > 0
-            ? state.selectedItemDeadlineTimeStampInSecond
-            : null,
       };
     }
-    case "selectedToDoReset": {
-      const { newDeadlineTimeStampInSecond } = action.payload;
+    case "selectedToDoFinished": {
+      const { selectedItem } = state;
+
+      if (!selectedItem) {
+        return state;
+      }
 
       return {
         ...state,
-        items: state.items.map((item) =>
-          item.id === state.selectedItemId
-            ? {
-                ...item,
-                remainingTimeInSecond: item.scheduledTimeInSecond,
-              }
+        selectedItem: {
+          ...selectedItem,
+          status: "finished",
+        },
+      };
+    }
+    case "selectedToDoReset": {
+      const { selectedItem, items } = state;
+
+      if (!selectedItem) {
+        return state;
+      }
+
+      return {
+        ...state,
+        items: items.map((item) =>
+          item.id === selectedItem.id
+            ? { ...item, remainingTimeInSecond: item.scheduledTimeInSecond }
             : item
         ),
-        selectedItemDeadlineTimeStampInSecond: newDeadlineTimeStampInSecond,
       };
     }
     default: {
