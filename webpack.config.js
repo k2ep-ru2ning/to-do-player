@@ -1,8 +1,9 @@
-const path = require("path");
+const path = require("node:path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
 const isDevelopment = process.env.NODE_ENV !== "production";
 
@@ -14,11 +15,11 @@ module.exports = {
     extensions: [".js", ".jsx", ".ts", ".tsx", "..."],
   },
   entry: {
-    main: "./src/main",
+    main: "./src/main.tsx",
   },
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "[name].js",
+    filename: "[name]-[contenthash].js",
     publicPath: "/",
     clean: true,
   },
@@ -53,6 +54,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "template/index.html",
       favicon: "template/favicon.ico",
+    }),
+    new CopyPlugin({
+      patterns: ["public"],
     }),
     new ForkTsCheckerWebpackPlugin({
       typescript: {
